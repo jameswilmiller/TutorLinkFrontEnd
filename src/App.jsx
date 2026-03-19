@@ -1,18 +1,26 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import LoginPage from './pages/LoginPage'
-import SignupPage from './pages/SignupPage'
-import HomePage from './pages/HomePage'
+
 import './App.css'
 import {Routes, Route } from "react-router-dom"
+import MainLayout from "./layouts/MainLayout"
+import AuthLayout from "./Layouts/AuthLayout"
+import LoginPage from "./pages/LoginPage"
+import SignupPage from "./pages/SignupPage"
+import BecomeTutorPage from "./pages/BecomeTutorPage"
 function App() {
   return(
     <Routes>
-      <Route path= "/" element={<HomePage/>}/>
-      <Route path= "/login" element={<LoginPage/>}/>
-      <Route path= "/signup" element={<SignupPage/>}/>
-    </Routes>
+      <Route element={<MainLayout />}>
+        <Route path="/" element={<HomePage/>} />
+      </Route>
+
+      <Route element={<AuthLayout/>}>
+        <Route path="/login" element={<LoginPage/>}/>
+        <Route path="/signup" element={<SignupPage/>}/>
+        <Route path="/become-a-tutor" element={<BecomeTutorPage/>}/>
+      
+      </Route>
+      
+    </Routes>   
   )
 }
 
