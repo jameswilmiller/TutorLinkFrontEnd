@@ -6,6 +6,7 @@ import AuthLayout from "./Layouts/AuthLayout"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import BecomeTutorPage from "./pages/BecomeTutorPage"
+import HomePage from "./pages/HomePage"
 function App() {
   return(
     <Routes>

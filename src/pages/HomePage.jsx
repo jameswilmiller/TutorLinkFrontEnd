@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import tutorsData from "../data/tutorsData"
 import { fetchTutors } from "../services/tutorService";
-import Navbar from "../components/temp";
+import Navbar from "../components/Navbar";
 
 function HomePage() {
 
