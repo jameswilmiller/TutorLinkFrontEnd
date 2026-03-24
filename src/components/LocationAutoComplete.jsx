@@ -1,51 +1,64 @@
 import { useEffect, useRef} from "react";
 
-function LocationAutoComplete({value, onPlaceSelected}) {
+function LocationAutoComplete({ value, onPlaceSelected}) {
     const containerRef = useRef(null);
 
     useEffect(() => {
+        let autocomplete;
+        let handlePlaceSelect;
+
         async function setupAutocomplete() {
             if (!window.google?.maps || !containerRef.current) {
                 return;
             }
-        
-        const { PlaceAutocompleteElement } = 
-            await google.maps.importLibrary("places");
 
-        const autocomplete = new PlaceAutocompleteElement({
-            includedRegionCodes: ["au"],
-        })
+            const {PlaceAutocompleteElement} = 
+                await window.google.maps.importLibrary("places");
 
-        autocomplete.setAttribute("placeholder", "enter suburb or postcode")
-
-        const handlePlaceSelect = async(event) => {
-            const place = event.placePrediction.toPlace();
-
-            await place.fetchFields({
-                fields: ["formattedAddress", "location"]
+            autocomplete = new PlaceAutocompleteElement({
+                includedRegionCodes: ["au"]
             });
 
-            onPlaceSelected({
-                locationName: place.formattedAdress || "",
-                latitude: place.location?.lat() ?? null,
-                longitude: place.location?.lng() ?? null,
-            });
+            autocomplete.setAttribute("placeholder", "Enter suburb or postcode");
+
+            if (value) {
+                autocomplete.value = value;
+            }
+
+            handlePlaceSelect = async (event) => {
+                try {
+                    const place = event.placePrediction.toPlace();
+
+                    await place.fetchFields({
+                        fields: ["formattedAddress", "location"],
+                    });
+
+                    onPlaceSelected({
+                        locationName: place.formattedAddress || "",
+                        latitude: place.location?.lat() ?? null,
+                        longitude: place.location?.lng() ?? null,
+                    });
+                
+                } catch (error) {
+                    console.error("failed to select place", error)
+                }
+            };
+
+            autocomplete.addEventListener("gmp-select", handlePlaceSelect);
+
+            containerRef.current.innerHTML = "";
+            containerRef.current.appendChild(autocomplete);
         }
 
-        autocomplete.addEventListener("gmp-select", handlePlaceSelect);
-
-        containerRef.current.innerHTML = "";
-        containerRef.current.appendChild(autocomplete);
+        setupAutocomplete();
 
         return () => {
-            autocomplete.removeEventListener("gmp-select", handlePlaceSelect);
-        };
-      }
+            if (autocomplete && handlePlaceSelect) {
+                autocomplete.removeEventListener("gmp-select", handlePlaceSelect);
+            }
+        };  
+    }, [value, onPlaceSelected]);
 
-      
-    })
-
-
-    
-
+    return <div ref={containerRef} className="w-full" />;
 }
+export default LocationAutoComplete;

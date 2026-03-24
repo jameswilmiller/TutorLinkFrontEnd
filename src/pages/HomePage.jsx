@@ -17,7 +17,7 @@ function HomePage() {
             try {
                 const data = await fetchTutors();
                 console.log("Fetched Tutors:", data);
-                setTutors(tutorsData);
+                setTutors(data);
             } catch(err) {
                 console.error(err);
                 setError("failed to load tutors");
@@ -29,7 +29,9 @@ function HomePage() {
         loadTutors();
     }, [])
 
-    
+    function handleSearchResults(results) {
+        setTutors(results);
+    }
     
    
     return (
@@ -52,7 +54,7 @@ function HomePage() {
                                 Search by subject,level,time and location to find trusted tutors nearby or online.
                             </p>
                         </div>
-                        <SearchCard/>
+                        <SearchCard onSearchResults={handleSearchResults}/>
                     </div>
                     {/*right side */}
                     <div className="space-y-4">
