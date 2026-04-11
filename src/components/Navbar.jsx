@@ -1,8 +1,28 @@
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
 import {useState} from "react"
+import {useAuth } from "../hooks/useAuth";
+
 function Navbar() {
 
     const [menuOpen, setMenuOpen] = useState(false);
+    const {user, isAuthenticated, logout, loading} = useAuth();
+    const navigate = useNavigate();
+
+    const initials = 
+        user?.username?.[0]?.toUpperCase() ||
+        user?.email?.[0]?.toUpperCase() ||
+        "U";
+    
+    async function handleLogout() {
+        try {
+            await logout();
+            setMenuOpen(false);
+            navigate("/")
+        } catch (error) {
+            console.error("logout failed", error)
+        }
+    }
+
 
 
 
@@ -39,30 +59,57 @@ function Navbar() {
                             Become a Tutor
                             </Link>
 
-                            <Link to="/About"
+                            <Link to="/about"
                             className="text-sm font-medium text-gray-700 hover:text-indigo-600">
                             About
                             </Link>
                         </div>
                     </div>
 
-                    {/*right side */}
+                    {/*right side desktop*/}
+
+
                     <div className="hidden lg:flex items-center space-x-6">
                         <Link to="/help"
                         className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition">
                         Help
                         </Link>
+                        
+                        {/*show when logged out*/}
+                        {!loading && !isAuthenticated && (
+                          <>
+                            <Link to="/login"
+                            className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition">
+                            Log In
+                            </Link>
 
-                        <Link to="/login"
-                        className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition">
-                        Log In
-                        </Link>
+                            <Link to="/signup"
+                            className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition">
+                            Sign Up
+                            </Link>
+                          </>
+                        )}
+                        {!loading && isAuthenticated && (
+                            <div className = "flex items-center space-x-4">
+                                <button
+                                    onClick={() => navigate("/profile")}
+                                    className="flex items-center gap-3"
+                                    aria-label="Open profile"
+                                >
+                                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 text-sm font-semibold text-gray-800">
+                                        {initials}
+                                    </div>
+                                </button>
 
-                        <Link to="/signup"
-                        className="text-sm font-medium text-gray-700 hover:text-indigo-600 transition">
-                        Sign Up
-                        </Link>
+                                <button
+                                    onClick={handleLogout}
+                                    className="text-sm font-medium text-gray-700 transition hover:text-indigo-600"
+                                >
+                                 Log out
+                                </button>
 
+                             </div>
+                        )}
                     </div>
 
                     
@@ -119,23 +166,50 @@ function Navbar() {
                             About
                             </Link>
 
-                            <Link to="/signin"
-                            onClick={() => setMenuOpen(false)}
-                            className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
-                            Login
-                            </Link>
-
-                            <Link to="/signup"
-                            onClick={() => setMenuOpen(false)}
-                            className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
-                            Sign up
-                            </Link>
 
                             <Link to="/help"
                             onClick={() => setMenuOpen(false)}
                             className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
                             Help
                             </Link>
+
+
+                            {!loading && !isAuthenticated && (
+                                <>
+                                <Link to="/signin"
+                                onClick={() => setMenuOpen(false)}
+                                className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
+                                Login
+                                </Link>
+
+                                <Link to="/signup"
+                                onClick={() => setMenuOpen(false)}
+                                className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
+                                Sign up
+                                </Link>
+                                </>
+                            )}
+                            
+
+                            {!loading && isAuthenticated && (
+                                <>
+                                    <button
+                                    onClick={() => {
+                                        setMenuOpen(false);
+                                        navigate("/profile");
+                                    }}
+                                    className="text-left text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
+                                    Profile
+                                    </button>
+
+                                    <button
+                                    onClick={handleLogout}
+                                    className="text-left text-4xl font-semibold tracking-tight text-black hover:text-indigo-600"
+                                    >
+                                    Log Out
+                                    </button>
+                                </>
+                            )}
                             
                         </div> 
                     </div>
