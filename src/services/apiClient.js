@@ -1,0 +1,73 @@
+const API_BASE_URL = "http://localhost:8080";
+
+async function parseResponse(response) {
+    const contentType = response.headers.get("content-type");
+    let data;
+
+    if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
+    } else {
+        data = await response.text();
+    }
+
+    if (!response.ok) {
+        if (typeof data == "string") {
+            throw new Error(data || "Request failed");
+        }
+        throw new Error(data.message || "Request failed")
+    }
+    return data;
+}
+
+export async function apiRequest(path, options={}, accessToken = null) {
+    const headers = {
+        ...(options.headers || {}),
+        ...(accessToken ? {Authorization : `Bearer ${accessToken}`} : {}),
+    }
+
+    const response = await fetch(`${API_BASE_URL}${path}`, {
+        ...options,
+        headers,
+        credentials: "include",
+    });
+
+    return parseResponse(response);
+}
+
+export async function apiGet(path, accessToken = null) {
+    return apiRequest(path, {method : "GET"}, accessToken);
+}
+
+export async function apiPost(path, body = undefined, accessToken = null) {
+    const options = {
+        method: "POST",
+        headers: {},
+    };
+
+    if (body !== undefined && body != null) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+    }
+
+    return apiRequest(path, options, accessToken);
+}
+
+export async function apiPut(path, body = undefined, accessToken = null) {
+    const options = {
+        method: "PUT",
+        headers: {},
+    };
+
+    if (body !== undefined && body !== null) {
+        options.headers["Content-Type"] = "application/json";
+        options.body = JSON.stringify(body);
+    }
+
+    return apiRequest(path, options, accessToken);
+}
+
+export async function apiDelete(path, accessToken = null) {
+    return apiRequest(path, { method: "DELETE"}, accessToken);
+}
+
+

@@ -67,7 +67,7 @@ function HomePage() {
                                 Explore tutor locations and ratings on the map
                             </p>
                         </div>
-                        <TutorMap/>
+                        <TutorMap tutors={tutors}/>
                     </div>
                 </div>
             </section>

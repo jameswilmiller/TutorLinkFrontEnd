@@ -2,7 +2,7 @@
 import './App.css'
 import {Routes, Route } from "react-router-dom"
 import MainLayout from "./layouts/MainLayout"
-import AuthLayout from "./Layouts/AuthLayout"
+import AuthLayout from "./layouts/AuthLayout"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import BecomeTutorPage from "./pages/BecomeTutorPage"
