@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import {useApiClient} from "../hooks/useApiClient"
-import { fetchTutors } from "../services/tutorService";
+
 
 import SearchCard from "../components/SearchCard"
 import TutorMap from "../components/TutorMap"
