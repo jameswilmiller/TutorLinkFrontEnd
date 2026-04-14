@@ -7,6 +7,7 @@ import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
 import BecomeTutorPage from "./pages/BecomeTutorPage"
 import HomePage from "./pages/HomePage"
+import VerifyPage from "./pages/VerifyPage"
 function App() {
   return(
     <Routes>
@@ -17,6 +18,7 @@ function App() {
       <Route element={<AuthLayout/>}>
         <Route path="/login" element={<LoginPage/>}/>
         <Route path="/signup" element={<SignupPage/>}/>
+        <Route path="/verify" element={<VerifyPage/>}/>
         <Route path="/become-a-tutor" element={<BecomeTutorPage/>}/>
       
       </Route>

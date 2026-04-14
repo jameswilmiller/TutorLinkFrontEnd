@@ -1,0 +1,16 @@
+
+function ProtectedRoute ({children}) {
+    const {isAuthenticated, loading} = useAuth();
+    const location = useLocation();
+
+    if (loading) {
+        return <p className = "px-6 py-10"> Loading... </p>
+    }
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace state={{from: location}} />;
+    }
+
+    return children;
+}
+export default ProtectedRoute

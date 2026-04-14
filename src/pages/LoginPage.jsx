@@ -14,8 +14,7 @@ function LoginPage() {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-
-    const successMessage = location.state?.message || ""
+    const successMessage =  ""
 
     function handleChange(e) {
         const {name, value} = e.target;

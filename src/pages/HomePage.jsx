@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
-import tutorsData from "../data/tutorsData"
+
 import { fetchTutors } from "../services/tutorService";
-import Navbar from "../components/Navbar";
+
 import SearchCard from "../components/SearchCard"
 import TutorMap from "../components/TutorMap"
 
