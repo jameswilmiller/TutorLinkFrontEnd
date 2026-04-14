@@ -1,37 +1,45 @@
 import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
-
+import {useApiClient} from "../hooks/useApiClient"
 import { fetchTutors } from "../services/tutorService";
 
 import SearchCard from "../components/SearchCard"
 import TutorMap from "../components/TutorMap"
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+    const api = useApiClient();
+    const navigate = useNavigate();
 
     const [tutors, setTutors] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+   
     useEffect(() => {
         async function loadTutors() {
             try {
-                const data = await fetchTutors();
-                console.log("Fetched Tutors:", data);
+                const data = await api.get("/tutors");
                 setTutors(data);
-            } catch(err) {
+            } catch (err) {
                 console.error(err);
-                setError("failed to load tutors");
+                setError("Failed to load tutors");
             } finally {
                 setLoading(false);
             }
         }
-
         loadTutors();
-    }, [])
+    }, []);
 
-    function handleSearchResults(results) {
-        setTutors(results);
+    function handleSearchResults(results, filters) {
+        navigate("/browse", {
+            state : {
+                tutors: results,
+                filters,
+            },
+        });
     }
+    
     
    
     return (
@@ -85,12 +93,16 @@ function HomePage() {
                         </h2>
                     </div>
                 </div>
-                <Carousel/>
+                {loading ? 
+                    (
+                    <p>Loading tutors...</p>
+                    ) : error ? 
+                        (
+                        <p className="text-red-600"> {error}</p>
+                    ) : (<Carousel tutors = {tutors}/>
 
+                    )}
             </section>
-
-        
-        
         </div>
 
     );

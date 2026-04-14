@@ -21,7 +21,7 @@ export function AuthProvider ({ children }) {
             throw new Error("no access token was returned")
         }
 
-        const currentUser = getCurrentUser(token);
+        const currentUser = await getCurrentUser(token);
 
         setAccessToken(token);
         setUser(currentUser);

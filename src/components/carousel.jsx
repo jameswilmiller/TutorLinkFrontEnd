@@ -27,7 +27,7 @@ return (
         {/* LEFT TUTOR CARD */}
         <button 
         onClick={() => setCurrentIndex(prevIndex)}
-        className ="absolute left-10 w-52 h-72 rounded-x1 overflow-hidden
+        className ="absolute left-10 w-52 h-72 rounded-xl overflow-hidden
                     bg-blue-400/70 shadow-lg
                     blur-sm opacity-80 hover:scale-105 transition"
         >
@@ -39,7 +39,7 @@ return (
          </button>
 
         {/* CENTER TUTOR CARD */}
-        <div className = "z-10 w-80 bg-blue-500 rounded-2x1 p-5 shadow-2x1">
+        <div className = "z-10 w-80 bg-blue-500 rounded-2xl p-5 shadow-2xl">
             <img
             src={getTutorImage(currentTutor)}
             alt={currentTutor.username}

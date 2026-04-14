@@ -176,7 +176,7 @@ function Navbar() {
 
                             {!loading && !isAuthenticated && (
                                 <>
-                                <Link to="/signin"
+                                <Link to="/login"
                                 onClick={() => setMenuOpen(false)}
                                 className="text-4xl font-semibold tracking-tight text-black hover:text-indigo-600">
                                 Login
