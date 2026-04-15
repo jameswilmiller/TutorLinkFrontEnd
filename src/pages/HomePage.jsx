@@ -50,9 +50,7 @@ function HomePage() {
                     {/*left side */}
                     <div className="space-y-6">
                         <div className="space-y-4">
-                            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-indigo-600">
-                                Find tutors near you
-                            </p>
+                            
 
                             <h1 className="max-w-xl text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
                                 Book the right tutor for any subject
@@ -88,9 +86,7 @@ function HomePage() {
                             Top Rated Tutors
                         </p>
 
-                        <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                            Featured Tutors
-                        </h2>
+                        
                     </div>
                 </div>
                 {loading ? 

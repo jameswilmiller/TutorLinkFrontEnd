@@ -1,12 +1,13 @@
 import { useState } from "react";
 import LocationAutoComplete from "./LocationAutoComplete";
+import { useApiClient } from "../hooks/useApiClient";
 
 function SearchCard({onSearchResults}) {
+    const api = useApiClient();
     const [formData, setFormData] = useState({
         subject: "",
         level: "",
         date:"",
-        time: "",
         locationName: "",
         latitude: null,
         longitude: null,
@@ -16,11 +17,11 @@ function SearchCard({onSearchResults}) {
     const [error, setError] = useState("");
 
     function handleChange(e) {
-        const { name, value} = e.target;
+        const {name, value} = e.target;
         setFormData((prev) => ({
             ...prev,
             [name]: value,
-        }));
+        }))
     }
 
     function handlePlaceSelected(placeData) {
@@ -28,7 +29,7 @@ function SearchCard({onSearchResults}) {
             ...prev,
             locationName: placeData.locationName,
             latitude: placeData.latitude,
-            longitude: placeData.longitude,
+            longitude: placeData.longitude
         }));
     }
 
@@ -38,29 +39,17 @@ function SearchCard({onSearchResults}) {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:8080/tutors/search", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error("Search request failed")
-            }
-
-            const data = await response.json();
-            console.log("Search results:", data)
-
-            onSearchResults(data);
+            const data = await api.post("/tutors/search", formData);
+            onSearchResults(data, formData);
         } catch (err) {
             console.error(err);
-            setError("Failed to search tutors.")
+            setError("Failed to search for tutors");
         } finally {
             setLoading(false);
         }
     }
+
+    
 
 
     return(
@@ -113,18 +102,7 @@ function SearchCard({onSearchResults}) {
                     />    
                 </div>
 
-                <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Time
-                    </label>
-                    <input
-                    type="time"
-                    name="time"
-                    value={formData.time || ""}
-                    onChange={handleChange}
-                    className="w-full rounded-xl border-gray-300 px-4 py-3 outline-none focus:border-indigo-500"
-                    />    
-                </div>
+               
 
                 <div className="sm:col-span-2">
                     <label className="mb-2 block text-sm font-medium text-gray-700">
