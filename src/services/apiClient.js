@@ -70,4 +70,14 @@ export async function apiDelete(path, accessToken = null) {
     return apiRequest(path, { method: "DELETE"}, accessToken);
 }
 
+export async function apiPostFormData(path, formData, accessToken = null) {
+    return apiRequest(
+        path,
+        {
+            method: "POST",
+            body: formData,
+        },
+        accessToken
+    )
+}
 

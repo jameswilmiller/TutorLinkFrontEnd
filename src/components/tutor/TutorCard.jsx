@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import {getTutorImage} from "../utils/getTutorImage"
+import {getTutorImage} from "../../utils/getTutorImage"
 
 function TutorCard({tutor}) {
     const navigate = useNavigate();
-
+    console.log("Tutor object:", tutor);
+    console.log("profileImageKey:", tutor.profileImageKey);
     function handleClick() {
         navigate(`/tutors/${tutor.id}`);
     }

@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
-import Carousel from "../components/Carousel";
 import {useApiClient} from "../hooks/useApiClient"
 
 
-import SearchCard from "../components/SearchCard"
-import TutorMap from "../components/TutorMap"
+import SearchCard from "../components/search/SearchCard"
+import TutorMap from "../components/tutor/TutorMap"
 import { useNavigate } from "react-router-dom";
 
 function HomePage() {
@@ -89,15 +88,7 @@ function HomePage() {
                         
                     </div>
                 </div>
-                {loading ? 
-                    (
-                    <p>Loading tutors...</p>
-                    ) : error ? 
-                        (
-                        <p className="text-red-600"> {error}</p>
-                    ) : (<Carousel tutors = {tutors}/>
-
-                    )}
+                
             </section>
         </div>
 

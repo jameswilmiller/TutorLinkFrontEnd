@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useApiClient } from "../hooks/useApiClient";
 import { useEffect, useState } from "react";
-import TutorCard from "../components/TutorCard"
-import BrowseSearchBar from "../components/BrowseSearchBar";
+import TutorCard from "../components/tutor/TutorCard"
+import BrowseSearchBar from "../components/search/BrowseSearchBar";
 function BrowsePage(){
     const api = useApiClient();
     const location = useLocation();

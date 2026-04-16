@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useApiClient } from "../hooks/useApiClient";
-import LocationAutoComplete from "./LocationAutoComplete";
+import { useApiClient } from "../../hooks/useApiClient";
+import LocationAutoComplete from "../shared/LocationAutoComplete";
 function BrowseSearchBar({onResults, initialFilters = {} }) {
     const api = useApiClient();
 
