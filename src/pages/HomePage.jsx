@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import {useApiClient} from "../hooks/useApiClient"
 import { useNavigate } from "react-router-dom";
 import { fetchTutors } from "../services/tutorService";
-import TutorCarousel from "../components/tutor/TutorCarousel";
 
+import Button from "../components/ui/Button/Button"
 function HomePage() {
     const api = useApiClient();
     const navigate = useNavigate();
@@ -13,31 +13,20 @@ function HomePage() {
     const [error, setError] = useState("");
 
    
-    useEffect(() => {
-        async function loadTutors() {
-            try {
-                const data = await fetchTutors();
-                setTutors(data);
-            } catch (err) {
-                console.error(err);
-                setError("Failed to load tutors");
-            } finally {
-                setLoading(false);
-            }
-        }
-        loadTutors();
-    }, []);
-
-    if (loading) {
-        return <div className="py-16 text-sm text-gray-500">Loading tutors...</div>
-    }
-    if (error) {
-        return <div className="py-16 text-sm text-red-600">{error}</div>
+    function handleSearchResults(results, filters) {
+        navigate("/browse", {
+            state: {filters},
+        });
     }
 
 
     return (
-        <TutorCarousel tutors={tutors}/>
+        
+        <div className="container">
+            <Button variant="secondary">Secondary</Button>
+            <Button>Primary</Button>
+            <Button variant="tertiary">Tertiary</Button>
+        </div>
     )
     
 }

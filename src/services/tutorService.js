@@ -15,6 +15,10 @@ export async function createTutorProfile(formData, accessToken) {
     return apiPost("/tutors/me/profile", formData, accessToken)
 }
 
+export async function searchTutors(filters, accessToken = null) {
+    return apiPost("/tutors/search", filters, accessToken)
+
+}
 export async function updateTutorProfile(formData, accessToken) {
     return apiPut("/tutors/me/profile", formData, accessToken);
 }
