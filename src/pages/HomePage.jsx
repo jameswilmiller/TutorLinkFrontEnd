@@ -3,7 +3,7 @@ import {useApiClient} from "../hooks/useApiClient"
 import { useNavigate } from "react-router-dom";
 import { fetchTutors } from "../services/tutorService";
 
-import Button from "../components/ui/Button/Button"
+
 function HomePage() {
     const api = useApiClient();
     const navigate = useNavigate();
@@ -22,11 +22,7 @@ function HomePage() {
 
     return (
         
-        <div className="container">
-            <Button variant="secondary">Secondary</Button>
-            <Button>Primary</Button>
-            <Button variant="tertiary">Tertiary</Button>
-        </div>
+         <div></div>
     )
     
 }
