@@ -1,28 +1,17 @@
-import { useEffect, useState } from "react";
-import {useApiClient} from "../hooks/useApiClient"
-import { useNavigate } from "react-router-dom";
-import { fetchTutors } from "../services/tutorService";
-
-
+import Hero from "../components/ui/Hero"
+import SearchCard from "../components/search/SearchCard"
 function HomePage() {
-    const api = useApiClient();
-    const navigate = useNavigate();
 
-    const [tutors, setTutors] = useState([])
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
-
-   
-    function handleSearchResults(results, filters) {
-        navigate("/browse", {
-            state: {filters},
-        });
-    }
 
 
     return (
         
-         <div></div>
+         <div className="px-6 lg:px-14 py-20">
+            <div className="max-w-4xl mx-auto text-center">
+            <Hero/>
+            <SearchCard/>
+            </div>
+        </div>
     )
     
 }

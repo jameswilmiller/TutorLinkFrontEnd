@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import {useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../../hooks/useAuth";
 import UserMenu from "../layout/UserMenu";
@@ -6,13 +6,9 @@ import MobileMenu from "../layout/MobileMenu";
 
 
 function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { user, isAuthenticated, logout, loading } = useAuth();
-  const navigate = useNavigate();
-
-  const name =
-    user?.firstname ||
-    "U";
+  
+  const {isAuthenticated} = useAuth();
+  const [openMenu, setOpenMenu] = useState(null);
 
   const LINKS = [
     {label: 'Browse', href: '/browse'},
@@ -21,49 +17,70 @@ function Navbar() {
     {label: 'Help', href: '/help'},
   ]
 
-  async function handleLogout() {
-    try {
-      await logout();
-      setMenuOpen(false);
-      navigate("/");
-    } catch (error) {
-      console.error("logout failed", error);
-    }
+  const isMobileMenuOpen = openMenu === "mobile-nav";
+  const isDesktopProfileOpen = openMenu === "desktop-profile";
+  const isMobileProfileOpen = openMenu === "mobile-profile";
+
+  function closeMenus() {
+    setOpenMenu(null);
   }
 
-  function handleNavigate(path) {
-    setMenuOpen(false);
-    navigate(path);
+  function toggleMobileMenu() {
+    setOpenMenu((current) => 
+      current === "mobile-nav" ? null : "mobile-nav"
+    );
   }
+
+  function toggleProfileMenu() {
+    const isDesktop = window.matchMedia("(min-width: 1024px)").matches;
+
+    setOpenMenu((current) => {
+      const target = isDesktop ? "desktop-profile" : "mobile-profile";
+      return current === target ? null : target;
+    })
+  }
+  
 
  return (
-  <header className="fixed top-0 h-16 w-full flex border-b bg-tl-bg/90 border-tl-border shadow-2xs items-center">
+  <header className="top-0 h-16 w-full flex border-b bg-tl-bg/90 border-tl-border shadow-2xs items-center">
     <nav className="max-w-350 w-full mx-auto flex justify-between">
-      <a href="/" className="font-display text-2xl text-tl-ink ml-2"> TutorLink </a>
+      <Link to="/" className="font-display text-2xl text-tl-ink ml-2">TutorLink</Link>
 
       {/* desktop middle*/}
       <ul className="hidden lg:flex items-center gap-8">
         {LINKS.map(l => (
           <li key={l.href}>
-            <a href={l.href} className="text-sm text-tl-ink hover:text-tl-accent transition">
+            <Link to={l.href} className="text-sm text-tl-ink hover:text-tl-accent transition">
               {l.label}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
 
+      <div className="flex">
+        <div className="flex items-center gap-3">
+          {isAuthenticated ? ( 
+            <UserMenu
+            desktopOpen={isDesktopProfileOpen}
+            mobileOpen={isMobileProfileOpen}
+            toggleProfileMenu={toggleProfileMenu}
+            closeMenus={closeMenus}
+            />
+           ) : (
+          <>
+          <a href="/login" className="text-sm text-tl-ink hover:text-tl-accent">Log In</a>
+          <a href="/signup" className="btn-primary text-sm">Sign Up</a>
+          </>
+          )}
+        </div>
       
-      <div className="hidden lg:flex items-center gap-3">
-        {isAuthenticated ? ( <UserMenu/> ) : (
-        <>
-        <a href="/login" className="text-sm text-tl-ink hover:text-tl-accent">Log In</a>
-        <a href="/signup" className="btn-primary text-sm">Sign Up</a>
-        </>
-        )}
+        <MobileMenu 
+        links={LINKS}
+        open={isMobileMenuOpen}
+        toggleMobileMenu={toggleMobileMenu}
+        closeMenus={closeMenus} 
+        />
       </div>
-      
-      <MobileMenu links={LINKS}/>
-      
     </nav>
 
   </header>
