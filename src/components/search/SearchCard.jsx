@@ -10,9 +10,12 @@ function SearchCard() {
     if (value === "true") setRemote(true);
     else if (value === "false") setRemote(false);
     else setRemote(null);
-};
+  };
+
+  
+
   return (
-    <form className="flex items-center flex-row bg-white shadow rounded-2xl py-2 mt-15">
+    <form className="flex items-center flex-row bg-white shadow rounded-2xl py-2 mt-15 max-w-full">
 
         <div className="flex flex-col min-h-15 justify-start max-w-full items-start px-6 gap-2">
             <label className="text-tl-muted text-caption">SUBJECT</label>
@@ -46,10 +49,11 @@ function SearchCard() {
         <button
         type="submit"
         className="bg-tl-accent text-white px-8 py-6  rounded-2xl 
-        text-body-sm font-medium hover:bg-tl-accent-hover transition cursor-pointer"
+        text-body-sm font-medium hover:bg-tl-accent-hover transition cursor-pointer max-w-full"
         >
         Search    
         </button>
+        
 
         
     </form>

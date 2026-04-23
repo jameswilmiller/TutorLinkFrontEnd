@@ -9,7 +9,7 @@ function Hero() {
                     <h className="font-display text-tl-ink tracking-tight ">The right Tutor,</h>
                     <h className="font-display italic text-tl-accent tracking-tight">within reach.</h>
                 </div>
-                <p className="mx-auto text-center w-180 text-xl text-tl-muted tracking-wider">
+                <p className="mx-auto text-center max-w-180 text-xl text-tl-muted tracking-wider">
                 Vetted tutors for academics, languages, music and the
                 things you've always wanted to try. Online or in your neighbourhood.
                 </p>
