@@ -19,13 +19,34 @@ async function parseResponse(response) {
     return data;
 }
 
-export async function apiRequest(path, options={}, accessToken = null) {
-    const headers = {
-        ...(options.headers || {}),
-        ...(accessToken ? {Authorization : `Bearer ${accessToken}`} : {}),
+function buildUrl(path, queryParams = null) {
+    if (!queryParams) {
+        return `${API_BASE_URL}${path}`;
     }
 
-    const response = await fetch(`${API_BASE_URL}${path}`, {
+    const params = new URLSearchParams();
+
+    Object.entries(queryParams).forEach(([key, value]) => {
+        if (value === undefined || value === null || value === "") {
+            return;
+        }
+
+        params.append(key, String(value));
+    });
+
+    const queryString = params.toString();
+    return queryString
+        ? `${API_BASE_URL}${path}?${queryString}`
+        : `${API_BASE_URL}${path}`;
+}
+
+export async function apiRequest(path, options = {}, accessToken = null, queryParams = null) {
+    const headers = {
+        ...(options.headers || {}),
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+    };
+
+    const response = await fetch(buildUrl(path, queryParams), {
         ...options,
         headers,
         credentials: "include",
@@ -34,8 +55,8 @@ export async function apiRequest(path, options={}, accessToken = null) {
     return parseResponse(response);
 }
 
-export async function apiGet(path, accessToken = null) {
-    return apiRequest(path, {method : "GET"}, accessToken);
+export async function apiGet(path, accessToken = null, queryParams = null) {
+    return apiRequest(path, { method: "GET" }, accessToken, queryParams);
 }
 
 export async function apiPost(path, body = undefined, accessToken = null) {

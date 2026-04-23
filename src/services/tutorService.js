@@ -1,7 +1,7 @@
 import {apiGet, apiPost, apiPut, apiPostFormData} from "./apiClient"
 
-export async function fetchTutors(accessToken = null) {
-    return apiGet("/tutors", accessToken);
+export async function fetchTutors(filters = {}, accessToken = null) {
+    return apiGet("/tutors", accessToken, filters);
 }
 
 export async function fetchTutorById(id, accessToken = null) {
@@ -15,10 +15,6 @@ export async function createTutorProfile(formData, accessToken) {
     return apiPost("/tutors/me/profile", formData, accessToken)
 }
 
-export async function searchTutors(filters, accessToken = null) {
-    return apiPost("/tutors/search", filters, accessToken)
-
-}
 export async function updateTutorProfile(formData, accessToken) {
     return apiPut("/tutors/me/profile", formData, accessToken);
 }
