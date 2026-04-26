@@ -32,7 +32,7 @@ function PlacesAutocomplete({ onPlaceSelect }) {
             });
 
             onPlaceSelect?.({
-              address: place.formattedAddress,
+              locationName: place.formattedAddress,
               latitude: place.location?.lat(),
               longitude: place.location?.lng(),
             });
