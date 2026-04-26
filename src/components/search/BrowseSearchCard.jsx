@@ -40,8 +40,30 @@ function BrowseSearchCard() {
   }
 
   return (
-    <div className="w-full bg-white py-10 shadow-sm border-b border-tl-border">
-        
+    <div className="w-full bg-white py-5 border-b border-tl-border">
+        <div className="max-w-350 mx-auto px-6">
+            <form
+            onSubmit={handleSubmit}
+            className="flex items=center gap-3 items-center">
+                <input
+                type="text"
+                value={subject}
+                placeholder="Search subjects..."
+                onChange={(e) => setSubject(e.target.value)}
+                className="flex-1 border h-14 px-4 border-tl-border rounded-xl outline-none"
+                />
+
+                <div className="w-70 h-14 px-3 border border-tl-border rounded-xl flex items-center overflow-hidden">
+                    <PlacesAutoComplete onPlaceSelect={setLocation}/>
+                </div>
+
+                <button
+                type="submit"
+                className=" h-12 px-6 bg-tl-accent text-white rounded-xl hover:bg-tl-accent-hover cursor-pointer">
+                    Search
+                </button>
+            </form>
+        </div>  
     </div>
   );
 }

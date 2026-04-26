@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { fetchTutors } from "../services/tutorService";
 import BrowseSearchCard from "../components/search/BrowseSearchCard"
+import BrowseFilters from "../components/search/BrowseFilters";
 function BrowsePage() {
   const [searchParams] = useSearchParams();
   const [tutors, setTutors] = useState([]);
@@ -38,8 +39,20 @@ function BrowsePage() {
   if (error) return <p>{error}</p>;
 
   return (
-  
+          <div>
             <BrowseSearchCard/>
+              <div className="mx-auto max-w-300 px-6 py-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10">
+                <BrowseFilters />
+                <section>
+                  <div>this is where my tutor grid header will go</div>
+                  <div>this is where my tutors grid will go</div>
+                </section>
+
+              </div>
+          
+          
+          </div>
+            
          
   )
 }
