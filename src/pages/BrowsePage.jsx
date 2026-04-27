@@ -4,7 +4,7 @@ import { fetchTutors } from "../services/tutorService";
 import BrowseSearchCard from "../components/search/BrowseSearchCard"
 import BrowseFilters from "../components/search/BrowseFilters";
 import BrowseHeader from "../components/ui/BrowseHeader"
-import TutorGrid from "../components/ui/TutorGrid"
+import TutorGrid from "../components/tutor/TutorGrid"
 function BrowsePage() {
   const [searchParams] = useSearchParams();
   const [tutors, setTutors] = useState([]);

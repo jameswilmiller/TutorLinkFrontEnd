@@ -1,55 +1,63 @@
-import { useNavigate } from "react-router-dom";
 import {getTutorImage} from "../../utils/getTutorImage"
-
+import {Link} from "react-router-dom"
 function TutorCard({tutor}) {
-    const navigate = useNavigate();
-    console.log("Tutor object:", tutor);
-    console.log("profileImageKey:", tutor.profileImageKey);
-    function handleClick() {
-        navigate(`/tutors/${tutor.id}`);
-    }
-    return (
-        <div
-         onClick={handleClick}
-         className="group cursor-pointer"
-         >
-            <div className="overflow-hidden rounded-2xl bg-gray-100">
-                <img
-                src={getTutorImage(tutor)}
-                alt={tutor.username || "Tutor"}
-                className="h-72 w-full object-cover transition duration-300 group-hover:scale-[1.03]"
-                />
+    return(
+     <Link to={`/tutors/${tutor.id}`}>
+      <div className="rounded-2xl border border-tl-border 
+      bg-white p-5 shadow-sm hover:shadow-md 
+      hover:-translate-y-0.5 transition cursor-pointer">
+        
+        <div className="flex gap-4">
+          
+         
+          <img
+            src={getTutorImage(tutor)}
+            alt="Tutor avatar"
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "/default-avatar.png";
+            }}
+            className="h-14 w-14 shrink-0 rounded-full object-cover"
+          />
+
+          
+          <div className="flex-1">
+            <div className="flex justify-between gap-4">
+              <div>
+                <h2 className="font-semibold text-tl-ink">
+                  {tutor.firstname} {tutor.lastname}
+                </h2>
+
+                <p className="text-sm text-tl-muted">
+                  {tutor.subjects}
+                </p>
+              </div>
+
+              <p className="font-semibold text-tl-ink whitespace-nowrap">
+                ${tutor.hourlyRate}/h
+              </p>
             </div>
 
-            <div className = "pt-3 space-y-1">
-                <div className="flex items-start justify-between gap-3">
-                    <div>
-                        <h3 className="text-[15px] font-semibold text-gray-900">
-                            {tutor.firstname} {tutor.lastname}
-                        </h3>
-                        <p className = "text-sm text-gray-500">
-                            {tutor.location || "Online"}
-                        </p>
+            
+            {tutor.bio && (
+              <p className="mt-3 text-sm text-tl-ink line-clamp-2">
+                {tutor.bio}
+              </p>
+            )}
 
-                    </div>
-
-                    <p className="shrink-0 text-sm font-semibold text-gray-900">
-                        {tutor.hourlyRate ? `$${tutor.hourlyRate}/hr` : "Rate not listed"}
-                    </p>
-                </div>
-
-                <p className = "text-sm text-gray-700">
-                    {Array.isArray(tutor.subjects)
-                        ? tutor.subjects.join(", ")
-                        : tutor.subjects || "Subjects not listed"}
-                </p>
-
-                <p className="line-clamp-2 text-sm text-gray-500">
-                    {tutor.bio || "No bio added yet"}
-                </p>
+            
+            <div className="mt-4 border-t border-tl-border pt-3 text-xs text-tl-muted flex gap-4">
+              <span>{tutor.location || "Unknown location"}</span>
+              <span>{tutor.remote ? "Online" : "In-person"}</span>
             </div>
+
+          </div>
         </div>
-      
-    )
+
+      </div>
+    </Link>
+    
+)
+
 }
-export default TutorCard;
+export default TutorCard
