@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { fetchTutors } from "../services/tutorService";
 import BrowseSearchCard from "../components/search/BrowseSearchCard"
 import BrowseFilters from "../components/search/BrowseFilters";
+import BrowseHeader from "../components/ui/BrowseHeader"
+import TutorGrid from "../components/ui/TutorGrid"
 function BrowsePage() {
   const [searchParams] = useSearchParams();
   const [tutors, setTutors] = useState([]);
@@ -35,17 +37,17 @@ function BrowsePage() {
     loadTutors();
   }, [searchParams]);
 
-  if (loading) return <p>Loading tutors...</p>;
-  if (error) return <p>{error}</p>;
-
   return (
           <div>
             <BrowseSearchCard/>
-              <div className="mx-auto max-w-300 px-6 py-8 grid grid-cols-1 lg:grid-cols-[260px_1fr] gap-10">
+              <div className="mx-auto max-w-350 px-6 py-8 grid grid-cols-1 lg:grid-cols-[250px_1fr] gap-10">
                 <BrowseFilters />
                 <section>
-                  <div>this is where my tutor grid header will go</div>
-                  <div>this is where my tutors grid will go</div>
+                  <BrowseHeader tutorsCount={tutors.length}/>
+                  {loading && <p>Loading tutors...</p>}
+                  {error && <p>{error}</p>}
+
+                  {!loading && !error && <TutorGrid tutors={tutors} />}
                 </section>
 
               </div>

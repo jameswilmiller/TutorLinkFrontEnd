@@ -11,27 +11,27 @@ function BrowseSearchCard() {
     latitude: searchParams.get("latitude") || "",
     longitude: searchParams.get("longitude") || "",
   });
-  const [sort, setSort] = useState(searchParams.get("sort") || "newest");
+  const sort = searchParams.get("sort") || "newest";
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
 
     if (subject.trim()) {
       params.set("subject", subject.trim());
+    } else {
+      params.delete("subject")
     }
 
-    if (location?.locationName) {
+    if (location?.locationName && location?.latitude && location?.longitude) {
       params.set("location", location.locationName);
-    }
-
-    if (location?.latitude) {
       params.set("latitude", location.latitude);
-    }
-
-    if (location?.longitude) {
       params.set("longitude", location.longitude);
+    } else {
+      params.delete("location");
+      params.delete("latitude");
+      params.delete("longitude");
     }
 
     params.set("sort", sort);
@@ -53,8 +53,8 @@ function BrowseSearchCard() {
                 className="flex-1 border h-14 px-4 border-tl-border rounded-xl outline-none"
                 />
 
-                <div className="w-70 h-14 px-3 border border-tl-border rounded-xl flex items-center overflow-hidden">
-                    <PlacesAutoComplete onPlaceSelect={setLocation}/>
+                <div className="w-70 h-14 px-3 border border-tl-border rounded-xl flex items-center">
+                    <PlacesAutoComplete onPlaceSelect={setLocation} initialValue={location.locationName}/>
                 </div>
 
                 <button
