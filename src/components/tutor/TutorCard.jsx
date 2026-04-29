@@ -1,63 +1,52 @@
-import {getTutorImage} from "../../utils/getTutorImage"
-import {Link} from "react-router-dom"
-function TutorCard({tutor}) {
-    return(
-     <Link to={`/tutors/${tutor.id}`}>
-      <div className="rounded-2xl border border-tl-border 
-      bg-white p-5 shadow-sm hover:shadow-md 
-      hover:-translate-y-0.5 transition cursor-pointer">
-        
-        <div className="flex gap-4">
-          
-         
-          <img
-            src={getTutorImage(tutor)}
-            alt="Tutor avatar"
-            onError={(e) => {
-              e.target.onerror = null;
-              e.target.src = "/default-avatar.png";
-            }}
-            className="h-14 w-14 shrink-0 rounded-full object-cover"
-          />
+import { getTutorImage } from "../../utils/getTutorImage"
+import { Link } from "react-router-dom"
 
-          
-          <div className="flex-1">
-            <div className="flex justify-between gap-4">
-              <div>
-                <h2 className="font-semibold text-tl-ink">
-                  {tutor.firstname} {tutor.lastname}
-                </h2>
+function TutorCard({ tutor }) {
+    return (
+        <Link to={`/tutors/${tutor.id}`}>
+            <div className="cursor-pointer group">
+                
+                <div className="relative aspect-square overflow-hidden rounded-2xl w-full ">
+                    <img
+                        src={getTutorImage(tutor)}
+                        alt="Tutor avatar"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "/default-avatar.png";
+                        }}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
 
-                <p className="text-sm text-tl-muted">
-                  {tutor.subjects}
-                </p>
-              </div>
+                   
+                    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent rounded-2xl"/>
 
-              <p className="font-semibold text-tl-ink whitespace-nowrap">
-                ${tutor.hourlyRate}/h
-              </p>
+                   
+                    <div className="absolute bottom-3 left-4">
+                        <p className="font-semibold text-white text-base">
+                            {tutor.firstname}
+                        </p>
+                        <p className="text-white/80 text-sm">
+                            {tutor.location}{tutor.remote ? " (online)" : ""}
+                        </p>
+                    </div>
+                </div>
+
+                
+                <div className="mt-2">
+                    <p className="text-sm text-tl-ink">
+                        <span className="font-medium">{tutor.subjects} - </span>
+                        {tutor.bio && (
+                            <span className="text-tl-muted line-clamp-2">{tutor.bio}</span>
+                        )}
+                    </p>
+                    <p className="pt-1 font-semibold text-tl-ink text-caption">
+                        ${tutor.hourlyRate}/h
+                    </p>
+                </div>
+
             </div>
-
-            
-            {tutor.bio && (
-              <p className="mt-3 text-sm text-tl-ink line-clamp-2">
-                {tutor.bio}
-              </p>
-            )}
-
-            
-            <div className="mt-4 border-t border-tl-border pt-3 text-xs text-tl-muted flex gap-4">
-              <span>{tutor.location || "Unknown location"}</span>
-              <span>{tutor.remote ? "Online" : "In-person"}</span>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-    </Link>
-    
-)
-
+        </Link>
+    )
 }
+
 export default TutorCard

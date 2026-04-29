@@ -40,7 +40,7 @@ function BrowseSearchCard() {
   }
 
   return (
-    <div className="w-full bg-white py-5 border-b border-tl-border">
+    <div className="w-full bg-white py-3 shadow-lg border-b border-tl-border">
         <div className="max-w-350 mx-auto px-6">
             <form
             onSubmit={handleSubmit}
