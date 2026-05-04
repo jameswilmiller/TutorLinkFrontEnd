@@ -7,12 +7,15 @@ import MobileMenu from "../layout/MobileMenu";
 
 function Navbar() {
   
-  const {isAuthenticated} = useAuth();
+  const {isAuthenticated, user} = useAuth();
   const [openMenu, setOpenMenu] = useState(null);
+  const isTutor = user?.roles?.includes("TUTOR");
 
   const LINKS = [
     {label: 'Browse', href: '/browse'},
-    {label: 'Become a Tutor', href: '/become-a-tutor'},
+    isTutor 
+        ? {label: 'My Listing', href: '/tutor/edit'} 
+        : {label: 'Become a Tutor', href: '/become-a-tutor'},
     {label: 'About', href: '/about'},
     {label: 'Help', href: '/help'},
   ]
@@ -42,7 +45,7 @@ function Navbar() {
   
 
  return (
-  <header className="top-0 h-16 w-full flex border-b bg-tl-bg/90 border-tl-border shadow-2xs items-center">
+  <header className="top-0 h-16 w-full flex border-b bg-tl-surface border-tl-border shadow-2xs items-center">
     <nav className="max-w-350 w-full mx-auto flex justify-between">
       <Link to="/" className="font-display text-4xl font-semibold text-tl-ink ml-2">TutorLink</Link>
 

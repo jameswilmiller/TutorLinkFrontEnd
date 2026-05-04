@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom"
 import BrowseMode from "../search/BrowseMode"
-import BrowseSubject from "../search/BrowseSubject"
+import BrowseFaculty from "./BrowseFaculty"
 function BrowseFilters() {
     const [searchParams, setSearchParams] = useSearchParams();
 
@@ -8,7 +8,7 @@ function BrowseFilters() {
     
     return (
     <div className="hidden lg:flex flex-col gap-10">
-        <BrowseSubject/>
+        <BrowseFaculty/>
         <BrowseMode/>
 
         

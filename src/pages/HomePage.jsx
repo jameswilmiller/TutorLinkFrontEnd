@@ -1,6 +1,6 @@
-import Hero from "../components/ui/Hero"
+import Hero from "../components/home/Hero"
 import SearchCard from "../components/search/SearchCard"
-import SubjectBubbles from "../components/ui/SubjectBubbles";
+import CourseBubbles from "../components/home/CourseBubbles";
 function HomePage() {
 
 
@@ -11,7 +11,7 @@ function HomePage() {
             <div className="max-w-4xl mx-auto text-center">
             <Hero/>
             <SearchCard/>
-            <SubjectBubbles/>
+            <CourseBubbles/>
             </div>
         </div>
     )

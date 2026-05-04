@@ -1,6 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import { signupUser } from "../services/authService";
-import {useState} from "react"
+import { useState } from "react"
+import AuthLayout from "../components/auth/AuthLayout"
+import AuthForm from "../components/auth/AuthForm"
+import AuthInput from "../components/auth/AuthInput"
+
+const LEFT_PANEL = (
+    <div className="space-y-6">
+        <h2 className="font-display text-5xl text-white leading-tight">
+            Find a tutor who gets it.
+        </h2>
+        <p className="text-white/70 text-lg leading-relaxed">
+            Search by course code and connect with UQ students and alumni who have aced what you are studying.
+        </p>
+        <blockquote className="border-l-2 border-white/30 pl-4 mt-12">
+            <p className="text-white/80 italic font-display text-lg">
+                "Education is not the filling of a pail, but the lighting of a fire."
+
+            </p>
+            <p className="text-white/50 text-sm mt-2">— W.B. Yeats</p>
+        </blockquote>
+    </div>
+)
 
 function SignupPage() {
     const navigate = useNavigate();
@@ -8,26 +29,22 @@ function SignupPage() {
     const [error, setError] = useState("");
 
     const [formData, setFormData] = useState({
-        email:"",
-        password:"",
-        username:"",
-        firstname:"",
-        lastname:""
+        email: "",
+        password: "",
+        username: "",
+        firstname: "",
+        lastname: ""
     });
-    
+
     function handleChange(e) {
-        const {name, value} = e.target;
-        setFormData((prev) => ({
-            ...prev,
-            [name]: value,
-        }))
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading(true);
         setError("");
-
         try {
             await signupUser(formData);
             navigate("/verify", {
@@ -37,94 +54,83 @@ function SignupPage() {
                 },
             });
         } catch (err) {
-            console.log(err)
-            setError(err.message || "signup failed"); 
+            setError(err.message || "Signup failed");
         } finally {
             setLoading(false);
         }
-
-
     }
-   
 
     return (
-        <div className="flex min-h-[80vh] items-center justify-center px-6">
-            <div className="w-full max-w-sm">
-                <h1 className ="text-2xl font-semibold text-gray-900 mb-6">
-                    Sign Up
-                </h1>
+        <AuthLayout
+            left={LEFT_PANEL}
+            right={
+                <AuthForm
+                    title="Create your account"
+                    subtitle="Takes about 30 seconds."
+                    footer={
+                        <p className="text-sm text-tl-muted">
+                            Already have an account?{" "}
+                            <Link to="/login" className="font-medium text-tl-ink">
+                                Log in
+                            </Link>
+                        </p>
+                    }
+                >
+                    <form onSubmit={handleSubmit} className="space-y-4">
+                        <AuthInput
+                            name="email"
+                            type="email"
+                            placeholder="your@student.uq.edu.au"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                        <AuthInput
+                            name="password"
+                            type="password"
+                            placeholder="At least 8 characters"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                        <div className="grid grid-cols-2 gap-3">
+                            <AuthInput
+                                name="firstname"
+                                placeholder="First name"
+                                value={formData.firstname}
+                                onChange={handleChange}
+                                required
+                            />
+                            <AuthInput
+                                name="lastname"
+                                placeholder="Last name"
+                                value={formData.lastname}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <AuthInput
+                            name="username"
+                            placeholder="Username"
+                            value={formData.username}
+                            onChange={handleChange}
+                            required
+                        />
 
-                <form onSubmit={handleSubmit} className ="space-y-4">
-                    <input
-                    name = "email"
-                    type = "email"
-                    placeholder = "enter your email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-black outline-none"
-                    required
-                    />
-                    <input
-                    name = "password"
-                    type = "password"
-                    placeholder = "please enter your password"
-                    value ={formData.password}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-black outline-none"
-                    required 
-                    />
-                    <input 
-                    name = "firstname"
-                    type = "text"
-                    placeholder="Enter your first name"
-                    value={formData.firstname}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-black outline-none"
-                    required
-                    />
-                    <input 
-                    name = "lastname"
-                    type = "text"
-                    placeholder="Enter your last name"
-                    value={formData.lastname}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-black outline-none"
-                    required
-                    />
-                    <input 
-                    name = "username"
-                    type = "text"
-                    placeholder="Enter your username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-black outline-none"
-                    required
-                    />
+                        {error && <p className="text-sm text-red-500">{error}</p>}
 
-                    {error && <p className="text-sm text-red-500"> {error}</p>}
-
-                    <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full rounded-lg bg-black py-3 font-medium text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                        {loading ? "Creating account..." : "Continue"}
-                    </button>
-                </form>
-
-                <div className="my-6 flex items-center">
-                    <div className="h-px flex-1 bg-gray-300" />
-                </div>
-
-                <p className="mt-6 text-sm text-gray-600">
-                    Already have an account?{" "}
-                    <Link to="/login" className="font-medium text-black">
-                        Log in
-                    </Link>
-                </p>
-            
-            </div>
-        </div> 
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full rounded-xl bg-tl-accent py-3 font-medium text-white hover:bg-tl-accent-hover disabled:opacity-70 disabled:cursor-not-allowed transition"
+                        >
+                            {loading ? "Creating account..." : "Continue"}
+                        </button>
+                    </form>
+                </AuthForm>
+            }
+        />
     )
 }
+
 export default SignupPage;

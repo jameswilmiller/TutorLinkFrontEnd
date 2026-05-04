@@ -18,6 +18,14 @@ export async function createTutorProfile(formData, accessToken) {
 export async function updateTutorProfile(formData, accessToken) {
     return apiPut("/tutors/me/profile", formData, accessToken);
 }
+export async function searchCourses(query) {
+    return apiGet("/courses/search", null, { query });
+}
+
+export async function sendEnquiry(tutorId, formData) {
+    return apiPost(`/tutors/${tutorId}/enquire`, formData);
+}
+
 export async function uploadProfileImage(file, accessToken) {
     const formData = new FormData();
     formData.append("file", file);

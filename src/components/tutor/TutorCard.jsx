@@ -34,7 +34,10 @@ function TutorCard({ tutor }) {
                 
                 <div className="mt-2">
                     <p className="text-sm text-tl-ink">
-                        <span className="font-medium">{tutor.subjects} - </span>
+                       <span className="font-medium">
+                            {tutor.courses?.slice(0, 3).map(c => c.courseCode).join(", ")}
+                            {tutor.courses?.length > 3 && ` +${tutor.courses.length - 3} more`} -{" "}
+                       </span>
                         {tutor.bio && (
                             <span className="text-tl-muted line-clamp-2">{tutor.bio}</span>
                         )}

@@ -18,7 +18,8 @@ function BrowsePage() {
         setError("");
         const remoteParam = searchParams.get("remote");
         const filters = {
-          subject: searchParams.get("subject") || "",
+          courseCode: searchParams.get("courseCode") || "",
+          faculty: searchParams.get("faculty") || "",
           location: searchParams.get("location") || "",
           latitude: searchParams.get("latitude") || "",
           longitude: searchParams.get("longitude") || "",

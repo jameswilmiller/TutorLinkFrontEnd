@@ -48,7 +48,7 @@ function TutorMap({tutors = []}) {
     return (
         <div 
         ref={mapRef} 
-        className="w-full h-[400px] rounded-xl border"
+        className="w-full h-100 rounded-xl border"
         />
         );
   }
