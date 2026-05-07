@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { fetchTutors } from "../services/tutorService";
 import BrowseSearchCard from "../components/search/BrowseSearchCard"
 import BrowseFilters from "../components/search/BrowseFilters";
-import BrowseHeader from "../components/ui/BrowseHeader"
+import BrowseHeader from "../components/search/BrowseHeader"
 import TutorGrid from "../components/tutor/TutorGrid"
 function BrowsePage() {
   const [searchParams] = useSearchParams();

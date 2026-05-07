@@ -20,7 +20,6 @@ function SearchCard() {
       setShowDropdown(false);
       return;
     }
-
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(async () => {
       try {
@@ -49,34 +48,31 @@ function SearchCard() {
   function handleSubmit(event) {
     event.preventDefault();
     const params = new URLSearchParams();
-
     if (selectedCourse) params.set("courseCode", selectedCourse.courseCode);
     if (location?.locationName) params.set("location", location.locationName);
     if (location?.latitude) params.set("latitude", location.latitude);
     if (location?.longitude) params.set("longitude", location.longitude);
     if (remote !== null) params.set("remote", remote);
     params.set("sort", sort);
-
     navigate(`/browse?${params.toString()}`);
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-center flex-row bg-white shadow rounded-2xl py-2 mt-15 max-w-full"
+      className="flex items-stretch bg-white shadow rounded-2xl mt-10 p-2 max-w-3xl mx-auto"
     >
-      {/* Course search */}
-      <div className="relative flex flex-col min-h-15 justify-start max-w-full items-start px-6 gap-2">
-        <label className="text-tl-muted text-caption">COURSE</label>
+      <div className="relative flex-1 flex flex-col justify-center px-5 text-left">
+        <label className="text-tl-muted text-caption uppercase tracking-wider">Course</label>
         <input
           type="text"
           value={query}
-          placeholder="e.g. MATH1051 or Calculus..."
+          placeholder="e.g. MATH1051 or Calculus"
           onChange={(e) => {
             setQuery(e.target.value);
             setSelectedCourse(null);
           }}
-          className="text-body-sm outline-none"
+          className="text-body-sm outline-none mt-1 w-full"
         />
         {showDropdown && suggestions.length > 0 && (
           <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-tl-border rounded-xl shadow-lg max-h-64 overflow-y-auto">
@@ -84,7 +80,7 @@ function SearchCard() {
               <li
                 key={course.id}
                 onClick={() => handleSelect(course)}
-                className="px-4 py-3 cursor-pointer hover:bg-tl-bg text-sm"
+                className="px-4 py-3 cursor-pointer hover:bg-tl-bg text-sm text-left"
               >
                 <span className="font-medium text-tl-ink">{course.courseCode}</span>
                 <span className="text-tl-muted ml-2">— {course.courseName}</span>
@@ -94,23 +90,27 @@ function SearchCard() {
         )}
       </div>
 
-      <div className="mx-2 h-15 w-px bg-tl-border shrink-0" />
+      <div className="hidden md:flex w-px bg-tl-border my-2" />
 
-      <div className="flex flex-col max-w-full items-start px-6">
-        <label className="text-tl-muted text-caption">WHERE</label>
-        <PlacesAutoComplete onPlaceSelect={setLocation}/>
+      
+      <div className="hidden md:flex flex-1  flex-col justify-center px-5 text-left">
+        <label className="text-tl-muted text-caption uppercase tracking-wider">Where</label>
+        <div className="mt-1">
+          <PlacesAutoComplete onPlaceSelect={setLocation}/>
+        </div>
       </div>
 
-      <div className="mx-2 h-15 w-px bg-tl-border shrink-0" />
+      <div className="hidden md:flex w-px bg-tl-border my-2" />
 
-      <div className="flex flex-col min-h-16 justify-start max-w-full items-start px-6 gap-3">
-        <label className="text-tl-muted text-caption">MODE</label>
+      
+      <div className="hidden md:flex flex-1 flex-col justify-center px-5 text-left">
+        <label className="text-tl-muted text-caption uppercase tracking-wider">Mode</label>
         <select
           value={remote ?? "any"}
           onChange={handleChange}
-          className="text-body-sm outline-none cursor-pointer"
+          className="text-body-sm outline-none cursor-pointer mt-1 bg-transparent"
         >
-          <option value="any">Remote or In Person</option>
+          <option value="any">Any</option>
           <option value="false">In Person</option>
           <option value="true">Remote</option>
         </select>
@@ -118,7 +118,7 @@ function SearchCard() {
 
       <button
         type="submit"
-        className="bg-tl-accent text-white px-8 py-6 rounded-2xl text-body-sm font-medium hover:bg-tl-accent-hover transition cursor-pointer max-w-full"
+        className="bg-tl-accent text-white px-8 rounded-xl text-body-sm font-medium hover:bg-tl-accent-hover transition cursor-pointer"
       >
         Search
       </button>

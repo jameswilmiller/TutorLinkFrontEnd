@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 
@@ -12,11 +12,11 @@
   --color-tl-subtle: #EAE7E1;
   --color-tl-muted: #6B7280;
   --color-tl-border: #D8D4CC;
-
+  --color-tl-label:         oklch(60% 0.14 75deg);
   
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-sans: ui-sans-serif, -apple-system, "Inter", Helvetica, Arial, sans-serif;
-  --font-mono: ui-monospace, Menlo, Consolas, monospace;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-sans:    "DM Sans", ui-sans-serif, system-ui, Arial, sans-serif; /* Body */
+
 
   
   --radius-btn: 1.25rem;

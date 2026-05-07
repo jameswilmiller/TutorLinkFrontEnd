@@ -1,4 +1,4 @@
-import ProfileImageUploader from "../become-tutor/ProfileImageUploader"
+import ProfileImageUploader from "../common/ProfileImageUploader"
 import { getTutorImage } from "../../utils/getTutorImage"
 
 function WizardStep4({ formData, updateForm, existingProfile, onFinish, onBack, saving, error }) {

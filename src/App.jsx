@@ -7,7 +7,7 @@ import VerifyPage from "./pages/VerifyPage"
 import BrowsePage from './pages/BrowsePage'
 import TutorProfilePage from "./pages/TutorProfilePage"
 import TutorEditPage from "./pages/TutorEditPage"
-import ProtectedRoute from './components/ui/ProtectedRoute'
+import ProtectedRoute from './components/common/ProtectedRoute'
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
 import AboutPage from "./pages/AboutPage"

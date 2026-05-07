@@ -46,8 +46,8 @@ function Navbar() {
 
  return (
   <header className="top-0 h-16 w-full flex border-b bg-tl-surface border-tl-border shadow-2xs items-center">
-    <nav className="max-w-350 w-full mx-auto flex justify-between">
-      <Link to="/" className="font-display text-4xl font-semibold text-tl-ink ml-2">TutorLink</Link>
+    <nav className="w-full mx-auto flex justify-between px-6">
+      <Link to="/" className="font-display text-4xl font-bold text-tl-ink ml-2">TutorLink</Link>
 
       {/* desktop middle*/}
       <ul className="hidden lg:flex items-center gap-8">
