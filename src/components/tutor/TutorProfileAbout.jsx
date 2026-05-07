@@ -1,7 +1,9 @@
 function TutorProfileAbout({ tutor }) {
     return (
-        <div>
-            <h2 className="font-display text-2xl text-tl-ink mb-3">About</h2>
+        <div className="bg-white border border-tl-border rounded-2xl p-6">
+            <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-4">
+                About
+            </p>
             <p className="text-tl-ink leading-relaxed">
                 {tutor.bio || "No bio provided."}
             </p>

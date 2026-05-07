@@ -18,7 +18,7 @@ const STEPS = [
 
 function HowItWorks() {
     return (
-        <div className="bg-white">
+        <div className="bg-white border-tl-border border">
             <div className="max-w-350 mx-auto px-6 py-20">
                 <div className="text-center mb-14">
                     <p className="text-sm font-semibold tracking-widest text-tl-label uppercase mb-3">

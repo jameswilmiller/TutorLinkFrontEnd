@@ -6,9 +6,7 @@ import TutorBookingCard from "../components/tutor/TutorBookingCard"
 import TutorProfileCourses from "../components/tutor/TutorProfileCourses"
 import TutorProfileAbout from "../components/tutor/TutorProfileAbout"
 import TutorProfileStyles from "../components/tutor/TutorProfileStyles.jsx"
-import TutorProfileCredentials from "../components/tutor/TutorProfileCredentials"
 import TutorProfileLanguages from "../components/tutor/TutorProfileLanguages"
-
 function TutorProfilePage() {
     const { id } = useParams();
     const [tutor, setTutor] = useState(null);
@@ -36,19 +34,24 @@ function TutorProfilePage() {
     if (!tutor) return <p className="py-10 text-center">Tutor not found.</p>
 
     return (
-        <div className="mx-auto max-w-350 px-6 py-8">
-            <TutorProfileHeader tutor={tutor} />
-
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10">
-                <div className="space-y-8">
-                    {tutor.courses?.length > 0 && <TutorProfileCourses courses={tutor.courses} />}
-                    <TutorProfileAbout tutor={tutor} />
-                    {tutor.styles?.length > 0 && <TutorProfileStyles styles={tutor.styles} />}
-                    {tutor.languages?.length > 0 && <TutorProfileLanguages languages={tutor.languages} />}
+        <div>
+            <div className="bg-tl-surface border-b border-tl-border">
+                <div className="max-w-350 mx-auto px-6 py-10">
+                    <TutorProfileHeader tutor={tutor} />
                 </div>
-                <div className="space-y-6">
-                    <TutorBookingCard tutor={tutor} />
-                    {tutor.credentials?.length > 0 && <TutorProfileCredentials credentials={tutor.credentials} />}
+            </div>
+
+            <div className="max-w-350 mx-auto px-6 py-10">
+                <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
+                    <div className="space-y-6">
+                        {tutor.courses?.length > 0 && <TutorProfileCourses courses={tutor.courses} />}
+                        <TutorProfileAbout tutor={tutor} />
+                        {tutor.styles?.length > 0 && <TutorProfileStyles styles={tutor.styles} />}
+                        {tutor.languages?.length > 0 && <TutorProfileLanguages languages={tutor.languages} />}
+                    </div>
+                    <div>
+                        <TutorBookingCard tutor={tutor} />
+                    </div>
                 </div>
             </div>
         </div>

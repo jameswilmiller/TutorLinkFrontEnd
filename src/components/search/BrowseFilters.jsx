@@ -7,7 +7,7 @@ function BrowseFilters() {
     const remoteParam = searchParams.get("remote");
     
     return (
-    <div className="hidden lg:flex flex-col gap-10">
+    <div className="hidden lg:flex flex-col gap-8 bg-white border-r border-tl-border p-6 self-start">
         <BrowseFaculty/>
         <BrowseMode/>
 

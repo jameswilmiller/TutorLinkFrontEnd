@@ -14,7 +14,7 @@ function Navbar() {
   const LINKS = [
     {label: 'Browse', href: '/browse'},
     isTutor 
-        ? {label: 'My Listing', href: '/tutor/edit'} 
+        ? {label: 'My Listing', href: '/tutor/dashboard'} 
         : {label: 'Become a Tutor', href: '/become-a-tutor'},
     {label: 'About', href: '/about'},
     {label: 'Help', href: '/help'},

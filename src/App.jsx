@@ -6,7 +6,7 @@ import HomePage from "./pages/HomePage"
 import VerifyPage from "./pages/VerifyPage"
 import BrowsePage from './pages/BrowsePage'
 import TutorProfilePage from "./pages/TutorProfilePage"
-import TutorEditPage from "./pages/TutorEditPage"
+import TutorDashboardPage from "./pages/TutorDashboardPage"
 import ProtectedRoute from './components/common/ProtectedRoute'
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
@@ -27,14 +27,15 @@ function App() {
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/help" element={<HelpPage/>}/>
           <Route path="/verify" element={<VerifyPage/>}/>
+          
           <Route path="/become-a-tutor" element={
             <ProtectedRoute>
               <BecomeTutorPage/>
             </ProtectedRoute>
           }/>
-          <Route path="/tutor/edit" element={
+          <Route path="/tutor/dashboard" element={
             <ProtectedRoute>
-              <TutorEditPage/>
+              <TutorDashboardPage/>
             </ProtectedRoute>
           }/>
         </Routes>
