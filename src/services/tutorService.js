@@ -22,8 +22,8 @@ export async function searchCourses(query) {
     return apiGet("/courses/search", null, { query });
 }
 
-export async function sendEnquiry(tutorId, formData) {
-    return apiPost(`/tutors/${tutorId}/enquire`, formData);
+export async function sendEnquiry(tutorId, formData, accessToken) {
+    return apiPost(`/tutors/${tutorId}/enquire`, formData, accessToken)
 }
 
 export async function uploadProfileImage(file, accessToken) {

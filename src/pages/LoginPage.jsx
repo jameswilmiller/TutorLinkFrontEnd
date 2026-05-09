@@ -7,6 +7,7 @@ import AuthInput from "../components/auth/AuthInput"
 function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
+   
     const { login } = useAuth();
 
     const [formData, setFormData] = useState({

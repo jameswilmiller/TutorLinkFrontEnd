@@ -1,15 +1,25 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 import { sendEnquiry } from "../../services/tutorService"
 
 function EnquiryModal({ tutor, onClose }) {
+    const { isAuthenticated, accessToken, user } = useAuth()
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    useEffect(() => {
+        if (!isAuthenticated) {
+            navigate("/login")
+        }
+    }, [isAuthenticated, navigate, location.pathname])
+
     const [step, setStep] = useState(1)
     const [sending, setSending] = useState(false)
     const [sent, setSent] = useState(false)
     const [error, setError] = useState("")
 
     const [formData, setFormData] = useState({
-        name: "",
-        email: "",
         course: "",
         sessionType: "online",
         message: "",
@@ -23,7 +33,7 @@ function EnquiryModal({ tutor, onClose }) {
         setSending(true)
         setError("")
         try {
-            await sendEnquiry(tutor.id, formData)
+            await sendEnquiry(tutor.id, formData, accessToken)
             setSent(true)
         } catch (err) {
             setError(err.message || "Failed to send enquiry")
@@ -31,6 +41,8 @@ function EnquiryModal({ tutor, onClose }) {
             setSending(false)
         }
     }
+
+    if (!isAuthenticated) return null
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -67,26 +79,10 @@ function EnquiryModal({ tutor, onClose }) {
                             <p className="font-display text-2xl text-tl-ink">${tutor.hourlyRate}/hr</p>
                         </div>
 
-                        <div>
-                            <label className="text-sm text-tl-muted mb-1 block">Your name</label>
-                            <input
-                                type="text"
-                                value={formData.name}
-                                onChange={e => update({ name: e.target.value })}
-                                placeholder="e.g. Sarah Chen"
-                                className="w-full border border-tl-border rounded-xl px-4 py-3 text-sm outline-none focus:border-tl-accent"
-                            />
-                        </div>
-
-                        <div>
-                            <label className="text-sm text-tl-muted mb-1 block">Your email</label>
-                            <input
-                                type="email"
-                                value={formData.email}
-                                onChange={e => update({ email: e.target.value })}
-                                placeholder="you@student.uq.edu.au"
-                                className="w-full border border-tl-border rounded-xl px-4 py-3 text-sm outline-none focus:border-tl-accent"
-                            />
+                        <div className="bg-tl-bg rounded-xl p-4 text-sm">
+                            <p className="text-tl-muted">Booking as</p>
+                            <p className="text-tl-ink font-medium">{user?.firstname} {user?.lastname}</p>
+                            <p className="text-tl-muted text-xs">{user?.email}</p>
                         </div>
 
                         <div>
@@ -141,7 +137,7 @@ function EnquiryModal({ tutor, onClose }) {
 
                         <button
                             onClick={() => setStep(2)}
-                            disabled={!formData.name || !formData.email || !formData.course}
+                            disabled={!formData.course}
                             className="w-full bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-50"
                         >
                             Review booking →
@@ -158,6 +154,10 @@ function EnquiryModal({ tutor, onClose }) {
                                 <div className="flex justify-between text-sm">
                                     <span className="text-tl-muted">Tutor</span>
                                     <span className="text-tl-ink">{tutor.firstname} {tutor.lastname}</span>
+                                </div>
+                                <div className="flex justify-between text-sm">
+                                    <span className="text-tl-muted">From</span>
+                                    <span className="text-tl-ink">{user?.firstname} {user?.lastname}</span>
                                 </div>
                                 <div className="flex justify-between text-sm">
                                     <span className="text-tl-muted">Course</span>
