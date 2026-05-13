@@ -1,20 +1,21 @@
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom"
 
 function BrowseHeader({ tutorsCount }) {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const location = searchParams.get("location");
-    const sort = searchParams.get("sort") || "newest";
+    const [searchParams, setSearchParams] = useSearchParams()
+    const location = searchParams.get("location")
+    const sort = searchParams.get("sort") || "newest"
 
     function updateSort(event) {
-        const params = new URLSearchParams(searchParams);
-        params.set("sort", event.target.value);
-        setSearchParams(params);
+        const params = new URLSearchParams(searchParams)
+        params.set("sort", event.target.value)
+        params.delete("page")
+        setSearchParams(params)
     }
 
     return (
-        <div className="mb-6 flex items-end justify-between">
+        <div className="mb-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div>
-                <h1 className="font-display text-4xl text-tl-ink">All tutors</h1>
+                <h1 className="font-display text-3xl md:text-4xl text-tl-ink">All tutors</h1>
                 <p className="mt-1 text-sm text-tl-muted">
                     {tutorsCount} tutors found
                     {location && <> · {location} · within 20km</>}

@@ -22,7 +22,7 @@ const TABS = [
             },
             {
                 question: "What courses are available?",
-                answer: "TutorLink currently covers over 120 UQ courses across all 5 faculties — Business, Economics & Law, Engineering, Architecture & IT, Health, Medicine & Behavioural Sciences, Humanities, Arts & Social Sciences, and Science. If your course isn't listed, reach out and we'll look at adding it."
+                answer: "TutorLink currently covers over 120 UQ courses across all 5 faculties — Business, Economics & Law, Engineering, Architecture & IT, Health, Medicine & Behavioural Sciences, Humanities, Arts & Social Sciences, and Science. If your course isn't listed, reach out and I will look at adding it."
             },
         ]
     },

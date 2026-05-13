@@ -5,33 +5,35 @@ import TutorProfileHeader from "../components/tutor/TutorProfileHeader"
 import TutorBookingCard from "../components/tutor/TutorBookingCard"
 import TutorProfileCourses from "../components/tutor/TutorProfileCourses"
 import TutorProfileAbout from "../components/tutor/TutorProfileAbout"
-import TutorProfileStyles from "../components/tutor/TutorProfileStyles.jsx"
+import TutorProfileCredentials from "../components/tutor/TutorProfileCredentials"
+import TutorProfileStyles from "../components/tutor/TutorProfileStyles"
 import TutorProfileLanguages from "../components/tutor/TutorProfileLanguages"
+
 function TutorProfilePage() {
-    const { id } = useParams();
-    const [tutor, setTutor] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const { id } = useParams()
+    const [tutor, setTutor] = useState(null)
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState("")
 
     useEffect(() => {
         async function loadTutor() {
             try {
-                setLoading(true);
-                setError("");
-                const data = await fetchTutorById(id);
-                setTutor(data);
+                setLoading(true)
+                setError("")
+                const data = await fetchTutorById(id)
+                setTutor(data)
             } catch (err) {
-                setError(err.message || "Could not load tutor");
+                setError(err.message || "Could not load tutor")
             } finally {
-                setLoading(false);
+                setLoading(false)
             }
         }
-        if (id) loadTutor();
-    }, [id]);
+        loadTutor()
+    }, [id])
 
-    if (loading) return <p className="py-10 text-center">Loading...</p>
-    if (error) return <p className="py-10 text-center text-red-600">{error}</p>
-    if (!tutor) return <p className="py-10 text-center">Tutor not found.</p>
+    if (loading) return <p className="py-10 text-center text-tl-muted text-sm">Loading...</p>
+    if (error) return <p role="alert" className="py-10 text-center text-red-500 text-sm">{error}</p>
+    if (!tutor) return <p className="py-10 text-center text-tl-muted text-sm">Tutor not found.</p>
 
     return (
         <div>
@@ -46,6 +48,7 @@ function TutorProfilePage() {
                     <div className="space-y-6">
                         {tutor.courses?.length > 0 && <TutorProfileCourses courses={tutor.courses} />}
                         <TutorProfileAbout tutor={tutor} />
+                        {tutor.credentials?.length > 0 && <TutorProfileCredentials credentials={tutor.credentials} />}
                         {tutor.styles?.length > 0 && <TutorProfileStyles styles={tutor.styles} />}
                         {tutor.languages?.length > 0 && <TutorProfileLanguages languages={tutor.languages} />}
                     </div>

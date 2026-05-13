@@ -1,7 +1,13 @@
 import {apiGet, apiPost, apiPut, apiPostFormData} from "./apiClient"
 
 export async function fetchTutors(filters = {}, accessToken = null) {
-    return apiGet("/tutors", accessToken, filters);
+    const data = await apiGet("/tutors", accessToken, filters);
+    return {
+        tutors: data.content,
+        currentPage: data.number,
+        totalPages: data.totalPages,
+        totalElements: data.totalElements,
+    };
 }
 
 export async function fetchTutorById(id, accessToken = null) {

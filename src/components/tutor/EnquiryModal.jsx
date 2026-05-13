@@ -1,29 +1,32 @@
 import { useState, useEffect } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import { sendEnquiry } from "../../services/tutorService"
 
 function EnquiryModal({ tutor, onClose }) {
-    const { isAuthenticated, accessToken, user } = useAuth()
-    const navigate = useNavigate()
-    const location = useLocation()
-
-    useEffect(() => {
-        if (!isAuthenticated) {
-            navigate("/login")
-        }
-    }, [isAuthenticated, navigate, location.pathname])
+    const { accessToken, user } = useAuth()
 
     const [step, setStep] = useState(1)
     const [sending, setSending] = useState(false)
     const [sent, setSent] = useState(false)
     const [error, setError] = useState("")
-
     const [formData, setFormData] = useState({
         course: "",
         sessionType: "online",
         message: "",
     })
+
+    useEffect(() => {
+        document.body.style.overflow = "hidden"
+        return () => { document.body.style.overflow = "" }
+    }, [])
+
+    useEffect(() => {
+        function handleEscape(e) {
+            if (e.key === "Escape") onClose()
+        }
+        document.addEventListener("keydown", handleEscape)
+        return () => document.removeEventListener("keydown", handleEscape)
+    }, [onClose])
 
     function update(fields) {
         setFormData(prev => ({ ...prev, ...fields }))
@@ -42,15 +45,25 @@ function EnquiryModal({ tutor, onClose }) {
         }
     }
 
-    if (!isAuthenticated) return null
-
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="bg-white rounded-2xl w-full max-w-lg mx-4 overflow-hidden">
-
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+            onClick={onClose}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="enquiry-title"
+        >
+            <div
+                className="bg-white rounded-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto"
+                onClick={e => e.stopPropagation()}
+            >
                 <div className="flex items-center justify-between px-6 py-4 border-b border-tl-border">
-                    <h2 className="font-display text-2xl text-tl-ink">Book a lesson</h2>
-                    <button onClick={onClose} className="text-tl-muted hover:text-tl-ink text-xl">✕</button>
+                    <h2 id="enquiry-title" className="font-display text-2xl text-tl-ink">
+                        Book a lesson
+                    </h2>
+                    <button onClick={onClose} className="text-tl-muted hover:text-tl-ink text-xl cursor-pointer" aria-label="Close">
+                        ✕
+                    </button>
                 </div>
 
                 {sent ? (
@@ -62,7 +75,7 @@ function EnquiryModal({ tutor, onClose }) {
                         </p>
                         <button
                             onClick={onClose}
-                            className="mt-4 px-6 py-3 bg-tl-accent text-white rounded-xl hover:bg-tl-accent-hover transition text-sm"
+                            className="mt-4 px-6 py-3 bg-tl-accent text-white rounded-xl hover:bg-tl-accent-hover transition text-sm cursor-pointer"
                         >
                             Done
                         </button>
@@ -86,8 +99,11 @@ function EnquiryModal({ tutor, onClose }) {
                         </div>
 
                         <div>
-                            <label className="text-sm text-tl-muted mb-1 block">Which course do you need help with?</label>
+                            <label className="text-sm text-tl-muted mb-1 block" htmlFor="enquiry-course">
+                                Which course do you need help with?
+                            </label>
                             <input
+                                id="enquiry-course"
                                 type="text"
                                 value={formData.course}
                                 onChange={e => update({ course: e.target.value })}
@@ -99,34 +115,29 @@ function EnquiryModal({ tutor, onClose }) {
                         <div>
                             <label className="text-sm text-tl-muted mb-2 block">Session type</label>
                             <div className="flex gap-3">
-                                <button
-                                    type="button"
-                                    onClick={() => update({ sessionType: "online" })}
-                                    className={`flex-1 py-3 rounded-xl text-sm font-medium border transition ${
-                                        formData.sessionType === "online"
-                                            ? "bg-tl-accent text-white border-tl-accent"
-                                            : "border-tl-border text-tl-ink hover:bg-tl-bg"
-                                    }`}
-                                >
-                                    Online
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => update({ sessionType: "in-person" })}
-                                    className={`flex-1 py-3 rounded-xl text-sm font-medium border transition ${
-                                        formData.sessionType === "in-person"
-                                            ? "bg-tl-accent text-white border-tl-accent"
-                                            : "border-tl-border text-tl-ink hover:bg-tl-bg"
-                                    }`}
-                                >
-                                    In person
-                                </button>
+                                {["online", "in-person"].map(type => (
+                                    <button
+                                        key={type}
+                                        type="button"
+                                        onClick={() => update({ sessionType: type })}
+                                        className={`flex-1 py-3 rounded-xl text-sm font-medium border transition capitalize cursor-pointer ${
+                                            formData.sessionType === type
+                                                ? "bg-tl-accent text-white border-tl-accent"
+                                                : "border-tl-border text-tl-ink hover:bg-tl-bg"
+                                        }`}
+                                    >
+                                        {type === "in-person" ? "In person" : "Online"}
+                                    </button>
+                                ))}
                             </div>
                         </div>
 
                         <div>
-                            <label className="text-sm text-tl-muted mb-1 block">Message (optional)</label>
+                            <label className="text-sm text-tl-muted mb-1 block" htmlFor="enquiry-message">
+                                Message (optional)
+                            </label>
                             <textarea
+                                id="enquiry-message"
                                 value={formData.message}
                                 onChange={e => update({ message: e.target.value })}
                                 placeholder="e.g. I'm struggling with recursion and have an assignment due next week..."
@@ -137,8 +148,8 @@ function EnquiryModal({ tutor, onClose }) {
 
                         <button
                             onClick={() => setStep(2)}
-                            disabled={!formData.course}
-                            className="w-full bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-50"
+                            disabled={!formData.course.trim()}
+                            className="w-full bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                         >
                             Review booking →
                         </button>
@@ -151,31 +162,13 @@ function EnquiryModal({ tutor, onClose }) {
                                 Review your details. Once confirmed, a booking request will be sent to {tutor.firstname} via email.
                             </p>
                             <div className="space-y-3 border-t border-tl-border pt-3">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-tl-muted">Tutor</span>
-                                    <span className="text-tl-ink">{tutor.firstname} {tutor.lastname}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-tl-muted">From</span>
-                                    <span className="text-tl-ink">{user?.firstname} {user?.lastname}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-tl-muted">Course</span>
-                                    <span className="text-tl-ink">{formData.course}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-tl-muted">Type</span>
-                                    <span className="text-tl-ink capitalize">{formData.sessionType}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-tl-muted">Rate</span>
-                                    <span className="text-tl-ink">${tutor.hourlyRate}/hr</span>
-                                </div>
+                                <ReviewRow label="Tutor" value={`${tutor.firstname} ${tutor.lastname}`} />
+                                <ReviewRow label="From" value={`${user?.firstname} ${user?.lastname}`} />
+                                <ReviewRow label="Course" value={formData.course} />
+                                <ReviewRow label="Type" value={formData.sessionType} capitalize />
+                                <ReviewRow label="Rate" value={`$${tutor.hourlyRate}/hr`} />
                                 {formData.message && (
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-tl-muted">Message</span>
-                                        <span className="text-tl-ink text-right max-w-[60%]">{formData.message}</span>
-                                    </div>
+                                    <ReviewRow label="Message" value={formData.message} />
                                 )}
                             </div>
                         </div>
@@ -184,19 +177,19 @@ function EnquiryModal({ tutor, onClose }) {
                             {tutor.firstname} will reply to your email to confirm the booking. Payment is handled directly with your tutor.
                         </p>
 
-                        {error && <p className="text-sm text-red-500">{error}</p>}
+                        {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
 
                         <div className="flex gap-3">
                             <button
                                 onClick={() => setStep(1)}
-                                className="flex-1 border border-tl-border text-tl-ink py-3 rounded-xl hover:bg-tl-bg transition text-sm"
+                                className="flex-1 border border-tl-border text-tl-ink py-3 rounded-xl hover:bg-tl-bg transition text-sm cursor-pointer"
                             >
                                 ← Back
                             </button>
                             <button
                                 onClick={handleSend}
                                 disabled={sending}
-                                className="flex-1 bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-70"
+                                className="flex-1 bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                             >
                                 {sending ? "Sending..." : "Send booking request →"}
                             </button>
@@ -204,6 +197,17 @@ function EnquiryModal({ tutor, onClose }) {
                     </div>
                 )}
             </div>
+        </div>
+    )
+}
+
+function ReviewRow({ label, value, capitalize = false }) {
+    return (
+        <div className="flex justify-between text-sm gap-4">
+            <span className="text-tl-muted">{label}</span>
+            <span className={`text-tl-ink text-right max-w-[60%] ${capitalize ? "capitalize" : ""}`}>
+                {value}
+            </span>
         </div>
     )
 }

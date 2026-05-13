@@ -3,41 +3,51 @@ import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth"
 import AuthForm from "../components/auth/AuthForm"
 import AuthInput from "../components/auth/AuthInput"
+import { toFieldErrorMap } from "../utils/formErrors"
 
 function LoginPage() {
-    const navigate = useNavigate();
-    const location = useLocation();
-   
-    const { login } = useAuth();
+    const navigate = useNavigate()
+    const location = useLocation()
+    const { login } = useAuth()
 
     const [formData, setFormData] = useState({
         email: location.state?.email || "",
         password: "",
-    });
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const [fieldErrors, setFieldErrors] = useState({})
 
     function handleChange(e) {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }))
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
+        if (fieldErrors[name]) {
+            setFieldErrors(prev => ({ ...prev, [name]: undefined }))
+        }
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
+        e.preventDefault()
+        setLoading(true)
+        setError("")
+        setFieldErrors({})
+
         try {
-            await login(formData);
+            await login(formData)
             navigate("/")
         } catch (err) {
-            setError(err.message || "Login failed");
+            if (err.fieldErrors?.length > 0) {
+                setFieldErrors(toFieldErrorMap(err.fieldErrors))
+            } else {
+                setError(err.message || "Login failed")
+            }
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     }
 
     return (
-        <div className="min-h-[calc(100vh-4rem)] bg-tl-bg flex items-start justify-center px-6 pt-[25vh]">
+        <div className="min-h-[calc(100vh-4rem)] bg-tl-bg flex items-center justify-center px-6 py-20">
             <AuthForm
                 title="Welcome back."
                 subtitle="Sign in to manage your sessions"
@@ -53,29 +63,33 @@ function LoginPage() {
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="text-sm text-tl-muted mb-1 block">Email</label>
+                        <label htmlFor="email" className="text-sm text-tl-muted mb-1 block">Email</label>
                         <AuthInput
                             name="email"
                             type="email"
                             placeholder="you@email.com"
                             value={formData.email}
                             onChange={handleChange}
+                            error={fieldErrors.email}
+                            autoComplete="email"
                             required
                         />
                     </div>
                     <div>
-                        <label className="text-sm text-tl-muted mb-1 block">Password</label>
+                        <label htmlFor="password" className="text-sm text-tl-muted mb-1 block">Password</label>
                         <AuthInput
                             name="password"
                             type="password"
                             placeholder="Your password"
                             value={formData.password}
                             onChange={handleChange}
+                            error={fieldErrors.password}
+                            autoComplete="current-password"
                             required
                         />
                     </div>
 
-                    {error && <p className="text-sm text-red-500">{error}</p>}
+                    {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
 
                     <button
                         type="submit"
@@ -90,4 +104,4 @@ function LoginPage() {
     )
 }
 
-export default LoginPage;
+export default LoginPage

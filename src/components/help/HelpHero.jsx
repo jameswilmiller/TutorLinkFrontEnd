@@ -4,7 +4,7 @@ function HelpHero() {
             <p className="text-sm font-semibold tracking-widest text-tl-muted uppercase mb-4">
                 Help Centre
             </p>
-            <h1 className="font-display text-5xl text-tl-ink">
+            <h1 className="font-display text-4xl md:text-5xl text-tl-ink">
                 How can we help?
             </h1>
             <p className="text-tl-muted mt-4 text-base">

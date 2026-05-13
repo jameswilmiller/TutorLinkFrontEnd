@@ -44,20 +44,22 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
                 }
             )
         }, 300)
+
+        return () => clearTimeout(debounceRef.current)
     }, [query])
 
-    async function handleSelect(prediction) {
+    function handleSelect(prediction) {
         setQuery(prediction.description)
         setShowDropdown(false)
 
         const geocoder = new google.maps.Geocoder()
         geocoder.geocode({ placeId: prediction.place_id }, (results, status) => {
             if (status === "OK" && results[0]) {
-                const location = results[0].geometry.location
+                const loc = results[0].geometry.location
                 onPlaceSelect?.({
                     locationName: prediction.description,
-                    latitude: location.lat(),
-                    longitude: location.lng(),
+                    latitude: loc.lat(),
+                    longitude: loc.lng(),
                 })
             }
         })
@@ -65,19 +67,21 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
         sessionTokenRef.current = new google.maps.places.AutocompleteSessionToken()
     }
 
+    function handleChange(e) {
+        setQuery(e.target.value)
+        if (!e.target.value) {
+            onPlaceSelect?.({ locationName: "", latitude: null, longitude: null })
+        }
+    }
+
     return (
         <div className="relative w-full">
             <input
                 type="text"
                 value={query}
-                onChange={e => {
-                    setQuery(e.target.value)
-                    if (!e.target.value) {
-                        onPlaceSelect?.({ locationName: "", latitude: null, longitude: null })
-                    }
-                }}
+                onChange={handleChange}
                 placeholder="Enter suburb or postcode"
-                className="w-full text-body-sm outline-none bg-transparent"
+                className="w-full text-sm outline-none bg-transparent"
             />
             {showDropdown && suggestions.length > 0 && (
                 <ul className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-tl-border rounded-xl shadow-lg max-h-64 overflow-y-auto">

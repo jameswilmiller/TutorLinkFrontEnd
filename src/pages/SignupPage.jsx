@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import { signupUser } from "../services/authService";
 import { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { signupUser } from "../services/authService"
 import AuthLayout from "../components/auth/AuthLayout"
 import AuthForm from "../components/auth/AuthForm"
 import AuthInput from "../components/auth/AuthInput"
+import { toFieldErrorMap } from "../utils/formErrors"
 
 const LEFT_PANEL = (
     <div className="space-y-6">
@@ -16,7 +17,6 @@ const LEFT_PANEL = (
         <blockquote className="border-l-2 border-white/30 pl-4 mt-12">
             <p className="text-white/80 italic font-display text-lg">
                 "Education is not the filling of a pail, but the lighting of a fire."
-
             </p>
             <p className="text-white/50 text-sm mt-2">— W.B. Yeats</p>
         </blockquote>
@@ -24,9 +24,10 @@ const LEFT_PANEL = (
 )
 
 function SignupPage() {
-    const navigate = useNavigate();
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+    const [fieldErrors, setFieldErrors] = useState({})
 
     const [formData, setFormData] = useState({
         email: "",
@@ -34,29 +35,38 @@ function SignupPage() {
         username: "",
         firstname: "",
         lastname: ""
-    });
+    })
 
     function handleChange(e) {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }))
+        const { name, value } = e.target
+        setFormData(prev => ({ ...prev, [name]: value }))
+        if (fieldErrors[name]) {
+            setFieldErrors(prev => ({ ...prev, [name]: undefined }))
+        }
     }
 
     async function handleSubmit(e) {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
+        e.preventDefault()
+        setLoading(true)
+        setError("")
+        setFieldErrors({})
+
         try {
-            await signupUser(formData);
+            await signupUser(formData)
             navigate("/verify", {
                 state: {
                     email: formData.email,
                     message: "Account created successfully. Enter the verification code sent to your email"
                 },
-            });
+            })
         } catch (err) {
-            setError(err.message || "Signup failed");
+            if (err.fieldErrors?.length > 0) {
+                setFieldErrors(toFieldErrorMap(err.fieldErrors))
+            } else {
+                setError(err.message || "Signup failed")
+            }
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     }
 
@@ -83,6 +93,8 @@ function SignupPage() {
                             placeholder="your@student.uq.edu.au"
                             value={formData.email}
                             onChange={handleChange}
+                            error={fieldErrors.email}
+                            autoComplete="email"
                             required
                         />
                         <AuthInput
@@ -91,6 +103,8 @@ function SignupPage() {
                             placeholder="At least 8 characters"
                             value={formData.password}
                             onChange={handleChange}
+                            error={fieldErrors.password}
+                            autoComplete="new-password"
                             required
                         />
                         <div className="grid grid-cols-2 gap-3">
@@ -99,6 +113,8 @@ function SignupPage() {
                                 placeholder="First name"
                                 value={formData.firstname}
                                 onChange={handleChange}
+                                error={fieldErrors.firstname}
+                                autoComplete="given-name"
                                 required
                             />
                             <AuthInput
@@ -106,6 +122,8 @@ function SignupPage() {
                                 placeholder="Last name"
                                 value={formData.lastname}
                                 onChange={handleChange}
+                                error={fieldErrors.lastname}
+                                autoComplete="family-name"
                                 required
                             />
                         </div>
@@ -114,10 +132,12 @@ function SignupPage() {
                             placeholder="Username"
                             value={formData.username}
                             onChange={handleChange}
+                            error={fieldErrors.username}
+                            autoComplete="username"
                             required
                         />
 
-                        {error && <p className="text-sm text-red-500">{error}</p>}
+                        {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
 
                         <button
                             type="submit"
@@ -133,4 +153,4 @@ function SignupPage() {
     )
 }
 
-export default SignupPage;
+export default SignupPage

@@ -10,7 +10,7 @@ function FeaturedTutors() {
         async function load() {
             try {
                 const data = await fetchTutors({ sort: "newest" })
-                setTutors(data.slice(0, 4))
+                setTutors(data.tutors.slice(0, 4))
             } catch {
                 setTutors([])
             }
@@ -21,13 +21,15 @@ function FeaturedTutors() {
     if (tutors.length === 0) return null
 
     return (
-        <div className="max-w-350 mx-auto px-6 py-16">
+        <section className="max-w-350 mx-auto px-6 py-16">
             <div className="flex items-end justify-between mb-8">
                 <div>
-                    <p className="text-overline font-semibold text-tl-label tracking-widest uppercase ">
+                    <p className="text-xs font-semibold text-tl-label tracking-widest uppercase">
                         Featured Tutors
                     </p>
-                    <h2 className="font-display text-4xl text-tl-ink">Popular right now</h2>
+                    <h2 className="font-display text-3xl md:text-4xl text-tl-ink">
+                        Popular right now
+                    </h2>
                 </div>
                 <Link
                     to="/browse"
@@ -42,7 +44,7 @@ function FeaturedTutors() {
                     <TutorCard key={tutor.id} tutor={tutor} />
                 ))}
             </div>
-        </div>
+        </section>
     )
 }
 

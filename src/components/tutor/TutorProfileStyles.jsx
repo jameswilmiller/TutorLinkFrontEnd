@@ -1,6 +1,6 @@
 function TutorProfileStyles({ styles }) {
     return (
-        <div className="bg-white border border-tl-border rounded-2xl p-6">
+        <section className="bg-white border border-tl-border rounded-2xl p-6">
             <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-4">
                 Teaching Style
             </p>
@@ -12,7 +12,7 @@ function TutorProfileStyles({ styles }) {
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     )
 }
 

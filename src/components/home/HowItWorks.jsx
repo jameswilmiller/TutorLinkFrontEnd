@@ -18,26 +18,34 @@ const STEPS = [
 
 function HowItWorks() {
     return (
-        <div className="bg-white border-tl-border border">
+        <section className="bg-white border border-tl-border">
             <div className="max-w-350 mx-auto px-6 py-20">
                 <div className="text-center mb-14">
                     <p className="text-sm font-semibold tracking-widest text-tl-label uppercase mb-3">
                         How It Works
                     </p>
-                    <h2 className="font-display text-4xl text-tl-ink">Find help in three steps</h2>
+                    <h2 className="font-display text-3xl md:text-4xl text-tl-ink">
+                        Find help in three steps
+                    </h2>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                     {STEPS.map(step => (
                         <div key={step.number}>
-                            <p className="font-display text-6xl text-tl-border">{step.number}</p>
-                            <h3 className="font-semibold text-tl-ink text-lg mt-2">{step.title}</h3>
-                            <p className="text-sm text-tl-muted mt-2 leading-relaxed">{step.description}</p>
+                            <p className="font-display text-5xl md:text-6xl text-tl-border">
+                                {step.number}
+                            </p>
+                            <h3 className="font-semibold text-tl-ink text-lg mt-2">
+                                {step.title}
+                            </h3>
+                            <p className="text-sm text-tl-muted mt-2 leading-relaxed">
+                                {step.description}
+                            </p>
                         </div>
                     ))}
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 

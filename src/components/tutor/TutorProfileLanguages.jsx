@@ -1,21 +1,28 @@
-function TutorProfileCredentials({ credentials }) {
+function TutorProfileLanguages({ languages }) {
     return (
-        <div className="border border-tl-border rounded-2xl p-5 bg-white">
+        <section className="bg-white border border-tl-border rounded-2xl p-6">
             <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-4">
-                Credentials
+                Languages
             </p>
-            <div className="space-y-3">
-                {credentials.map(cred => (
-                    <div key={cred.id} className="flex justify-between text-sm">
-                        <span className="text-tl-ink">{cred.title}</span>
-                        <span className="text-tl-muted text-right ml-4">
-                            {cred.institution}{cred.year ? `, ${cred.year}` : ""}
+            <div className="flex flex-wrap gap-2">
+                {languages.map(language => (
+                    <div
+                        key={language.id ?? language.name ?? language}
+                        className="flex items-center gap-2 border border-tl-border rounded-full px-3 py-1.5 text-sm bg-tl-bg"
+                    >
+                        <span className="text-tl-ink font-medium">
+                            {language.name ?? language}
                         </span>
+                        {language.proficiency && (
+                            <span className="text-tl-muted text-xs">
+                                · {language.proficiency}
+                            </span>
+                        )}
                     </div>
                 ))}
             </div>
-        </div>
+        </section>
     )
 }
 
-export default TutorProfileCredentials
+export default TutorProfileLanguages

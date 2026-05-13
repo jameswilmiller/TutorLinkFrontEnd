@@ -1,5 +1,14 @@
 const API_BASE_URL = "http://localhost:8080";
 
+export class ApiError extends Error {
+    constructor(message, status, fieldErrors) {
+        super(message);
+        this.name = "ApiError";
+        this.status = status;
+        this.fieldErrors = fieldErrors || [];
+    }
+}
+
 async function parseResponse(response) {
     const contentType = response.headers.get("content-type");
     let data;
@@ -11,10 +20,14 @@ async function parseResponse(response) {
     }
 
     if (!response.ok) {
-        if (typeof data == "string") {
-            throw new Error(data || "Request failed");
+        if (typeof data === "string") {
+            throw new ApiError(data || "Request failed", response.status);
         }
-        throw new Error(data.message || "Request failed")
+        throw new ApiError(
+            data.message || "Request failed",
+            response.status,
+            data.fieldErrors
+        );
     }
     return data;
 }

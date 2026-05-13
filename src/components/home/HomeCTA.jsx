@@ -2,13 +2,15 @@ import { Link } from "react-router-dom"
 
 function HomeCTA() {
     return (
-        <div className="max-w-350 mx-auto px-6 py-20">
+        <section className="max-w-350 mx-auto px-6 py-20">
             <div className="grid grid-cols-1 lg:grid-cols-[3fr_2fr] gap-6">
                 <div className="bg-tl-accent rounded-2xl p-10">
                     <p className="text-xs font-semibold tracking-widest text-white/50 uppercase mb-3">
                         For Students
                     </p>
-                    <h2 className="font-display text-3xl text-white">Need help with a course?</h2>
+                    <h2 className="font-display text-2xl md:text-3xl text-white">
+                        Need help with a course?
+                    </h2>
                     <p className="text-white/70 mt-3 leading-relaxed">
                         Browse tutors by course code and find someone who's already been where you are.
                     </p>
@@ -24,7 +26,9 @@ function HomeCTA() {
                     <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-3">
                         For Tutors
                     </p>
-                    <h2 className="font-display text-3xl text-tl-ink">Want to help others?</h2>
+                    <h2 className="font-display text-2xl md:text-3xl text-tl-ink">
+                        Want to help others?
+                    </h2>
                     <p className="text-tl-muted mt-3 leading-relaxed">
                         If you've aced a course and want to share what you know, create a profile and start earning.
                     </p>
@@ -36,7 +40,7 @@ function HomeCTA() {
                     </Link>
                 </div>
             </div>
-        </div>
+        </section>
     )
 }
 
