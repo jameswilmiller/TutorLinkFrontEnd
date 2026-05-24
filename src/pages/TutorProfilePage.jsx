@@ -8,6 +8,7 @@ import TutorProfileAbout from "../components/tutor/TutorProfileAbout"
 import TutorProfileCredentials from "../components/tutor/TutorProfileCredentials"
 import TutorProfileStyles from "../components/tutor/TutorProfileStyles"
 import TutorProfileLanguages from "../components/tutor/TutorProfileLanguages"
+import TutorReviews from "../components/review/TutorReviews"
 
 function TutorProfilePage() {
     const { id } = useParams()
@@ -16,6 +17,7 @@ function TutorProfilePage() {
     const [error, setError] = useState("")
 
     useEffect(() => {
+  
         async function loadTutor() {
             try {
                 setLoading(true)
@@ -46,6 +48,7 @@ function TutorProfilePage() {
             <div className="max-w-350 mx-auto px-6 py-10">
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
                     <div className="space-y-6">
+                        <TutorReviews tutorId={tutor.id} averageRating={tutor.averageRating} reviewCount={tutor.reviewCount}/>
                         {tutor.courses?.length > 0 && <TutorProfileCourses courses={tutor.courses} />}
                         <TutorProfileAbout tutor={tutor} />
                         {tutor.credentials?.length > 0 && <TutorProfileCredentials credentials={tutor.credentials} />}

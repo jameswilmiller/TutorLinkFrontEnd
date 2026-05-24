@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import CourseAutocomplete from "./CourseAutocomplete"
+import CourseAutoComplete from "./CourseAutoComplete"
 import PlacesAutoComplete from "./PlacesAutoComplete"
 
 function SearchCard() {
@@ -44,7 +44,7 @@ function SearchCard() {
             <div className="relative flex-1 flex flex-col justify-center px-5 text-left">
                 <label className="text-tl-muted text-xs uppercase tracking-wider">Course</label>
                 <div className="mt-1">
-                    <CourseAutocomplete
+                    <CourseAutoComplete
                         onSelect={setSelectedCourse}
                         onQueryChange={value => { setQuery(value); setSelectedCourse(null) }}
                     />

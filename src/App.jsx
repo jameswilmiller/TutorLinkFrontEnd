@@ -12,12 +12,13 @@ import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
 import AboutPage from "./pages/AboutPage"
 import HelpPage from "./pages/HelpPage"
-
+import MyBookingsPage from "./pages/MyBookingsPage"
+import BookingDetailPage from "./pages/BookingDetailPage"
 function App() {
   return (
     <>
       <Navbar/>
-      <main className="flex flex-col min-h-screen">
+      <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage/>} />
           <Route path="/browse" element={<BrowsePage/>} />
@@ -36,6 +37,17 @@ function App() {
           <Route path="/tutor/dashboard" element={
             <ProtectedRoute>
               <TutorDashboardPage/>
+            </ProtectedRoute>
+          }/>
+          <Route path="/bookings" element={
+            <ProtectedRoute>
+              <MyBookingsPage/>
+            </ProtectedRoute>
+          }/>
+
+          <Route path="/bookings/:id" element={
+            <ProtectedRoute>
+              <BookingDetailPage/>
             </ProtectedRoute>
           }/>
         </Routes>

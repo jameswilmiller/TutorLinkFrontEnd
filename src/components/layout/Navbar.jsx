@@ -15,6 +15,7 @@ function Navbar() {
         isTutor
             ? { label: "My Listing", href: "/tutor/dashboard" }
             : { label: "Become a Tutor", href: "/become-a-tutor" },
+            ...(isAuthenticated ? [{ label: "My Bookings", href: "/bookings" }] : []),
         { label: "About", href: "/about" },
         { label: "Help", href: "/help" },
     ]
