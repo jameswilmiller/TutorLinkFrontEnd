@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 function DesktopProfile({ handleLogout, menuItems, user }) {
     return (
-        <div className="absolute right-0 top-full mt-2 w-80 flex flex-col overflow-hidden rounded-3xl border border-tl-border bg-tl-surface shadow-2xl">
+        <div className="absolute right-0 top-full mt-2 w-80 flex flex-col overflow-hidden rounded-3xl border border-tl-border bg-tl-surface shadow-2xl z-50">
             <div className="flex justify-between items-center px-5 pt-5 pb-4">
                 <div>
                     <p className="font-display text-3xl">{user?.firstname}</p>

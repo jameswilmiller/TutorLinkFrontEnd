@@ -10,7 +10,13 @@ function ProtectedRoute ({children}) {
     }
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" replace state={{from: location}} />;
+        return (
+            <Navigate
+                to="/login"
+                replace
+                state={{ redirect: location.pathname + location.search }}
+            />
+        )
     }
 
     return children;

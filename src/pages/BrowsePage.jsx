@@ -29,7 +29,7 @@ function BrowsePage() {
                     latitude: searchParams.get("latitude") || "",
                     longitude: searchParams.get("longitude") || "",
                     remote: remoteParam === null ? null : remoteParam === "true",
-                    sort: searchParams.get("sort") || "newest",
+                    sort: searchParams.get("sort") || "rating",
                     page: parseInt(searchParams.get("page") || "0", 10),
                     size: PAGE_SIZE,
                 }

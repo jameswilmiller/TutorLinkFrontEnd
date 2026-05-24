@@ -9,7 +9,7 @@ function LoginPage() {
     const navigate = useNavigate()
     const location = useLocation()
     const { login } = useAuth()
-
+    const redirect = location.state?.redirect || "/"
     const [formData, setFormData] = useState({
         email: location.state?.email || "",
         password: "",
@@ -34,7 +34,7 @@ function LoginPage() {
 
         try {
             await login(formData)
-            navigate("/")
+            navigate(redirect, { replace: true })
         } catch (err) {
             if (err.fieldErrors?.length > 0) {
                 setFieldErrors(toFieldErrorMap(err.fieldErrors))
@@ -55,7 +55,11 @@ function LoginPage() {
                 footer={
                     <p className="text-sm text-tl-muted text-center">
                         New to TutorLink?{" "}
-                        <Link to="/signup" className="font-medium text-tl-ink">
+                       <Link
+                            to="/signup"
+                            state={{ redirect }}
+                            className="font-medium text-tl-ink"
+                        >
                             Create an account
                         </Link>
                     </p>
