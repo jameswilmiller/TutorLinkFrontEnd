@@ -38,7 +38,11 @@ function LoginPage() {
         } catch (err) {
             if (err.fieldErrors?.length > 0) {
                 setFieldErrors(toFieldErrorMap(err.fieldErrors))
-            } else {
+            } else if (err.code === "ACCOUNT_NOT_VERIFIED") {
+                navigate("/verify", {
+                    state: {email: formData.email, redirect}
+                })
+            }  else {
                 setError(err.message || "Login failed")
             }
         } finally {
