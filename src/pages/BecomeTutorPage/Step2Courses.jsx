@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef } from "react"
 import { searchCourses } from "../../services/tutorService"
+import Field from "../../components/ui/Field"
+import TextInput from "../../components/ui/TextInput"
+import WizardActions from "./WizardActions"
 
 const FACULTIES = [
     { label: "Business, Economics & Law", value: "BUSINESS_ECONOMICS_LAW" },
@@ -9,66 +12,58 @@ const FACULTIES = [
     { label: "Science", value: "SCIENCE" },
 ]
 
-function WizardStep2({ formData, updateForm, onNext, onBack, saving, error }) {
+function Step2Courses({ formData, updateForm, onNext, onBack, saving, error, nextLabel }) {
     const [query, setQuery] = useState("")
     const [suggestions, setSuggestions] = useState([])
-    const [showDropdown, setShowDropdown] = useState(false)
-    const [selectedCourses, setSelectedCourses] = useState([])
     const debounceRef = useRef(null)
+    const selectedIds = formData.courses.map(c => c.id)
 
     useEffect(() => {
         if (query.length < 2) {
             setSuggestions([])
-            setShowDropdown(false)
             return
         }
         clearTimeout(debounceRef.current)
         debounceRef.current = setTimeout(async () => {
             try {
                 const results = await searchCourses(query)
-                setSuggestions(results.filter(r => !formData.courseIds.includes(r.id)))
-                setShowDropdown(true)
+                setSuggestions(results.filter(r => !selectedIds.includes(r.id)))
             } catch {
                 setSuggestions([])
             }
         }, 300)
-    }, [query, formData.courseIds])
+        return () => clearTimeout(debounceRef.current)
+    }, [query]) // eslint-disable-line react-hooks/exhaustive-deps
 
     function addCourse(course) {
-        setSelectedCourses(prev => [...prev, course])
-        updateForm({ courseIds: [...formData.courseIds, course.id] })
+        updateForm({ courses: [...formData.courses, course] })
         setQuery("")
-        setShowDropdown(false)
+        setSuggestions([])
     }
 
     function removeCourse(courseId) {
-        setSelectedCourses(prev => prev.filter(c => c.id !== courseId))
-        updateForm({ courseIds: formData.courseIds.filter(id => id !== courseId) })
+        updateForm({ courses: formData.courses.filter(c => c.id !== courseId) })
     }
 
     function toggleFaculty(value) {
         const current = formData.faculties
-        if (current.includes(value)) {
-            updateForm({ faculties: current.filter(f => f !== value) })
-        } else {
-            updateForm({ faculties: [...current, value] })
-        }
+        updateForm({
+            faculties: current.includes(value)
+                ? current.filter(f => f !== value)
+                : [...current, value],
+        })
     }
 
     return (
         <div className="space-y-8">
-            {/* Course search */}
-            <div>
-                <label className="block text-sm font-medium text-tl-ink mb-1">Courses you teach</label>
+            <Field label="Courses you teach *">
                 <div className="relative">
-                    <input
-                        type="text"
+                    <TextInput
                         value={query}
                         onChange={e => setQuery(e.target.value)}
                         placeholder="Search by course code or name..."
-                        className="w-full border border-tl-border rounded-xl px-4 py-3 text-sm outline-none focus:border-tl-accent"
                     />
-                    {showDropdown && suggestions.length > 0 && (
+                    {suggestions.length > 0 && (
                         <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-tl-border rounded-xl shadow-lg max-h-64 overflow-y-auto">
                             {suggestions.map(course => (
                                 <li
@@ -84,9 +79,9 @@ function WizardStep2({ formData, updateForm, onNext, onBack, saving, error }) {
                     )}
                 </div>
 
-                {selectedCourses.length > 0 && (
+                {formData.courses.length > 0 && (
                     <div className="flex flex-wrap gap-2 mt-3">
-                        {selectedCourses.map(course => (
+                        {formData.courses.map(course => (
                             <div key={course.id} className="flex items-center gap-1 bg-tl-accent text-white px-3 py-1 rounded-lg text-sm">
                                 <span>{course.courseCode}</span>
                                 <button onClick={() => removeCourse(course.id)} className="ml-1 hover:text-white/70">×</button>
@@ -94,11 +89,9 @@ function WizardStep2({ formData, updateForm, onNext, onBack, saving, error }) {
                         ))}
                     </div>
                 )}
-            </div>
+            </Field>
 
-            {/* Faculty */}
-            <div>
-                <label className="block text-sm font-medium text-tl-ink mb-2">Faculties</label>
+            <Field label="Faculties">
                 <div className="space-y-2">
                     {FACULTIES.map(f => (
                         <label key={f.value} className="flex items-center gap-3 cursor-pointer">
@@ -112,20 +105,13 @@ function WizardStep2({ formData, updateForm, onNext, onBack, saving, error }) {
                         </label>
                     ))}
                 </div>
-            </div>
+            </Field>
 
             {error && <p className="text-sm text-red-500">{error}</p>}
 
-            <div className="flex gap-3">
-                <button onClick={onBack} className="flex-1 border border-tl-border text-tl-ink py-3 rounded-xl hover:bg-tl-bg transition">
-                    Back
-                </button>
-                <button onClick={onNext} disabled={saving} className="flex-1 bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition disabled:opacity-70">
-                    {saving ? "Saving..." : "Save & Continue"}
-                </button>
-            </div>
+            <WizardActions onNext={onNext} onBack={onBack} saving={saving} nextLabel={nextLabel} />
         </div>
     )
 }
 
-export default WizardStep2
+export default Step2Courses

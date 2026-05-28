@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom"
 import LoginPage from "./pages/LoginPage"
 import SignupPage from "./pages/SignupPage"
-import BecomeTutorPage from "./pages/BecomeTutorPage"
+import BecomeTutorPage from "./pages/BecomeTutorPage/BecomeTutorPage"
 import HomePage from "./pages/HomePage"
 import VerifyPage from "./pages/VerifyPage"
 import BrowsePage from './pages/BrowsePage'
@@ -10,7 +10,7 @@ import TutorDashboardPage from "./pages/TutorDashboardPage"
 import ProtectedRoute from './components/common/ProtectedRoute'
 import Navbar from "./components/layout/Navbar"
 import Footer from "./components/layout/Footer"
-import AboutPage from "./pages/AboutPage"
+import AboutPage from "./pages/AboutPage/AboutPage"
 import HelpPage from "./pages/HelpPage"
 import MyBookingsPage from "./pages/MyBookingsPage"
 import BookingDetailPage from "./pages/BookingDetailPage"
