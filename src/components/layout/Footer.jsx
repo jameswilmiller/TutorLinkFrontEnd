@@ -8,6 +8,9 @@ const PLATFORM_LINKS = [
 const COMPANY_LINKS = [
     { label: "About", href: "/about" },
     { label: "Help", href: "/help" },
+    { label: "Privacy Policy", href: "/privacy"},
+    { label: "Terms and Conditions", href: "/terms"},
+    { label: "Cookie Policy", href: "/cookiepolicy"}
 ]
 
 function FooterLinkColumn({ title, links }) {

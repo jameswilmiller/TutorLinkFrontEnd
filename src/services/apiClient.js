@@ -18,7 +18,7 @@ async function parseResponse(response) {
         data = await response.json();
     } else {
         data = await response.text();
-    }
+    } 
 
     if (!response.ok) {
         if (typeof data === "string") {

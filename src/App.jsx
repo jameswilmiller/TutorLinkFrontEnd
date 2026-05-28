@@ -14,6 +14,9 @@ import AboutPage from "./pages/AboutPage/AboutPage"
 import HelpPage from "./pages/HelpPage"
 import MyBookingsPage from "./pages/MyBookingsPage"
 import BookingDetailPage from "./pages/BookingDetailPage"
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage"
+import CookiePolicyPage from "./pages/CookiePolicyPage"
 function App() {
   return (
     <>
@@ -28,6 +31,9 @@ function App() {
           <Route path="/about" element={<AboutPage/>}/>
           <Route path="/help" element={<HelpPage/>}/>
           <Route path="/verify" element={<VerifyPage/>}/>
+          <Route path="/privacy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms" element={<TermsAndConditionsPage />} />
+          <Route path="/cookiepolicy" element={<CookiePolicyPage/>} />
           
           <Route path="/become-a-tutor" element={
             <ProtectedRoute>
