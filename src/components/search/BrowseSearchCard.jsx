@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import CourseAutocomplete from "./CourseAutocomplete"
+import CourseAutoComplete from "./CourseAutoComplete"
 import PlacesAutoComplete from "./PlacesAutoComplete"
 
 function BrowseSearchCard() {
@@ -48,7 +48,7 @@ function BrowseSearchCard() {
                         <svg className="w-4 h-4 text-tl-muted shrink-0 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
-                        <CourseAutocomplete
+                        <CourseAutoComplete
                             initialValue={query}
                             onSelect={setSelectedCourse}
                             onQueryChange={value => { setQuery(value); setSelectedCourse(null) }}

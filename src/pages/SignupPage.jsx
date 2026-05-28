@@ -28,7 +28,7 @@ function SignupPage() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
     const [fieldErrors, setFieldErrors] = useState({})
-
+    const redirect = location.state?.redirect || "/"
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -56,7 +56,8 @@ function SignupPage() {
             navigate("/verify", {
                 state: {
                     email: formData.email,
-                    message: "Account created successfully. Enter the verification code sent to your email"
+                    message: "Account created successfully. Enter the verification code sent to your email",
+                    redirect,
                 },
             })
         } catch (err) {
@@ -80,9 +81,9 @@ function SignupPage() {
                     footer={
                         <p className="text-sm text-tl-muted">
                             Already have an account?{" "}
-                            <Link to="/login" className="font-medium text-tl-ink">
-                                Log in
-                            </Link>
+                        <Link to="/login" state={{ redirect }} className="font-medium text-tl-ink">
+                            Log in
+                        </Link>
                         </p>
                     }
                 >

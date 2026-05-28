@@ -1,8 +1,8 @@
-import AboutHero from "../components/about/AboutHero"
-import AboutStats from "../components/about/AboutStats"
-import AboutValues from "../components/about/AboutValues"
-import AboutCTA from "../components/about/AboutCTA"
-import AboutFootnote from "../components/about/AboutFootnote"
+import AboutHero from "./AboutHero"
+import AboutStats from "./AboutStats"
+import AboutValues from "./AboutValues"
+import AboutCTA from "./AboutCTA"
+import AboutFootnote from "./AboutFootnote"
 
 function AboutPage() {
     return (

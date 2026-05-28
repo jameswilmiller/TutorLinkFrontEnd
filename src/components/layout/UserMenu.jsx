@@ -5,9 +5,7 @@ import DesktopProfile from "./DesktopProfile"
 import MobileProfile from "./MobileProfile"
 
 const MENU_ITEMS = [
-    { label: "My profile", href: "/profile" },
     { label: "My Bookings", href: "/bookings" },
-    { label: "Settings", href: "/settings" },
 ]
 
 function UserMenu({ desktopOpen, mobileOpen, toggleProfileMenu, closeMenus }) {

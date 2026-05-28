@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom"
 function BrowseHeader({ tutorsCount }) {
     const [searchParams, setSearchParams] = useSearchParams()
     const location = searchParams.get("location")
-    const sort = searchParams.get("sort") || "newest"
+    const sort = searchParams.get("sort") || "rating"
 
     function updateSort(event) {
         const params = new URLSearchParams(searchParams)
@@ -29,6 +29,7 @@ function BrowseHeader({ tutorsCount }) {
                     onChange={updateSort}
                     className="h-10 rounded-xl border border-tl-border bg-white px-3 text-sm outline-none cursor-pointer"
                 >
+                    <option value="rating">Highest rated</option>
                     <option value="newest">Newest</option>
                     <option value="price_low">Price: low to high</option>
                     <option value="price_high">Price: high to low</option>

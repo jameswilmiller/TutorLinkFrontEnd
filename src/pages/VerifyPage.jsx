@@ -9,7 +9,7 @@ function VerifyPage() {
     const navigate = useNavigate()
     const location = useLocation()
     const email = location.state?.email || ""
-
+    const redirect = location.state?.redirect || "/"
     const [code, setCode] = useState("")
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState("")
@@ -32,10 +32,11 @@ function VerifyPage() {
         try {
             await verifyUser({ email, verificationCode: code })
             navigate("/login", {
-                state: {
-                    email,
-                    message: "Email verified successfully. Now you can log in"
-                },
+                    state: {
+                        email,
+                        message: "Email verified successfully. Now you can log in",
+                        redirect,
+                    },
             })
         } catch (err) {
             if (err.fieldErrors?.length > 0) {

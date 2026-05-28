@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useAuth } from "../../hooks/useAuth"
 import { useNavigate, useLocation } from "react-router-dom"
-import EnquiryModal from "./EnquiryModal"
+import BookingModal from "../booking/BookingModal"
 
 function TutorBookingCard({ tutor }) {
     const { isAuthenticated } = useAuth()
@@ -32,13 +32,7 @@ function TutorBookingCard({ tutor }) {
                     Book a session
                 </button>
 
-                <button
-                    onClick={handleOpen}
-                    className="w-full mt-3 border border-tl-border text-tl-ink py-3 rounded-xl hover:bg-tl-bg transition text-sm cursor-pointer"
-                >
-                    Message first
-                </button>
-
+             
                 <p className="text-xs text-tl-muted text-center mt-4 pt-4 border-t border-tl-border">
                     {tutor.remote && tutor.location
                         ? "Online & in-person sessions available"
@@ -49,7 +43,7 @@ function TutorBookingCard({ tutor }) {
             </div>
 
             {showModal && (
-                <EnquiryModal tutor={tutor} onClose={() => setShowModal(false)} />
+                <BookingModal tutor={tutor} onClose={() => setShowModal(false)} />
             )}
         </>
     )
