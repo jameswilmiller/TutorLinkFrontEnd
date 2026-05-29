@@ -72,7 +72,7 @@ function BookingDetailPage() {
                 setLinkInput(data.meetingLink || "")
                 setLocationInput(data.meetingLocation || "")
 
-                if (data.status === "COMPLETED" && user?.id === data.studentId) {
+                if (data.status === "COMPLETED" && user?.id === data.studentUserId) {
                     try {
                         const { exists } = await bookingHasReview(data.id)
                         if (exists) {
@@ -136,8 +136,8 @@ function BookingDetailPage() {
     if (error && !booking) return <p className="py-10 text-center text-red-500">{error}</p>
     if (!booking) return null
     
-    const isTutor = user?.id === booking.tutorId
-    const isStudent = user?.id === booking.studentId
+    const isTutor = user?.id === booking.tutorUserId
+    const isStudent = user?.id === booking.studentUserId
 
     const otherName = isTutor ? booking.studentName : booking.tutorName
     const otherEmail = isTutor ? booking.studentEmail : booking.tutorEmail
