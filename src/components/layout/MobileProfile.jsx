@@ -26,7 +26,7 @@ function MobileProfile({ handleLogout, menuItems, user, closeMenus }) {
                 </button>
             </div>
 
-            <ul className="flex flex-1 flex-col py-2">
+            <ul className="flex flex-col py-2">
                 {menuItems.map(item => (
                     <li key={item.href}>
                         <Link

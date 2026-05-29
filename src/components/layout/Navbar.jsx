@@ -40,8 +40,8 @@ function Navbar() {
 
     return (
         <header className="top-0 h-16 w-full flex border-b bg-tl-surface border-tl-border shadow-2xs items-center">
-            <nav className="w-full mx-auto flex justify-between items-center px-6">
-                <Link to="/" className="font-display text-4xl font-bold text-tl-ink ml-2">
+            <nav className="w-full mx-auto flex justify-between items-center px-2 lg:px-6">
+                <Link to="/" className="font-display text-2xl lg:text-4xl font-bold text-tl-ink">
                     TutorLink
                 </Link>
 
@@ -55,7 +55,7 @@ function Navbar() {
                     ))}
                 </ul>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
                     {isAuthenticated ? (
                         <UserMenu
                             desktopOpen={isDesktopProfileOpen}
