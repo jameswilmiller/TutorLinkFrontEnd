@@ -38,7 +38,7 @@ function UserMenu({ desktopOpen, mobileOpen, toggleProfileMenu, closeMenus }) {
         <div ref={ref} className="relative">
             <button
                 onClick={toggleProfileMenu}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-tl-accent text-white text-sm hover:bg-tl-accent-hover cursor-pointer mr-2"
+                className="flex items-center gap-2 px-4 py-2 rounded-full bg-tl-accent text-white text-sm hover:bg-tl-accent-hover cursor-pointer"
             >
                 <span>{name}</span>
                 <svg
