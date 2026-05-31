@@ -17,10 +17,12 @@ import BookingDetailPage from "./pages/BookingDetailPage"
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage"
 import CookiePolicyPage from "./pages/CookiePolicyPage"
+import ScrollToTop from "./components/common/ScrollToTop"
 function App() {
   return (
     <>
       <Navbar/>
+      <ScrollToTop/>
       <main className="min-h-screen">
         <Routes>
           <Route path="/" element={<HomePage/>} />
