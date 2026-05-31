@@ -60,7 +60,7 @@ export function useTutorOnboarding() {
                 const fresh = await getMyTutorProfile(accessToken)
                 const updatedUser = await getCurrentUser(accessToken)
                 setUser(updatedUser)
-                navigate(`/tutors/${fresh.id}`)
+                navigate(`/tutors/${fresh.slug}`)
             } else {
                 setStep(step + 1)
             }

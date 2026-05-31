@@ -50,7 +50,7 @@ function TutorDashboardPage() {
                             <p className="text-tl-muted mt-2">Manage how students find and book you</p>
                         </div>
                         <button
-                            onClick={() => navigate(`/tutors/${tutor.id}`)}
+                            onClick={() => navigate(`/tutors/${tutor.slug}`)}
                             className="border border-tl-border bg-white text-tl-ink px-4 py-2 rounded-xl text-sm hover:bg-tl-bg transition cursor-pointer hover:border-tl-accent"
                         >
                             View public profile

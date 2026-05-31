@@ -5,7 +5,7 @@ function TutorCard({ tutor }) {
     const topCredential = tutor.credentials?.[0];
 
     return (
-        <Link to={`/tutors/${tutor.id}`}>
+        <Link to={`/tutors/${tutor.slug}`}>
             <div className="cursor-pointer group bg-white border border-tl-border rounded-2xl overflow-hidden hover:border-tl-accent transition">
 
          

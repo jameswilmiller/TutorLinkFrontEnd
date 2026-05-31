@@ -12,7 +12,7 @@ function TutorProfileHeader({ tutor }) {
                 />
                 <div className="flex-1 min-w-0">
                     <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-1">
-                        {tutor.faculties?.[0]?.replace(/_/g, " ") || "—"}
+                        {tutor.faculties.join(", ").replaceAll('_', '-')}
                     </p>
                     <h1 className="font-display text-4xl md:text-5xl text-tl-ink">
                         {tutor.firstname} {tutor.lastname}

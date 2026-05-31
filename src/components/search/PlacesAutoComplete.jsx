@@ -8,7 +8,7 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
     const serviceRef = useRef(null)
     const sessionTokenRef = useRef(null)
     const debounceRef = useRef(null)
-
+    const justSelectedRef = useRef(false)
     useEffect(() => {
         async function init() {
             await loadGoogleMaps()
@@ -20,6 +20,11 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
     }, [])
 
     useEffect(() => {
+        if (justSelectedRef.current) {
+            justSelectedRef.current = false
+            return
+        }
+        
         if (query.length < 2 || !serviceRef.current) {
             setSuggestions([])
             setShowDropdown(false)
@@ -49,9 +54,9 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
     }, [query])
 
     function handleSelect(prediction) {
+        justSelectedRef.current = true
         setQuery(prediction.description)
         setShowDropdown(false)
-
         const geocoder = new google.maps.Geocoder()
         geocoder.geocode({ placeId: prediction.place_id }, (results, status) => {
             if (status === "OK" && results[0]) {
