@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
-import { fetchTutorById } from "../services/tutorService"
+import { fetchTutorBySlug } from "../services/tutorService"
 import TutorProfileHeader from "../components/tutor/TutorProfileHeader"
 import TutorBookingCard from "../components/tutor/TutorBookingCard"
 import TutorProfileCourses from "../components/tutor/TutorProfileCourses"
