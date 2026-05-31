@@ -33,7 +33,7 @@ function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext 
                         {tutor.firstname} {tutor.lastname}
                     </p>
                     <p className="text-sm text-tl-muted">
-                        {tutor.courses?.slice(0, 2).map(c => c.courseCode).join(", ")}
+                        {tutor.courses?.map(c => c.courseCode).join(", ")}
                     </p>
                 </div>
                 <p className="font-display text-2xl text-tl-ink">${tutor.hourlyRate}/hr</p>

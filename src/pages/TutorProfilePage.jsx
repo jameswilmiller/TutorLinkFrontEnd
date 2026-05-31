@@ -11,7 +11,7 @@ import TutorProfileLanguages from "../components/tutor/TutorProfileLanguages"
 import TutorReviews from "../components/review/TutorReviews"
 
 function TutorProfilePage() {
-    const { id } = useParams()
+    const { slug } = useParams()
     const [tutor, setTutor] = useState(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
@@ -22,7 +22,7 @@ function TutorProfilePage() {
             try {
                 setLoading(true)
                 setError("")
-                const data = await fetchTutorById(id)
+                const data = await fetchTutorBySlug(slug)
                 setTutor(data)
             } catch (err) {
                 setError(err.message || "Could not load tutor")
@@ -31,7 +31,7 @@ function TutorProfilePage() {
             }
         }
         loadTutor()
-    }, [id])
+    }, [slug])
 
     if (loading) return <p className="py-10 text-center text-tl-muted text-sm">Loading...</p>
     if (error) return <p role="alert" className="py-10 text-center text-red-500 text-sm">{error}</p>

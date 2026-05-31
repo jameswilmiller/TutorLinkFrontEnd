@@ -32,6 +32,10 @@ export async function sendEnquiry(tutorId, formData, accessToken) {
     return apiPost(`/tutors/${tutorId}/enquire`, formData, accessToken)
 }
 
+export async function fetchTutorBySlug(slug) {
+    return apiGet(`/tutors/${slug}`)
+}
+
 export async function uploadProfileImage(file, accessToken) {
     const formData = new FormData();
     formData.append("file", file);
