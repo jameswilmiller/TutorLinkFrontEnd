@@ -10,8 +10,8 @@ import Step4Photo from "./Step4Photo"
 const STEP_COMPONENTS = [Step1BasicInfo, Step2Courses, Step3TeachingStyle, Step4Photo]
 
 function BecomeTutorPage() {
-    const { accessToken } = useAuth()
-    const wizard = useTutorOnboarding(accessToken)
+
+    const wizard = useTutorOnboarding()
 
     if (wizard.loading) return <LoadingState />
 

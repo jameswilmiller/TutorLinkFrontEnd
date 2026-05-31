@@ -29,16 +29,7 @@ export function AuthProvider ({ children }) {
 
     async function restoreSession() {
         try {
-            const response = await refreshAccessToken();
-            const token = response.accessToken;
-
-            if(!token) {
-                throw new Error("no access token returned from refresh")
-            }
-
-            const currentUser = await getCurrentUser(token);
-
-            setAccessToken(token);
+            loadSession()
             setUser(currentUser);
         } catch {
             setAccessToken(null);
@@ -77,6 +68,15 @@ export function AuthProvider ({ children }) {
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
+
+ async function loadSession() {
+        const response = await refreshAccessToken();
+        const token = response.accessToken;
+        if (!token) throw new Error("no access token returned from refresh");
+        const currentUser = await getCurrentUser(token);
+        setAccessToken(token);
+        setUser(currentUser);
+    }
 
 export function useAuthContext() {
     const context = useContext(AuthContext);

@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { useAuth } from "../../hooks/useAuth"
 import {getMyTutorProfile, createTutorProfile, updateTutorProfile} from "../../services/tutorService"
 import { apiPost } from "../../services/apiClient"
 import {EMPTY_FORM, profileToFormData, formDataToPayload, STEP_VALIDATORS} from "./formData"
-
+import { getCurrentUser } from "../../services/authService"
 const TOTAL_STEPS = 4
 
-export function useTutorOnboarding(accessToken) {
+export function useTutorOnboarding() {
     const navigate = useNavigate()
-
+    const { accessToken, setUser } = useAuth()
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState(EMPTY_FORM)
     const [existingProfile, setExistingProfile] = useState(null)
@@ -57,6 +58,8 @@ export function useTutorOnboarding(accessToken) {
 
             if (step === TOTAL_STEPS) {
                 const fresh = await getMyTutorProfile(accessToken)
+                const updatedUser = await getCurrentUser(accessToken)
+                setUser(updatedUser)
                 navigate(`/tutors/${fresh.id}`)
             } else {
                 setStep(step + 1)
