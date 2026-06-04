@@ -18,6 +18,9 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage"
 import TermsAndConditionsPage from "./pages/TermsAndConditionsPage"
 import CookiePolicyPage from "./pages/CookiePolicyPage"
 import ScrollToTop from "./components/common/ScrollToTop"
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+import ResetPasswordPage from "./pages/ResetPasswordPage"
+
 function App() {
   return (
     <>
@@ -36,7 +39,8 @@ function App() {
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsAndConditionsPage />} />
           <Route path="/cookiepolicy" element={<CookiePolicyPage/>} />
-          
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/become-a-tutor" element={
             <ProtectedRoute>
               <BecomeTutorPage/>
