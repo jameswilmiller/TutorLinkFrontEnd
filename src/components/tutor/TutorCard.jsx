@@ -5,8 +5,8 @@ function TutorCard({ tutor }) {
     const topCredential = tutor.credentials?.[0];
 
     return (
-        <Link to={`/tutors/${tutor.slug}`}>
-            <div className="cursor-pointer group bg-white border border-tl-border rounded-2xl overflow-hidden hover:border-tl-accent transition">
+        <Link to={`/tutors/${tutor.slug}`} className="block h-full">
+            <div className="cursor-pointer group bg-white border border-tl-border rounded-2xl overflow-hidden hover:border-tl-accent transition flex flex-col h-full" >
 
          
                 <div className="relative aspect-square w-full overflow-hidden">
@@ -31,7 +31,7 @@ function TutorCard({ tutor }) {
                 </div>
 
              
-                <div className="p-4">
+                <div className="p-4 flex flex-col flex-1">
                     <p className="font-semibold text-tl-ink text-base">
                         {tutor.firstname} {tutor.lastname}
                     </p>
@@ -86,7 +86,7 @@ function TutorCard({ tutor }) {
                     )}
 
                   
-                    <div className="flex items-end justify-between mt-4 pt-4 border-t border-tl-border">
+                    <div className="flex items-end justify-between mt-auto pt-4 border-t border-tl-border">
                         <p className="text-tl-ink">
                             <span className="font-display text-2xl">${tutor.hourlyRate}</span>
                             <span className="text-tl-muted text-sm">/hr</span>

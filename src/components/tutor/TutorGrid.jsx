@@ -8,7 +8,7 @@ function TutorGrid({tutors}) {
     }
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-3 xl:grid-cols-5 gap-5">
+        <div className="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5">
             {tutors.map((tutor) => (
                 <TutorCard key={tutor.id} tutor={tutor}/>
             ))}
