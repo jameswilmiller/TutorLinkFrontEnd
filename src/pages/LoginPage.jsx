@@ -96,6 +96,11 @@ function LoginPage() {
                             required
                         />
                     </div>
+                    <div className="text-right">
+                        <Link to="/forgot-password" className="text-sm text-tl-muted hover:text-tl-ink transition">
+                            Forgot password?
+                        </Link>
+                    </div>
 
                     {error && <p role="alert" className="text-sm text-red-500">{error}</p>}
 
