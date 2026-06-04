@@ -32,6 +32,7 @@ function SignupPage() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
+        confirmPassword: "",
         username: "",
         firstname: "",
         lastname: ""
@@ -50,7 +51,13 @@ function SignupPage() {
         setLoading(true)
         setError("")
         setFieldErrors({})
-
+        
+        if (formData.password !== formData.confirmPassword) {
+            setFieldErrors({ confirmPassword: "Passwords do not match"})
+            setLoading(false)
+            return
+        }
+        
         try {
             await signupUser(formData)
             navigate("/verify", {
@@ -91,7 +98,7 @@ function SignupPage() {
                         <AuthInput
                             name="email"
                             type="email"
-                            placeholder="your@student.uq.edu.au"
+                            placeholder="email"
                             value={formData.email}
                             onChange={handleChange}
                             error={fieldErrors.email}
@@ -101,13 +108,24 @@ function SignupPage() {
                         <AuthInput
                             name="password"
                             type="password"
-                            placeholder="At least 8 characters"
+                            placeholder="password"
                             value={formData.password}
                             onChange={handleChange}
                             error={fieldErrors.password}
                             autoComplete="new-password"
                             required
                         />
+                        <AuthInput
+                            name="confirmPassword"
+                            type="password"
+                            placeholder="Please confirm your password"
+                            value={formData.confirmPassword}
+                            onChange={handleChange}
+                            error={fieldErrors.confirmPassword}
+                            autoComplete={"new-password"}
+                            required
+                            />
+
                         <div className="grid grid-cols-2 gap-3">
                             <AuthInput
                                 name="firstname"

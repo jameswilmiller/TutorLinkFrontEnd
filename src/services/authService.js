@@ -27,3 +27,11 @@ export async function verifyUser(formData) {
 export async function resendVerificationCode(email) {
     return apiPost(`/auth/resend?email=${encodeURIComponent(email)}`);
 }
+
+export async function sendPasswordResetCode(email) {
+    return apiPost(`/auth/reset-code?email=${encodeURIComponent(email)}`);
+}
+
+export async function resetPassword(formData) {
+    return apiPost("/auth/reset", formData)
+}
