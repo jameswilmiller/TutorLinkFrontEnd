@@ -10,7 +10,7 @@ function AuthInput({ name, type = "text", placeholder, value, onChange, required
                 required={required}
                 autoComplete={autoComplete}
                 aria-invalid={!!error}
-                className={`w-full rounded-xl border bg-white px-4 py-3 text-sm text-tl-ink outline-none transition ${
+                className={`w-full rounded-xl border bg-white px-4 py-3 text-base md:text-sm text-tl-ink outline-none transition ${
                     error
                         ? "border-red-400 focus:border-red-500"
                         : "border-tl-border focus:border-tl-accent"
