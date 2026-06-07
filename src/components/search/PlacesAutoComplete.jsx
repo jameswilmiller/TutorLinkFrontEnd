@@ -86,7 +86,7 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
                 value={query}
                 onChange={handleChange}
                 placeholder="Enter suburb or postcode"
-                className="w-full text-sm outline-none bg-transparent"
+                className="w-full text-base md:text-sm outline-none bg-transparent"
             />
             {showDropdown && suggestions.length > 0 && (
                 <ul className="absolute z-50 top-full left-0 right-0 mt-2 bg-white border border-tl-border rounded-xl shadow-lg max-h-64 overflow-y-auto">
