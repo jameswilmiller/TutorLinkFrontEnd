@@ -16,6 +16,7 @@ import PlacesAutoComplete from "../../components/search/PlacesAutoComplete"
 import ReviewForm from "../../components/review/ReviewForm"
 import ReviewSummary from "../../components/review/ReviewSummary"
 import BookingDetailHeader from "./BookingDetailHeader"
+import BookingDetailActionPanel from "./BookingDetailActionPanel.jsx"
 import GridCell from "./GridCell"
 import {formatDate} from "../../utils/format"
 
@@ -140,40 +141,18 @@ function BookingDetailPage() {
                 Back to bookings
             </button>
 
-            
             <BookingDetailHeader booking={booking} isTutor={isTutor}/>
             
+            { error && <p className="text-red-500 mt-4">{error}</p>}
 
-            {error && <p className="text-red-500 mt-4">{error}</p>}
-
-            {/* Action panel — tutor, pending */}
-            {canAcceptDecline && (
-                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <p className="font-semibold text-tl-ink">Respond to this request</p>
-                        <p className="text-sm text-tl-muted mt-1">
-                            {otherFirst} is waiting to hear back.
-                        </p>
-                    </div>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => runAction(declineBooking)}
-                            disabled={actionLoading}
-                            className="px-5 py-3 bg-white border border-tl-border text-tl-ink rounded-xl text-sm hover:bg-tl-bg transition disabled:opacity-50 cursor-pointer"
-                        >
-                            Decline
-                        </button>
-                        <button
-                            onClick={() => runAction(acceptBooking)}
-                            disabled={actionLoading}
-                            className="px-5 py-3 bg-tl-accent text-white rounded-xl text-sm font-medium hover:bg-tl-accent-hover transition disabled:opacity-50 cursor-pointer"
-                        >
-                            Accept booking
-                        </button>
-                    </div>
-                </div>
-            )}
-
+            { canAcceptDecline && <BookingDetailActionPanel 
+            booking={booking} 
+            isTutor={isTutor} 
+            actionLoading={actionLoading} 
+            onAccept={acceptBooking} 
+            onDecline={declineBooking}/>
+            }
+            
             {/* Connection: online → meeting link, in-person → meeting location */}
             {isOnline ? (
                 (booking.meetingLink || canEdit) && (
