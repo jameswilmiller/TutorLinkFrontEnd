@@ -21,6 +21,7 @@
     "react-image-crop": "^11.0.10",
     "react-router-dom": "^7.13.1",
     "react-select": "^5.10.2",
+    "sentry": "^0.34.0",
     "tailwindcss": "^4.2.1"
   },
   "devDependencies": {

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
-import { useAuth } from "../hooks/useAuth"
+import { useAuth } from "../../hooks/useAuth"
 import {
     getBookingById,
     acceptBooking,
@@ -9,36 +9,15 @@ import {
     completeBooking,
     updateMeetingLink,
     updateMeetingLocation,
-} from "../services/bookingService"
-import { bookingHasReview, getMyReviews } from "../services/reviewsService"
-import BookingStatusBadge from "../components/booking/BookingStatusBadge"
-import PlacesAutoComplete from "../components/search/PlacesAutoComplete"
-import ReviewForm from "../components/review/ReviewForm"
-import ReviewSummary from "../components/review/ReviewSummary"
-
-const SESSION_TYPE_LABELS = {
-    ONLINE: "Online",
-    IN_PERSON: "In Person",
-}
-
-function initials(name) {
-    if (!name) return "?"
-    return name.trim().split(/\s+/).map(p => p[0]).slice(0, 2).join("").toUpperCase()
-}
-
-function formatDate(value) {
-    if (!value) return ""
-    return new Date(value).toLocaleDateString(undefined, {
-        weekday: "short", day: "numeric", month: "short", year: "numeric",
-    })
-}
-
-function formatTime(value) {
-    if (!value) return ""
-    return new Date(value).toLocaleTimeString(undefined, {
-        hour: "numeric", minute: "2-digit",
-    })
-}
+} from "../../services/bookingService"
+import { bookingHasReview, getMyReviews } from "../../services/reviewsService"
+import BookingStatusBadge from "../../components/booking/BookingStatusBadge"
+import PlacesAutoComplete from "../../components/search/PlacesAutoComplete"
+import ReviewForm from "../../components/review/ReviewForm"
+import ReviewSummary from "../../components/review/ReviewSummary"
+import BookingDetailHeader from "./BookingDetailHeader"
+import GridCell from "./GridCell"
+import {formatDate} from "../../utils/format"
 
 function BookingDetailPage() {
     const navigate = useNavigate()
@@ -151,11 +130,9 @@ function BookingDetailPage() {
 
     const isOnline = booking.sessionType === "ONLINE"
 
-    const hours = (booking.durationMinutes || 0) / 60
-    const earnings = booking.tutorHourlyRate != null ? booking.tutorHourlyRate * hours : null
-    
     return (
         <div className="max-w-3xl mx-auto px-6 py-12">
+            
             <button
                 onClick={() => navigate(-1)}
                 className="text-sm text-tl-muted hover:text-tl-ink transition cursor-pointer"
@@ -163,46 +140,9 @@ function BookingDetailPage() {
                 Back to bookings
             </button>
 
-            {/* Header card */}
-            <div className="bg-white border border-tl-border rounded-2xl p-6 mt-4">
-                <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 rounded-full bg-tl-accent text-white flex items-center justify-center font-semibold text-lg shrink-0">
-                            {initials(otherName)}
-                        </div>
-                        <div>
-                            <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase">
-                                Booking {isTutor ? "from" : "with"}
-                            </p>
-                            <h1 className="font-display text-3xl text-tl-ink leading-tight">
-                                {otherName}
-                            </h1>
-                            <p className="text-sm text-tl-muted">{otherEmail}</p>
-                        </div>
-                    </div>
-                    <BookingStatusBadge status={booking.status} />
-                </div>
-
-                <div className="bg-tl-bg rounded-xl p-5 mt-6 grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-4">
-                    <GridCell label="Course" value={booking.courseCode} />
-                    <GridCell label="Date" value={formatDate(booking.scheduledAt)} />
-                    <GridCell
-                        label="Time"
-                        value={`${formatTime(booking.scheduledAt)} · ${booking.durationMinutes} min`}
-                    />
-                    <GridCell
-                        label="Mode"
-                        value={SESSION_TYPE_LABELS[booking.sessionType] || booking.sessionType}
-                    />
-                    <GridCell label="Requested" value={formatDate(booking.createdAt)} />
-                    {isTutor && earnings != null && (
-                        <GridCell
-                            label="You'll earn"
-                            value={`$${earnings % 1 === 0 ? earnings : earnings.toFixed(2)}`}
-                        />
-                    )}
-                </div>
-            </div>
+            
+            <BookingDetailHeader booking={booking} isTutor={isTutor}/>
+            
 
             {error && <p className="text-red-500 mt-4">{error}</p>}
 
@@ -404,17 +344,6 @@ function BookingDetailPage() {
                     Booking #{booking.id} · Created {formatDate(booking.createdAt)}
                 </p>
             </div>
-        </div>
-    )
-}
-
-function GridCell({ label, value }) {
-    return (
-        <div>
-            <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase">
-                {label}
-            </p>
-            <p className="text-tl-ink mt-1">{value}</p>
         </div>
     )
 }
