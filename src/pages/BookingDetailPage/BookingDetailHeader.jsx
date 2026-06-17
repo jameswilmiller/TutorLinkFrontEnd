@@ -1,7 +1,7 @@
 import BookingStatusBadge from "../../components/booking/BookingStatusBadge"
 import {formatTime, formatDate, initials} from "../../utils/format"
 import GridCell from "./GridCell"
-import {getOtherParty} from "../../utils/booking"
+import {getEarnings, getOtherParty} from "../../utils/booking"
 
 const SESSION_TYPE_LABELS = {
     ONLINE: "Online",
@@ -10,8 +10,7 @@ const SESSION_TYPE_LABELS = {
     
 function BookingDetailHeader ({booking, isTutor}) {
     
-    const hours = (booking.durationMinutes || 0) / 60
-    const earnings = booking.tutorHourlyRate != null ? booking.tutorHourlyRate * hours : null
+    const earings = getEarnings(booking)
     const other = getOtherParty(booking, isTutor)
    
     return (
