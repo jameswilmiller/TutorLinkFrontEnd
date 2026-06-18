@@ -5,7 +5,7 @@ import UserMenu from "./UserMenu"
 import MobileMenu from "./MobileMenu"
 
 function Navbar() {
-    const { isAuthenticated, user } = useAuth()
+    const { isAuthenticated, user, loading } = useAuth()
     const [openMenu, setOpenMenu] = useState(null)
 
     const isTutor = user?.roles?.includes("TUTOR")
@@ -56,7 +56,7 @@ function Navbar() {
                 </ul>
 
                 <div className="flex items-center gap-2">
-                    {isAuthenticated ? (
+                    {loading ? null : isAuthenticated ? (
                         <UserMenu
                             desktopOpen={isDesktopProfileOpen}
                             mobileOpen={isMobileProfileOpen}
