@@ -1,3 +1,5 @@
+/* booking details utils */
+
 /**
  * 
  * @param {*} booking 
@@ -19,4 +21,20 @@ export function getEarnings(booking) {
     const earnings = booking.tutorHourlyRate != null ? booking.tutorHourlyRate * hours : null
 
     return earnings
+}
+
+/*my bookings page utils */
+export function isTutor(user) {
+    return user.roles.includes("TUTOR")
+}
+export function isUpcoming(booking) {
+    return
+}
+
+export function isPast(booking) {
+    return
+}
+
+export function isCancelled(booking) {
+    return 
 }
