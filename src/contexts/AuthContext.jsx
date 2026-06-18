@@ -30,7 +30,6 @@ export function AuthProvider ({ children }) {
     async function restoreSession() {
         try {
             await loadSession()
-            setUser(currentUser);
         } catch {
             setAccessToken(null);
             setUser(null);
