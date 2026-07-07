@@ -10,7 +10,7 @@ const SESSION_TYPE_LABELS = {
     
 function BookingDetailHeader ({booking, isTutor}) {
     
-    const earings = getEarnings(booking)
+    const earnings = getEarnings(booking)
     const other = getOtherParty(booking, isTutor)
    
     return (

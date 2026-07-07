@@ -108,5 +108,5 @@ function TutorCard({ tutor }) {
         </Link>
     )
 }
-
+ 
 export default TutorCard

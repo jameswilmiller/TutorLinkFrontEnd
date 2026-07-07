@@ -3,7 +3,9 @@ import { useAuth } from "../../hooks/useAuth"
 import { getStudentBookings, cancelBooking } from "../../services/bookingService"
 import BookingCard from "../../components/booking/BookingCard"
 import MyBookingsPageHeader from "./MyBookingsPageHeader"
+import StudentBookings from "./StudentBookings"
 import { isTutor } from "../../utils/booking"
+import TutorBookings from "./TutorBookings"
 
 const TABS = [
     { id: "upcoming", label: "Upcoming", filter: null },
@@ -58,46 +60,16 @@ function MyBookingsPage() {
 
     return (
         <div>
-        <MyBookingsPageHeader isTutor={userIsTutor} currentRole={currentRole} onRoleChange={setCurrentRole}/>
+            <MyBookingsPageHeader 
+            isTutor={userIsTutor} 
+            currentRole={currentRole} 
+            onRoleChange={setCurrentRole}
+            />
 
             <div className="max-w-350 mx-auto px-6 py-12">
-                
-
-                {loading && <p className="text-tl-muted">Loading bookings...</p>}
-                {error && <p className="text-red-500">{error}</p>}
-
-                {!loading && !error && bookings.length === 0 && (
-                    <div className="bg-white border border-tl-border rounded-2xl p-8 text-center">
-                        <p className="text-tl-muted">
-                            You haven't booked any sessions yet. Find a tutor to get started.
-                        </p>
-                    </div>
-                )}
-
-                {!loading && !error && bookings.length > 0 && (
-                    <div className="space-y-4">
-                        {bookings.map(booking => (
-                            <BookingCard
-                                key={booking.id}
-                                booking={booking}
-                                personLabel="with"
-                                personName={booking.tutorName}
-                                actions={
-                                    canCancel(booking.status) && (
-                                        <button
-                                            onClick={() => handleCancel(booking.id)}
-                                            disabled={actioningId === booking.id}
-                                            className="px-4 py-2 border border-tl-border text-tl-ink rounded-xl text-sm hover:bg-tl-bg transition disabled:opacity-50 cursor-pointer"
-                                        >
-                                            {actioningId === booking.id ? "Cancelling..." : "Cancel booking"}
-                                        </button>
-                                    )
-                                }
-                            />
-                        ))}
-                    </div>
-                )}
+                {currentRole == "STUDENT" ? <StudentBookings/> : <TutorBookings/>}
             </div>
+
         </div>
         
     )

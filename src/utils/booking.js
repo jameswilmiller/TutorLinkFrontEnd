@@ -24,17 +24,19 @@ export function getEarnings(booking) {
 }
 
 /*my bookings page utils */
+const CANCELLED_STATUSES = ["CANCELLED", "DECLINED"]
+
 export function isTutor(user) {
     return user.roles.includes("TUTOR")
 }
-export function isUpcoming(booking) {
-    return
-}
 
-export function isPast(booking) {
-    return
+export const TAB_STATUSES = {
+    upcoming: ["PENDING", "ACCEPTED"],
+    past: ["COMPLETED"],
+    cancelled: ["CANCELLED", "DECLINED"],
 }
+ 
 
-export function isCancelled(booking) {
-    return 
+export function filterByTab(bookings, tabId) {
+    return bookings.filter(b => TAB_STATUSES[tabId].includes(b.status))
 }

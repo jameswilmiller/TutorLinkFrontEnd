@@ -1,33 +1,50 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useState, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
+import { FiCalendar, FiChevronDown, FiFileText, FiInbox, FiUser } from "react-icons/fi"
 import DesktopProfile from "./DesktopProfile"
 import MobileProfile from "./MobileProfile"
-
-const MENU_ITEMS = [
-    { label: "My Bookings", href: "/bookings" },
+import { isTutor } from "../../utils/booking"
+import { getTutorBookings } from "../../services/bookingService"
+import { getMyTutorProfile } from "../../services/tutorService"
+const LEARNING_ITEMS = [
+    { label: "My Bookings", subtitle: "Lessons you've booked", href: "/bookings", icon: FiCalendar },
 ]
 
 function UserMenu({ desktopOpen, mobileOpen, toggleProfileMenu, closeMenus }) {
-    const { user, logout } = useAuth()
+    const { user, logout, accessToken } = useAuth()
     const navigate = useNavigate()
     const ref = useRef()
-
+    const isTutor = user?.roles?.includes("TUTOR")
+    const [pendingCount, setPendingCount] = useState(0)
     const name = user?.firstname || "U"
+    const [tutorSlug, setTutorSlug] = useState(null)
+
+    const tutoringItems = [
+    { label: "My Listing", subtitle: "Edit your tutor profile", href: "/tutor/dashboard", icon: FiFileText },
+    { label: "Booking Requests", subtitle: "Students booking you", href: "/bookings", icon: FiInbox, badge: pendingCount },
+    { label: "Public Profile", subtitle: "View as students see it", href: `/tutors/${tutorSlug}`, icon: FiUser },
+]
+    useEffect(() => {
+        if (!isTutor) return
+        getMyTutorProfile(accessToken)    
+            .then(tutor => setTutorSlug(tutor.slug))
+            .catch(() => {})
+    }, [isTutor, accessToken])
 
     useEffect(() => {
         if (!desktopOpen) return
-
+ 
         function handler(e) {
             if (ref.current && !ref.current.contains(e.target)) {
                 closeMenus()
             }
         }
-
+ 
         document.addEventListener("mousedown", handler)
         return () => document.removeEventListener("mousedown", handler)
     }, [closeMenus, desktopOpen])
-
+ 
     async function handleLogout() {
         await logout()
         closeMenus()
@@ -59,17 +76,22 @@ function UserMenu({ desktopOpen, mobileOpen, toggleProfileMenu, closeMenus }) {
             {desktopOpen && (
                 <DesktopProfile
                     handleLogout={handleLogout}
-                    menuItems={MENU_ITEMS}
+                    learningItems={LEARNING_ITEMS}
+                    tutoringItems={tutoringItems}
+                    isTutor={isTutor}
                     user={user}
+                    closeMenus={closeMenus}
                 />
             )}
 
             {mobileOpen && (
                 <MobileProfile
-                    closeMenus={closeMenus}
                     handleLogout={handleLogout}
-                    menuItems={MENU_ITEMS}
+                    learningItems={LEARNING_ITEMS}
+                    tutoringItems={tutoringItems}
+                    isTutor={isTutor}
                     user={user}
+                    closeMenus={closeMenus}
                 />
             )}
         </div>
