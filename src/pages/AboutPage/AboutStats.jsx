@@ -8,7 +8,7 @@ const STATS = [
 
 function AboutStats() {
     return (
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-3 gap-4 text-center">
             {STATS.map(stat => (
                 <Card key={stat.label}>
                     <p className="font-display text-4xl text-tl-ink">{stat.value}</p>

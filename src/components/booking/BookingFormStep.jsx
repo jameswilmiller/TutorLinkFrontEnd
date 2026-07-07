@@ -192,7 +192,7 @@ function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext 
                 disabled={!canContinue}
                 className="w-full bg-tl-accent text-white py-3 rounded-xl hover:bg-tl-accent-hover transition font-medium disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
-                Review booking →
+                Review booking
             </button>
         </div>
     )
