@@ -55,7 +55,7 @@ function ProfileImageUploader({ currentImageUrl, onUploadComplete }) {
         try {
             const file = await getCroppedImg(src, croppedAreaPixels)
             const result = await uploadProfileImage(file, accessToken)
-            onUploadComplete(result.imageKey)
+            onUploadComplete(result) 
             setSrc(null)
             setSuccess(true)
         } catch (err) {

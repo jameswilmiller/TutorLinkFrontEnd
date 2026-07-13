@@ -2,7 +2,7 @@ import { useState } from "react"
 import { getTutorImage } from "../../utils/getTutorImage"
 import ProfileImageUploader from "../common/ProfileImageUploader"
 
-function DashboardEditHeader({ tutor, onSave }) {
+function DashboardEditHeader({ tutor, onSave, onImageReplaced}) {
     const [editing, setEditing] = useState(false)
     const [editingPhoto, setEditingPhoto] = useState(false)
     const [tagline, setTagline] = useState(tutor.tagline || "")
@@ -24,11 +24,24 @@ function DashboardEditHeader({ tutor, onSave }) {
 
     return (
         <div className="bg-white border border-tl-border rounded-2xl p-6">
-            <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-4">
+            <div className = "flex items-center justify-between mb-4">
+                <p className="text-xs font-semibold tracking-widest text-tl-muted uppercase">
                 Profile Header
-            </p>
+                </p>
 
-            <div className="flex gap-6">
+                 <button
+                onClick={handleClick}
+                disabled={saving}
+                className="border border-tl-border bg-white text-tl-ink px-4 py-2 rounded-xl text-sm hover:bg-tl-bg transition disabled:opacity-50 cursor-pointer"
+                >
+                {saving ? "Saving..." : editing ? "Save" : "Edit"}
+            </button>
+
+            
+            </div>
+            
+            
+            <div className="flex flex-col sm:flex-row gap-6">
                 <div
                     onClick={() => setEditingPhoto(true)}
                     className="relative w-24 h-24 rounded-full cursor-pointer group shrink-0"
@@ -74,13 +87,7 @@ function DashboardEditHeader({ tutor, onSave }) {
                     </div>
                 </div>
 
-                <button
-                    onClick={handleClick}
-                    disabled={saving}
-                    className="self-start border border-tl-border bg-white text-tl-ink px-4 py-2 rounded-xl text-sm hover:bg-tl-bg transition disabled:opacity-50 cursor-pointer"
-                >
-                    {saving ? "Saving..." : editing ? "Save" : "Edit"}
-                </button>
+                
             </div>
 
             {editingPhoto && (
@@ -92,8 +99,8 @@ function DashboardEditHeader({ tutor, onSave }) {
                         </div>
                         <ProfileImageUploader
                             currentImageUrl={getTutorImage(tutor)}
-                            onUploadComplete={key => {
-                                onSave({ profileImageKey: key })
+                            onUploadComplete={result => {
+                                onImageReplaced(result)
                                 setEditingPhoto(false)
                             }}
                         />

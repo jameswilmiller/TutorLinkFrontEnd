@@ -55,7 +55,7 @@ function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext 
                     id="booking-course"
                     value={formData.courseId}
                     onChange={e => onChange({ courseId: e.target.value })}
-                    className={`w-full border rounded-xl px-4 py-3 text-sm outline-none ${
+                    className={`w-full max-w-full min-w-0 truncate border rounded-xl px-4 py-3 text-sm outline-none  ${
                         fieldErrors.courseId
                             ? "border-red-400 focus:border-red-500"
                             : "border-tl-border focus:border-tl-accent"

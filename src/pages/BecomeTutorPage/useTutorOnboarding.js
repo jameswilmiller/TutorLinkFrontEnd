@@ -23,6 +23,10 @@ export function useTutorOnboarding() {
         getMyTutorProfile(accessToken)
             .then(profile => {
                 if (cancelled) return
+                if (profile.profileImageKey) {
+                    navigate("/tutor/dashboard", {replace: true})
+                    return 
+                }
                 setExistingProfile(profile)
                 setFormData(profileToFormData(profile))
             })
@@ -60,7 +64,7 @@ export function useTutorOnboarding() {
                 const fresh = await getMyTutorProfile(accessToken)
                 const updatedUser = await getCurrentUser(accessToken)
                 setUser(updatedUser)
-                navigate(`/tutors/${fresh.slug}`)
+                navigate(`/tutors/${fresh.slug}`, { replace: true })
             } else {
                 setStep(step + 1)
             }
