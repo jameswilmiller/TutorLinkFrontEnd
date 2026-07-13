@@ -13,7 +13,7 @@ function BookingStatusBadge({ status }) {
     }
 
     return (
-        <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${config.className}`}>
+        <span className={`inline-block whitespace-nowrap px-2.5 py-0.5 rounded-full text-xs font-medium ${config.className}`}>
             {config.label}
         </span>
     )

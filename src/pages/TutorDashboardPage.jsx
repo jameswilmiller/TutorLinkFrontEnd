@@ -58,13 +58,13 @@ function TutorDashboardPage() {
                     </div>
 
              
-                    <div className="flex gap-8">
+                    <div className="flex gap-8 overflow-x-auto whitespace-nowrap no-scrollbar">
                         {TABS.map(tab => (
                             <button
                                 key={tab.id}
                                 onClick={() => !tab.disabled && setActiveTab(tab.id)}
                                 disabled={tab.disabled}
-                                className={`pb-3 cursor-pointer text-sm font-medium transition border-b-2 -mb-px ${
+                                className={`pb-3 cursor-pointer text-sm font-medium transition border-b-2 mb-px shrink-0 ${
                                     activeTab === tab.id
                                         ? "border-tl-ink text-tl-ink"
                                         : tab.disabled

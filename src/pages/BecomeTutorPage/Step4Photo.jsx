@@ -12,7 +12,7 @@ function Step4Photo({ formData, updateForm, existingProfile, onNext, onBack, sav
             >
                 <ProfileImageUploader
                     currentImageUrl={getTutorImage(existingProfile)}
-                    onUploadComplete={key => updateForm({ profileImageKey: key })}
+                    onUploadComplete={result => updateForm({ profileImageKey: result.imageKey })}
                 />
             </Field>
 

@@ -108,7 +108,7 @@ function BookingModal({ tutor, onClose }) {
             aria-labelledby="booking-title"
         >
             <div
-                className="bg-white rounded-2xl w-full max-w-lg overflow-hidden max-h-[90vh] overflow-y-auto"
+                className="bg-white rounded-2xl w-full max-w-lg overflow-hidden max-h-[90vh]  overflow-y-auto"
                 onClick={e => e.stopPropagation()}
             >
                 <div className="flex items-center justify-between px-6 py-4 border-b border-tl-border">

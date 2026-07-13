@@ -7,7 +7,7 @@ import DashboardEditLocation from "./DashboardEditLocation"
 import DashboardEditCourse from "./DashboardEditCourse"
 import DashboardEditCredentials from "./DashboardEditCredentials"
 import DashboardEditStyles from "./DashboardEditStyles"
-
+import DashboardEditFaculty from "./DashboardEditFaculty"
 function toRequestDto(t) {
     return {
         bio: t.bio,
@@ -17,7 +17,6 @@ function toRequestDto(t) {
         longitude: t.longitude,
         remote: t.remote,
         hourlyRate: t.hourlyRate,
-        profileImageKey: t.profileImageKey,
         courseIds: t.courses?.map(c => c.id) || [],
         faculties: t.faculties || [],
         styles: t.styles?.map(s => ({ label: s.label, description: s.description })) || [],
@@ -31,17 +30,21 @@ function DashboardEdit({ tutor, setTutor }) {
 
     async function save(updates) {
         const updated = { ...toRequestDto(tutor), ...updates }
-        await updateTutorProfile(updated, accessToken)
-        setTutor(prev => ({ ...prev, ...updates }))
+        const fresh = updateTutorProfile(updated, accessToken)
+        setTutor(fresh)
     }
 
+    function onImageReplaced({ imageKey, imageUrl }) {
+        setTutor(prev => ({ ...prev, profileImageKey: imageKey, profileImageUrl: imageUrl }))
+    }
     return (
         <div className="max-w-3xl mx-auto space-y-4">
-            <DashboardEditHeader tutor={tutor} onSave={save} />
+            <DashboardEditHeader tutor={tutor} onSave={save} onImageReplaced={onImageReplaced} />
             <DashboardEditAbout tutor={tutor} onSave={save} />
             <DashboardEditRate tutor={tutor} onSave={save} />
             <DashboardEditLocation tutor={tutor} onSave={save} />
             <DashboardEditCourse tutor={tutor} onSave={save} />
+            <DashboardEditFaculty tutor={tutor} onSave={save} />
             <DashboardEditCredentials tutor={tutor} onSave={save} />
             <DashboardEditStyles tutor={tutor} onSave={save} />
         </div>

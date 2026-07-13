@@ -15,8 +15,8 @@ function BookingDetailHeader ({booking, isTutor}) {
    
     return (
             <div className="bg-white border border-tl-border rounded-2xl p-6 mt-4">
-                <div className="flex items-start justify-between gap-4">
-                    <div className="flex items-center gap-4">
+                <div className="flex items-start justify-between gap-4 ">
+                    <div className="flex items-center gap-4 min-w-0">
                         <div className="w-14 h-14 rounded-full bg-tl-accent text-white flex items-center justify-center font-semibold text-lg shrink-0">
                             {initials(other.name)}
                         </div>
@@ -30,7 +30,9 @@ function BookingDetailHeader ({booking, isTutor}) {
                             <p className="text-sm text-tl-muted">{other.email}</p>
                         </div>
                     </div>
+                    <div className="shrink-0">
                     <BookingStatusBadge status={booking.status} />
+                    </div>
                 </div>
                
                 <div className="bg-tl-bg rounded-xl p-5 mt-6 grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-4">
