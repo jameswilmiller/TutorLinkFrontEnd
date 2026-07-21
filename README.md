@@ -1,8 +1,10 @@
 # TutorLink Front End
 
-## Project Status
-
-This frontend is currently in active development and is being used primarily to validate backend functionality, including authentication and API integration. The current implementation prioritises functionality and system integration over visual design, with a more refined user experience planned for future iterations.
+React single-page app for [TutorLink](https://tutorlink.dev), a peer tutoring platform for University of Queensland students. Students search for tutors by course, view profiles, and request bookings; tutors onboard through a guided wizard and manage their listing from a dashboard.
+ 
+**Live:** https://tutorlink.dev · **Backend:** [tutorlink-backend](https://github.com/jameswilmiller/TutorLinkBackEnd)
+ 
+> TutorLink is an independent personal project and is not affiliated with, endorsed by, or connected to the University of Queensland.
 
 ## Overview
 
