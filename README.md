@@ -22,18 +22,6 @@ The application is designed with a focus on modularity, maintainability, and cle
 | React Router    | 7.13.1   |
 
 
-## Key Features
-
-### Implemented
-- User Authentication (login, signup, verify)
-- Token-based session handling
-- Location autocomplete integration
-- Location based tutor discovery
-
-### In Progress
-- Tutor listing interface
-- Tutor Search filtering
-- Protected Routes
 
 ## Architecture Overview
 
