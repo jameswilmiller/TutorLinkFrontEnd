@@ -30,7 +30,7 @@ function DashboardEdit({ tutor, setTutor }) {
 
     async function save(updates) {
         const updated = { ...toRequestDto(tutor), ...updates }
-        const fresh = updateTutorProfile(updated, accessToken)
+        const fresh = await updateTutorProfile(updated, accessToken)
         setTutor(fresh)
     }
 
