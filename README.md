@@ -5,12 +5,14 @@ React single-page app for [TutorLink](https://tutorlink.dev), a peer tutoring pl
 **Live:** https://tutorlink.dev · **Backend:** [tutorlink-backend](https://github.com/jameswilmiller/TutorLinkBackEnd)
  
 > TutorLink is an independent personal project and is not affiliated with, endorsed by, or connected to the University of Queensland.
-
+> 
+<img width="2264" height="1070" alt="tutorlinkfrontend" src="https://github.com/user-attachments/assets/95b22fec-35bc-4bee-a58b-17ecebd7008d" />
 ## Overview
 
 The TutorLink frontend is a React-based web application responsible for rendering the user interface and interacting with the backend API. It provides functionality for user authentication, tutor discovery, and profile management.
 
 The application is designed with a focus on modularity, maintainability, and clear separation of concerns, following modern React development practices.
+
 
 # Tech Stack and versions
 | Component | Version |
