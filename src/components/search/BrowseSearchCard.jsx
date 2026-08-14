@@ -7,7 +7,11 @@ function BrowseSearchCard() {
     const [searchParams, setSearchParams] = useSearchParams()
 
     const [selectedCourse, setSelectedCourse] = useState(null)
-    const [query, setQuery] = useState(searchParams.get("courseCode") || "")
+    const [query, setQuery] = useState(() => {
+    const code = searchParams.get("courseCode") || ""
+    const name = searchParams.get("courseName") || ""
+    return code && name ? `${code} — ${name}` : code
+    })
     const [location, setLocation] = useState({
         locationName: searchParams.get("location") || "",
         latitude: searchParams.get("latitude") || "",
@@ -20,10 +24,13 @@ function BrowseSearchCard() {
 
         if (selectedCourse) {
             params.set("courseCode", selectedCourse.courseCode)
+            params.set("courseName", selectedCourse.courseName)
         } else if (query.trim()) {
             params.set("courseCode", query.trim())
+            params.delete("courseName")
         } else {
             params.delete("courseCode")
+            params.delete("courseName")
         }
 
         if (location?.locationName && location?.latitude && location?.longitude) {

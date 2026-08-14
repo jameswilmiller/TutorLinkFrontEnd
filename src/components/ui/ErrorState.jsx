@@ -1,3 +1,5 @@
+import Button from "./Button"
+
 export default function ErrorState({
   title = "Something went wrong",
   message = "Please try again.",

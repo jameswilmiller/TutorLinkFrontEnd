@@ -4,7 +4,6 @@ import { useAuth } from "../../hooks/useAuth"
 import { FiCalendar, FiChevronDown, FiFileText, FiInbox, FiUser } from "react-icons/fi"
 import DesktopProfile from "./DesktopProfile"
 import MobileProfile from "./MobileProfile"
-import { isTutor } from "../../utils/booking"
 import { getTutorBookings } from "../../services/bookingService"
 import { getMyTutorProfile } from "../../services/tutorService"
 const LEARNING_ITEMS = [
@@ -12,25 +11,32 @@ const LEARNING_ITEMS = [
 ]
 
 function UserMenu({ desktopOpen, mobileOpen, toggleProfileMenu, closeMenus }) {
-    const { user, logout, accessToken } = useAuth()
+    const { user, logout, accessToken, authedRequest } = useAuth()
     const navigate = useNavigate()
     const ref = useRef()
     const isTutor = user?.roles?.includes("TUTOR")
     const [pendingCount, setPendingCount] = useState(0)
     const name = user?.firstname || "U"
-    const [tutorSlug, setTutorSlug] = useState(null)
+    const [tutorProfile, setTutorProfile] = useState({ userId: null, slug: null })
+    const tutorSlug = tutorProfile.userId === user?.id ? tutorProfile.slug : null
 
     const tutoringItems = [
     { label: "My Listing", subtitle: "Edit your tutor profile", href: "/tutor/dashboard", icon: FiFileText },
     { label: "Booking Requests", subtitle: "Students booking you", href: "/bookings", icon: FiInbox, badge: pendingCount },
-    { label: "Public Profile", subtitle: "View as students see it", href: `/tutors/${tutorSlug}`, icon: FiUser },
+    ...(tutorSlug
+        ? [{ label: "Public Profile", subtitle: "View as students see it", href: `/tutors/${tutorSlug}`, icon: FiUser }]
+        : []),
 ]
     useEffect(() => {
-        if (!isTutor) return
-        getMyTutorProfile(accessToken)    
-            .then(tutor => setTutorSlug(tutor.slug))
-            .catch(() => {})
-    }, [isTutor, accessToken])
+        const forUserId = user?.id
+        if (!isTutor || !accessToken || !forUserId) return
+
+        let cancelled = false
+        authedRequest(token => getMyTutorProfile(token))
+            .then(tutor => { if (!cancelled) setTutorProfile({ userId: forUserId, slug: tutor.slug }) })
+            .catch(() => { if (!cancelled) setTutorProfile({ userId: forUserId, slug: null }) })
+        return () => { cancelled = true }
+    }, [isTutor, accessToken, authedRequest, user?.id])
 
     useEffect(() => {
         if (!desktopOpen) return

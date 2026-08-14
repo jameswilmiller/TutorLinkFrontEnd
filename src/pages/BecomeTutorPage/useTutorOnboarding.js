@@ -2,14 +2,13 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import {getMyTutorProfile, createTutorProfile, updateTutorProfile} from "../../services/tutorService"
-import { apiPost } from "../../services/apiClient"
 import {EMPTY_FORM, profileToFormData, formDataToPayload, STEP_VALIDATORS} from "./formData"
 import { getCurrentUser } from "../../services/authService"
 const TOTAL_STEPS = 4
 
 export function useTutorOnboarding() {
     const navigate = useNavigate()
-    const { accessToken, setUser } = useAuth()
+    const { accessToken, setUser, authedRequest } = useAuth()
     const [step, setStep] = useState(1)
     const [formData, setFormData] = useState(EMPTY_FORM)
     const [existingProfile, setExistingProfile] = useState(null)
@@ -19,21 +18,22 @@ export function useTutorOnboarding() {
 
    
     useEffect(() => {
+        if (!accessToken) return
         let cancelled = false
-        getMyTutorProfile(accessToken)
+        authedRequest(token => getMyTutorProfile(token))
             .then(profile => {
                 if (cancelled) return
                 if (profile.profileImageKey) {
                     navigate("/tutor/dashboard", {replace: true})
-                    return 
+                    return
                 }
                 setExistingProfile(profile)
                 setFormData(profileToFormData(profile))
             })
-            .catch(() => { /* no profile yet */ })
+            .catch(() => { /* 404 = no profile yet, which is the normal case here */ })
             .finally(() => { if (!cancelled) setLoading(false) })
         return () => { cancelled = true }
-    }, [accessToken])
+    }, [accessToken, authedRequest, navigate])
 
     function updateForm(fields) {
         setFormData(prev => ({ ...prev, ...fields }))
@@ -53,17 +53,16 @@ export function useTutorOnboarding() {
             const payload = formDataToPayload(formData)
 
             if (!existingProfile) {
-                await apiPost("/users/me/become-tutor", null, accessToken)
-                const created = await createTutorProfile(payload, accessToken)
+                const created = await authedRequest(token => createTutorProfile(payload, token))
                 setExistingProfile(created)
+                setUser(await authedRequest(token => getCurrentUser(token)))
             } else {
-                await updateTutorProfile(payload, accessToken)
+                await authedRequest(token => updateTutorProfile(payload, token))
             }
 
             if (step === TOTAL_STEPS) {
-                const fresh = await getMyTutorProfile(accessToken)
-                const updatedUser = await getCurrentUser(accessToken)
-                setUser(updatedUser)
+                const fresh = await authedRequest(token => getMyTutorProfile(token))
+                setUser(await authedRequest(token => getCurrentUser(token)))
                 navigate(`/tutors/${fresh.slug}`, { replace: true })
             } else {
                 setStep(step + 1)

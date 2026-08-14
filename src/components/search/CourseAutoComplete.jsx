@@ -9,8 +9,6 @@ function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeh
 
     useEffect(() => {
         if (query.length < 2) {
-            setSuggestions([])
-            setShowDropdown(false)
             return
         }
 
@@ -35,8 +33,10 @@ function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeh
     }
 
     function handleSelect(course) {
-        setQuery(`${course.courseCode} — ${course.courseName}`)
+        const label = `${course.courseCode} — ${course.courseName}`
+        setQuery(label)
         setShowDropdown(false)
+        onQueryChange?.(label)
         onSelect?.(course)
     }
 
@@ -49,7 +49,7 @@ function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeh
                 placeholder={placeholder}
                 className={className || "w-full text-base md:text-sm outline-none bg-transparent"}
             />
-            {showDropdown && suggestions.length > 0 && (
+            {showDropdown && query.length >= 2 && suggestions.length > 0 && (
                 <ul className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-tl-border rounded-xl shadow-lg max-h-64 overflow-y-auto">
                     {suggestions.map(course => (
                         <li
