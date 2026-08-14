@@ -27,7 +27,7 @@ export function getEarnings(booking) {
 const CANCELLED_STATUSES = ["CANCELLED", "DECLINED"]
 
 export function isTutor(user) {
-    return user.roles.includes("TUTOR")
+    return !!user?.roles?.includes("TUTOR")
 }
 
 export const TAB_STATUSES = {

@@ -23,6 +23,7 @@ function SearchCard() {
 
         if (selectedCourse) {
             params.set("courseCode", selectedCourse.courseCode)
+            params.set("courseName", selectedCourse.courseName)
         } else if (query.trim()) {
             params.set("courseCode", query.trim())
         }

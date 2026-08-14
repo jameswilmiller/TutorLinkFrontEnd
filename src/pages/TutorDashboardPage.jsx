@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../hooks/useAuth"
 import { getMyTutorProfile } from "../services/tutorService"
@@ -6,6 +6,8 @@ import DashboardOverview from "../components/tutor-edit/DashboardOverview"
 import DashboardEdit from "../components/tutor-edit/DashboardEdit"
 import DashboardComingSoon from "../components/tutor-edit/DashboardComingSoon"
 import DashboardBookings from "../components/tutor-edit/DashboardBookings"
+import LoadingState from "../components/ui/LoadingState"
+import ErrorState from "../components/ui/ErrorState"
 
 const TABS = [
     { id: "overview", label: "Overview" },
@@ -15,28 +17,49 @@ const TABS = [
 ]
 
 function TutorDashboardPage() {
-    const { accessToken } = useAuth()
+    const { accessToken, authedRequest } = useAuth()
     const navigate = useNavigate()
     const [tutor, setTutor] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
     const [activeTab, setActiveTab] = useState("overview")
+
+    const load = useCallback(async () => {
+        setLoading(true)
+        setError(null)
+        try {
+            const data = await authedRequest(token => getMyTutorProfile(token))
+            setTutor(data)
+        } catch (err) {
+            if (err.status === 404) {
+                navigate("/become-a-tutor")
+                return
+            }
+            // A 401 here means the retry against a fresh token also failed, so
+            // the session is gone and ProtectedRoute will redirect to login.
+            setError(err)
+        } finally {
+            setLoading(false)
+        }
+    }, [authedRequest, navigate])
 
     useEffect(() => {
         if (!accessToken) return
-        async function load() {
-            try {
-                const data = await getMyTutorProfile(accessToken)
-                setTutor(data)
-            } catch {
-                navigate("/become-a-tutor")
-            } finally {
-                setLoading(false)
-            }
-        }
         load()
-    }, [accessToken, navigate])
+    }, [accessToken, load])
 
-    if (loading) return <p className="py-10 text-center">Loading...</p>
+    if (loading) return <LoadingState message="Loading your listing..." />
+    if (error) {
+        return (
+            <div className="max-w-2xl mx-auto px-6 py-10">
+                <ErrorState
+                    title="Couldn't load your listing"
+                    message={error.message || "Please try again."}
+                    onRetry={load}
+                />
+            </div>
+        )
+    }
     if (!tutor) return null
 
     return (
