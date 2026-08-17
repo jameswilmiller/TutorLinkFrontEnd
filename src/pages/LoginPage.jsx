@@ -74,6 +74,7 @@ function LoginPage() {
                         <label htmlFor="email" className="text-sm text-tl-muted mb-1 block">Email</label>
                         <AuthInput
                             name="email"
+                            label="Email address"
                             type="email"
                             placeholder="you@email.com"
                             value={formData.email}
@@ -87,6 +88,7 @@ function LoginPage() {
                         <label htmlFor="password" className="text-sm text-tl-muted mb-1 block">Password</label>
                         <AuthInput
                             name="password"
+                            label="Password"
                             type="password"
                             placeholder="Your password"
                             value={formData.password}

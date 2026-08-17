@@ -53,6 +53,7 @@ function DashboardEditCourse({ tutor, onSave }) {
             <div className="space-y-3">
                 <div className="relative">
                     <input
+                        aria-label="Search courses"
                         type="text"
                         value={query}
                         onChange={e => setQuery(e.target.value)}

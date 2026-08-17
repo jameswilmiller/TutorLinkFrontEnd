@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { loadGoogleMaps } from "../../utils/googleMapsLoader"
 
-function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
+function PlacesAutoComplete({ onPlaceSelect, initialValue = "", inputId, ariaLabel = "Location" }) {
     const [query, setQuery] = useState(initialValue)
     const [suggestions, setSuggestions] = useState([])
     const [showDropdown, setShowDropdown] = useState(false)
@@ -82,10 +82,12 @@ function PlacesAutoComplete({ onPlaceSelect, initialValue = "" }) {
     return (
         <div className="relative w-full">
             <input
+                id={inputId}
                 type="text"
                 value={query}
                 onChange={handleChange}
                 placeholder="Enter suburb or postcode"
+                aria-label={inputId ? undefined : ariaLabel}
                 className="w-full text-base md:text-sm outline-none bg-transparent"
             />
             {showDropdown && suggestions.length > 0 && (

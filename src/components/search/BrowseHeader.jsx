@@ -25,6 +25,7 @@ function BrowseHeader({ tutorsCount }) {
             <div className="flex items-center gap-2">
                 <span className="text-sm text-tl-muted">Sort by:</span>
                 <select
+                    aria-label="Sort by"
                     value={sort}
                     onChange={updateSort}
                     className="h-10 rounded-xl border border-tl-border bg-white px-3 text-sm outline-none cursor-pointer"

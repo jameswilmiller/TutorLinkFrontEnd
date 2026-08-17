@@ -59,10 +59,11 @@ function DashboardEditHeader({ tutor, onSave, onImageReplaced}) {
 
                 <div className="flex-1 space-y-3">
                     <div>
-                        <label className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-1 block">
+                        <label htmlFor="tutor-display-name" className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-1 block">
                             Display Name
                         </label>
                         <input
+                            id="tutor-display-name"
                             type="text"
                             value={`${tutor.firstname} ${tutor.lastname}`}
                             disabled
@@ -71,11 +72,12 @@ function DashboardEditHeader({ tutor, onSave, onImageReplaced}) {
                     </div>
 
                     <div>
-                        <label className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-1 block">
+                        <label htmlFor="tutor-tagline-edit" className="text-xs font-semibold tracking-widest text-tl-muted uppercase mb-1 block">
                             Tagline / Quote
                         </label>
                         {editing ? (
                             <input
+                                id="tutor-tagline-edit"
                                 type="text"
                                 value={tagline}
                                 onChange={e => setTagline(e.target.value)}

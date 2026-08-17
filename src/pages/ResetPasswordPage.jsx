@@ -76,6 +76,7 @@ function ResetPasswordPage() {
 
                     <AuthInput
                         name="passwordCode"
+                        label="Reset code"
                         type="text"
                         placeholder="code"
                         value={formData.passwordCode}
@@ -86,6 +87,7 @@ function ResetPasswordPage() {
                     />
                     <AuthInput
                         name="newPassword"
+                        label="New password"
                         type="password"
                         placeholder="New password"
                         value={formData.newPassword}
@@ -96,6 +98,7 @@ function ResetPasswordPage() {
                     />
                     <AuthInput
                         name="confirmPassword"
+                        label="Confirm new password"
                         type="password"
                         placeholder="Confirm new password"
                         value={formData.confirmPassword}

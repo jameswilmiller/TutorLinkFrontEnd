@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { searchCourses } from "../../services/tutorService"
 
-function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeholder = "e.g. MATH1051 or Calculus", className = "" }) {
+function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeholder = "e.g. MATH1051 or Calculus", className = "", inputId, ariaLabel = "Course" }) {
     const [query, setQuery] = useState(initialValue)
     const [suggestions, setSuggestions] = useState([])
     const [showDropdown, setShowDropdown] = useState(false)
@@ -43,10 +43,12 @@ function CourseAutocomplete({ initialValue = "", onSelect, onQueryChange, placeh
     return (
         <>
             <input
+                id={inputId}
                 type="text"
                 value={query}
                 onChange={handleChange}
                 placeholder={placeholder}
+                aria-label={inputId ? undefined : ariaLabel}
                 className={className || "w-full text-base md:text-sm outline-none bg-transparent"}
             />
             {showDropdown && query.length >= 2 && suggestions.length > 0 && (

@@ -11,6 +11,7 @@ function DashboardEditRate({ tutor, onSave }) {
             onSave={() => onSave({ hourlyRate })}
         >
             <input
+                aria-label="Hourly rate in dollars"
                 type="number"
                 value={hourlyRate}
                 onChange={e => setHourlyRate(e.target.value)}

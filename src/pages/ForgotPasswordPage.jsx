@@ -43,6 +43,7 @@ function ForgotPasswordPage() {
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <AuthInput
                         name="email"
+                        label="Email address"
                         type="email"
                         placeholder="you@email.com"
                         value={email}
