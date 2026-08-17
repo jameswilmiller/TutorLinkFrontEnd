@@ -7,7 +7,7 @@ import {
     cancelBooking,
     completeBooking,
 } from "../../services/bookingService"
-import BookingCard from "../../components/booking/BookingCard"
+import BookingCard from "./BookingCard"
 import BookingTabs from "./BookingTabs"
 import { filterByTab } from "../../utils/booking"
 
