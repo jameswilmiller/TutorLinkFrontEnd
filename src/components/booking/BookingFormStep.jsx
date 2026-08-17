@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react"
+import { useAuth } from "../../hooks/useAuth"
+import { getTutorSlots } from "../../services/availabilityService"
+import BookingDatePicker from "./BookingDatePicker"
 import PlacesAutoComplete from "../search/PlacesAutoComplete"
 const DURATION_OPTIONS = [
     { value: 30, label: "30 minutes" },
@@ -20,7 +24,45 @@ const TIME_SLOTS = (() => {
     return slots
 })()
 
+function formatSlot(value) {
+    const [h, m] = value.split(":").map(Number)
+    const hour12 = h % 12 === 0 ? 12 : h % 12
+    const ampm = h < 12 ? "AM" : "PM"
+    return `${hour12}:${String(m).padStart(2, "0")} ${ampm}`
+}
+
 function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext }) {
+    const { accessToken, authedRequest } = useAuth()
+    const [slotInfo, setSlotInfo] = useState(null)
+    const [loadingSlots, setLoadingSlots] = useState(false)
+
+    const usesSlots = slotInfo?.hasAvailability === true
+
+    useEffect(() => {
+        if (!accessToken || !formData.bookingDate) {
+            setSlotInfo(null)
+            return
+        }
+        let cancelled = false
+        setLoadingSlots(true)
+        authedRequest(token =>
+            getTutorSlots(tutor.id, formData.bookingDate, formData.durationMinutes, token)
+        )
+            .then(info => { if (!cancelled) setSlotInfo(info) })
+            .catch(() => { if (!cancelled) setSlotInfo(null) })
+            .finally(() => { if (!cancelled) setLoadingSlots(false) })
+        return () => { cancelled = true }
+    }, [accessToken, authedRequest, tutor.id, formData.bookingDate, formData.durationMinutes])
+
+    // A previously picked time can stop being valid when the date or
+    // duration changes underneath it.
+    useEffect(() => {
+        if (usesSlots && formData.bookingTime && !slotInfo.slots.includes(formData.bookingTime)) {
+            onChange({ bookingTime: "" })
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [slotInfo])
+
     const canContinue =
         formData.courseId && formData.scheduledAt && formData.durationMinutes;
 
@@ -73,21 +115,73 @@ function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext 
                 )}
             </div>
 
-            {/* Date & time */}
+            {/* Duration first — it decides which start times can fit */}
             <div>
-                <label className="text-sm text-tl-muted mb-1 block">When?</label>
-                <div className="grid grid-cols-2 gap-3">
-                    <input
-                        type="date"
-                        value={formData.bookingDate}
-                        onChange={e => onChange({ bookingDate: e.target.value })}
-                        className={`w-full border rounded-xl px-4 py-3 text-sm outline-none ${
-                            fieldErrors.scheduledAt
-                                ? "border-red-400 focus:border-red-500"
-                                : "border-tl-border focus:border-tl-accent"
-                        }`}
-                    />
+                <label className="text-sm text-tl-muted mb-1 block" htmlFor="booking-duration">
+                    How long?
+                </label>
+                <select
+                    id="booking-duration"
+                    value={formData.durationMinutes}
+                    onChange={e => onChange({ durationMinutes: Number(e.target.value) })}
+                    className="w-full border border-tl-border rounded-xl px-4 py-3 text-sm outline-none focus:border-tl-accent cursor-pointer"
+                >
+                    {DURATION_OPTIONS.map(opt => (
+                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Date */}
+            <div>
+                <label className="text-sm text-tl-muted mb-1 block">Which day?</label>
+                <BookingDatePicker
+                    tutorId={tutor.id}
+                    tutorName={tutor.firstname}
+                    durationMinutes={formData.durationMinutes}
+                    value={formData.bookingDate}
+                    onSelect={date => onChange({ bookingDate: date })}
+                />
+            </div>
+
+            {/* Time — open slots when the tutor has set hours, free pick otherwise */}
+            <div>
+                <label className="text-sm text-tl-muted mb-1 block">What time?</label>
+
+                {!formData.bookingDate ? (
+                    <p className="text-sm text-tl-muted bg-tl-bg rounded-xl p-3">
+                        Pick a date to see times.
+                    </p>
+                ) : loadingSlots ? (
+                    <p className="text-sm text-tl-muted bg-tl-bg rounded-xl p-3">
+                        Checking {tutor.firstname}'s availability...
+                    </p>
+                ) : usesSlots ? (
+                    slotInfo.slots.length === 0 ? (
+                        <p className="text-sm text-tl-muted bg-tl-bg rounded-xl p-3">
+                            {tutor.firstname} has no open times on this day — try another date.
+                        </p>
+                    ) : (
+                        <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+                            {slotInfo.slots.map(slot => (
+                                <button
+                                    key={slot}
+                                    type="button"
+                                    onClick={() => onChange({ bookingTime: slot })}
+                                    className={`py-2.5 rounded-xl text-sm font-medium border transition cursor-pointer ${
+                                        formData.bookingTime === slot
+                                            ? "bg-tl-accent text-white border-tl-accent"
+                                            : "border-tl-border text-tl-ink hover:border-tl-accent"
+                                    }`}
+                                >
+                                    {formatSlot(slot)}
+                                </button>
+                            ))}
+                        </div>
+                    )
+                ) : (
                     <select
+                        aria-label="Session time"
                         value={formData.bookingTime}
                         onChange={e => onChange({ bookingTime: e.target.value })}
                         className={`w-full border rounded-xl px-4 py-3 text-sm outline-none cursor-pointer ${
@@ -101,27 +195,10 @@ function BookingFormStep({ tutor, user, formData, fieldErrors, onChange, onNext 
                             <option key={slot.value} value={slot.value}>{slot.label}</option>
                         ))}
                     </select>
-                </div>
+                )}
                 {fieldErrors.scheduledAt && (
                     <p className="mt-1 text-xs text-red-500">{fieldErrors.scheduledAt}</p>
                 )}
-            </div>
-
-            {/* Duration */}
-            <div>
-                <label className="text-sm text-tl-muted mb-1 block" htmlFor="booking-duration">
-                    Duration
-                </label>
-                <select
-                    id="booking-duration"
-                    value={formData.durationMinutes}
-                    onChange={e => onChange({ durationMinutes: Number(e.target.value) })}
-                    className="w-full border border-tl-border rounded-xl px-4 py-3 text-sm outline-none focus:border-tl-accent"
-                >
-                    {DURATION_OPTIONS.map(opt => (
-                        <option key={opt.value} value={opt.value}>{opt.label}</option>
-                    ))}
-                </select>
             </div>
 
             {/* Session type */}

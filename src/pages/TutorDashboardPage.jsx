@@ -4,7 +4,7 @@ import { useAuth } from "../hooks/useAuth"
 import { getMyTutorProfile } from "../services/tutorService"
 import DashboardOverview from "../components/tutor-edit/DashboardOverview"
 import DashboardEdit from "../components/tutor-edit/DashboardEdit"
-import DashboardComingSoon from "../components/tutor-edit/DashboardComingSoon"
+import DashboardAvailability from "../components/tutor-edit/DashboardAvailability"
 import TutorBookings from "../components/booking/TutorBookings"
 import LoadingState from "../components/ui/LoadingState"
 import ErrorState from "../components/ui/ErrorState"
@@ -13,7 +13,7 @@ const TABS = [
     { id: "overview", label: "Overview" },
     { id: "edit", label: "Edit Profile" },
     { id: "bookings", label: "Booking Requests" },
-    { id: "availability", label: "Availability", disabled: true },
+    { id: "availability", label: "Availability" },
 ]
 
 function TutorDashboardPage() {
@@ -112,7 +112,7 @@ function TutorDashboardPage() {
                         <TutorBookings />
                     </div>
                 )}
-                {activeTab === "availability" && <DashboardComingSoon feature="Availability" />}
+                {activeTab === "availability" && <DashboardAvailability />}
             </div>
         </div>
     )
