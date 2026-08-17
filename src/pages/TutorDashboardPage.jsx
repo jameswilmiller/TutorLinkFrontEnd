@@ -35,8 +35,6 @@ function TutorDashboardPage() {
                 navigate("/become-a-tutor")
                 return
             }
-            // A 401 here means the retry against a fresh token also failed, so
-            // the session is gone and ProtectedRoute will redirect to login.
             setError(err)
         } finally {
             setLoading(false)

@@ -40,6 +40,13 @@ export function formDataToPayload(formData) {
 }
 
 
+export const STEP_FIELDS = [
+    ["bio", "tagline", "hourlyRate", "location"],
+    ["courseIds"],
+    ["styles", "credentials", "languages"],
+    ["profileImageKey"],
+]
+
 export function validateStep1(formData) {
     if (!formData.bio.trim()) return "Please add a bio."
     if (!formData.hourlyRate || Number(formData.hourlyRate) <= 0) return "Please set an hourly rate."

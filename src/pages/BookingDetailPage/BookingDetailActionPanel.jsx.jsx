@@ -29,6 +29,9 @@ function BookingDetailActionPanel({booking, isTutor, onSaved}) {
                 <p className="text-sm text-tl-muted mt-1">
                     {other.firstName} is waiting to hear back.
                 </p>
+                {actionError && (
+                    <p role="alert" className="text-sm text-red-600 mt-2">{actionError}</p>
+                )}
             </div>
             <div className="flex gap-3">
                 <button

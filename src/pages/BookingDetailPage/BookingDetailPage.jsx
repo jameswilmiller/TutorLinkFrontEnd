@@ -88,7 +88,7 @@ function BookingDetailPage() {
         <div className="max-w-3xl mx-auto px-6 py-12">
             
             <button
-                onClick={() => navigate(-1)}
+                onClick={() => navigate("/bookings")}
                 className="text-sm text-tl-muted hover:text-tl-ink transition cursor-pointer"
             >
                 Back to bookings

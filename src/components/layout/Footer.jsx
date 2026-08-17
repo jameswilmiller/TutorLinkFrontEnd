@@ -34,7 +34,7 @@ function FooterLinkColumn({ title, links }) {
 
 function Footer() {
     return (
-        <footer className="bg-tl-accent">
+        <footer className="bg-tl-accent border-t border-white/20">
             <div className="max-w-350 mx-auto px-6 py-12">
                 <div className="flex flex-col lg:flex-row justify-between gap-10">
                     <div className="max-w-xs">

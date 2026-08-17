@@ -2,11 +2,6 @@ import { useMemo } from "react";
 import { useAuthContext } from "../contexts/AuthContext";
 import { apiGet, apiPost, apiPut, apiDelete, apiPostFormData } from "../services/apiClient";
 
-/**
- * Authenticated API client. Every call goes through authedRequest, so an
- * access token that expired while the tab sat open is renewed and the request
- * retried once, instead of surfacing as a failure to the calling component.
- */
 export function useApiClient() {
   const { authedRequest } = useAuthContext();
 

@@ -60,6 +60,10 @@ function BookingDetailManageBooking({booking, onSaved}) {
                     </button>
                 )}
             </div>
+            {manageError && (
+                <p role="alert" className="text-sm text-red-600 mt-3">{manageError}</p>
+            )}
+
             <p className="text-xs text-tl-muted mt-4">
                 Booking #{booking.id} · Created {formatDate(booking.createdAt)}
             </p>

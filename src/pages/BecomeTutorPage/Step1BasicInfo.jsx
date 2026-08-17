@@ -4,37 +4,40 @@ import TextInput from "../../components/ui/TextInput"
 import TextArea from "../../components/ui/TextArea"
 import WizardActions from "./WizardActions"
 
-function Step1BasicInfo({ formData, updateForm, onNext, saving, error, nextLabel }) {
+function Step1BasicInfo({ formData, updateForm, onNext, saving, error, fieldErrors = {}, nextLabel }) {
     return (
         <div className="space-y-6">
-            <Field label="Bio *">
+            <Field label="Bio *" error={fieldErrors.bio}>
                 <TextArea
                     value={formData.bio}
                     onChange={e => updateForm({ bio: e.target.value })}
                     placeholder="Tell students about yourself, your experience, and your teaching approach..."
                     rows={5}
+                    aria-invalid={!!fieldErrors.bio}
                 />
             </Field>
 
-            <Field label="Tagline">
+            <Field label="Tagline" error={fieldErrors.tagline}>
                 <TextInput
                     value={formData.tagline}
                     onChange={e => updateForm({ tagline: e.target.value })}
                     placeholder="e.g. Patient, structured, and obsessed with the moment it clicks."
+                    aria-invalid={!!fieldErrors.tagline}
                 />
             </Field>
 
-            <Field label="Hourly rate ($) *">
+            <Field label="Hourly rate ($) *" error={fieldErrors.hourlyRate}>
                 <TextInput
                     type="number"
                     value={formData.hourlyRate}
                     onChange={e => updateForm({ hourlyRate: e.target.value })}
                     placeholder="e.g. 50"
                     min={0}
+                    aria-invalid={!!fieldErrors.hourlyRate}
                 />
             </Field>
 
-            <Field label="Location">
+            <Field label="Location" error={fieldErrors.location}>
                 <div className="border border-tl-border rounded-xl px-4 py-3">
                     <PlacesAutoComplete
                         onPlaceSelect={place => updateForm({
