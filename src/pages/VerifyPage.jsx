@@ -81,6 +81,7 @@ function VerifyPage() {
 
                     <AuthInput
                         name="verificationCode"
+                        label="Verification code"
                         type="text"
                         placeholder="Enter your verification code"
                         value={code}

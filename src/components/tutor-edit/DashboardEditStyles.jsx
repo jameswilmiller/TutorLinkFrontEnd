@@ -36,15 +36,17 @@ function DashboardEditStyles({ tutor, onSave }) {
                     <div key={i} className="border border-tl-border rounded-xl p-3 space-y-2">
                         <div className="flex gap-2">
                             <input
+                                aria-label={`Teaching style ${i + 1} label`}
                                 type="text"
                                 value={style.label}
                                 onChange={e => update(i, "label", e.target.value)}
                                 placeholder="e.g. Patient"
                                 className="flex-1 border border-tl-border rounded-lg px-3 py-2 text-sm outline-none focus:border-tl-accent"
                             />
-                            <button onClick={() => remove(i)} className="text-tl-muted hover:text-red-500 px-2">×</button>
+                            <button aria-label={`Remove teaching style ${i + 1}`} onClick={() => remove(i)} className="text-tl-muted hover:text-red-500 px-2">×</button>
                         </div>
                         <input
+                            aria-label={`Teaching style ${i + 1} description`}
                             type="text"
                             value={style.description}
                             onChange={e => update(i, "description", e.target.value)}

@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react"
+import { useAuth } from "../../hooks/useAuth"
+import { getTutorBookings } from "../../services/bookingService"
+
 function calculateCompleteness(tutor) {
     const checks = [
         { label: "Profile photo", done: !!tutor.profileImageKey },
@@ -14,6 +18,20 @@ function calculateCompleteness(tutor) {
 
 function DashboardOverview({ tutor }) {
     const { checks, percentage } = calculateCompleteness(tutor)
+    const { accessToken, authedRequest } = useAuth()
+    const [pendingCount, setPendingCount] = useState(null)
+
+    useEffect(() => {
+        if (!accessToken) return
+        let cancelled = false
+        authedRequest(token => getTutorBookings(token))
+            .then(bookings => {
+                if (cancelled) return
+                setPendingCount(bookings.filter(b => b.status === "PENDING").length)
+            })
+            .catch(() => { if (!cancelled) setPendingCount(null) })
+        return () => { cancelled = true }
+    }, [accessToken, authedRequest])
 
     return (
         <div className="max-w-4xl mx-auto space-y-6">
@@ -50,20 +68,12 @@ function DashboardOverview({ tutor }) {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-white border border-tl-border rounded-2xl p-6">
-                    
-                    <p className="font-display text-5xl text-tl-ink">—</p>
-                    <p className="font-semibold text-tl-ink mt-3">Profile views</p>
-                    <p className="text-sm text-tl-muted">this month</p>
-                </div>
-
-                <div className="bg-white border border-tl-border rounded-2xl p-6">
-                    
-                    <p className="font-display text-5xl text-tl-ink">—</p>
-                    <p className="font-semibold text-tl-ink mt-3">Booking requests</p>
-                    <p className="text-sm text-tl-muted">pending reply</p>
-                </div>
+            <div className="bg-white border border-tl-border rounded-2xl p-6">
+                <p className="font-display text-5xl text-tl-ink tabular-nums">
+                    {pendingCount === null ? "—" : pendingCount}
+                </p>
+                <p className="font-semibold text-tl-ink mt-3">Booking requests</p>
+                <p className="text-sm text-tl-muted">awaiting your reply</p>
             </div>
         </div>
     )

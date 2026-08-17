@@ -42,6 +42,7 @@ function ReviewForm({ bookingId, onReviewed }) {
             </div>
 
             <textarea
+                aria-label="Review comment"
                 value={comment}
                 onChange={e => setComment(e.target.value)}
                 placeholder="Share what went well (optional)..."

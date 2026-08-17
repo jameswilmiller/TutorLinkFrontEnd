@@ -36,16 +36,18 @@ function DashboardEditCredentials({ tutor, onSave }) {
                     <div key={i} className="border border-tl-border rounded-xl p-3 space-y-2">
                         <div className="flex gap-2">
                             <input
+                                aria-label={`Credential ${i + 1} title`}
                                 type="text"
                                 value={cred.title}
                                 onChange={e => update(i, "title", e.target.value)}
                                 placeholder="e.g. BSc Computer Science"
                                 className="flex-1 border border-tl-border rounded-lg px-3 py-2 text-sm outline-none focus:border-tl-accent"
                             />
-                            <button onClick={() => remove(i)} className="text-tl-muted hover:text-red-500 px-2">×</button>
+                            <button aria-label={`Remove credential ${i + 1}`} onClick={() => remove(i)} className="text-tl-muted hover:text-red-500 px-2">×</button>
                         </div>
                         <div className="flex gap-2">
                             <input
+                                aria-label={`Credential ${i + 1} institution`}
                                 type="text"
                                 value={cred.institution}
                                 onChange={e => update(i, "institution", e.target.value)}
@@ -53,6 +55,7 @@ function DashboardEditCredentials({ tutor, onSave }) {
                                 className="flex-1 border border-tl-border rounded-lg px-3 py-2 text-sm outline-none focus:border-tl-accent"
                             />
                             <input
+                                aria-label={`Credential ${i + 1} year`}
                                 type="number"
                                 value={cred.year}
                                 onChange={e => update(i, "year", e.target.value)}

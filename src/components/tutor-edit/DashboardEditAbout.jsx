@@ -11,6 +11,7 @@ function DashboardEditAbout({ tutor, onSave }) {
             onSave={() => onSave({ bio })}
         >
             <textarea
+                aria-label="About"
                 value={bio}
                 onChange={e => setBio(e.target.value)}
                 rows={4}

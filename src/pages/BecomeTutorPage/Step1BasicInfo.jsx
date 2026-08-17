@@ -7,8 +7,9 @@ import WizardActions from "./WizardActions"
 function Step1BasicInfo({ formData, updateForm, onNext, saving, error, fieldErrors = {}, nextLabel }) {
     return (
         <div className="space-y-6">
-            <Field label="Bio *" error={fieldErrors.bio}>
+            <Field label="Bio *" htmlFor="tutor-bio" error={fieldErrors.bio}>
                 <TextArea
+                    id="tutor-bio"
                     value={formData.bio}
                     onChange={e => updateForm({ bio: e.target.value })}
                     placeholder="Tell students about yourself, your experience, and your teaching approach..."
@@ -17,8 +18,9 @@ function Step1BasicInfo({ formData, updateForm, onNext, saving, error, fieldErro
                 />
             </Field>
 
-            <Field label="Tagline" error={fieldErrors.tagline}>
+            <Field label="Tagline" htmlFor="tutor-tagline" error={fieldErrors.tagline}>
                 <TextInput
+                    id="tutor-tagline"
                     value={formData.tagline}
                     onChange={e => updateForm({ tagline: e.target.value })}
                     placeholder="e.g. Patient, structured, and obsessed with the moment it clicks."
@@ -26,8 +28,9 @@ function Step1BasicInfo({ formData, updateForm, onNext, saving, error, fieldErro
                 />
             </Field>
 
-            <Field label="Hourly rate ($) *" error={fieldErrors.hourlyRate}>
+            <Field label="Hourly rate ($) *" htmlFor="tutor-rate" error={fieldErrors.hourlyRate}>
                 <TextInput
+                    id="tutor-rate"
                     type="number"
                     value={formData.hourlyRate}
                     onChange={e => updateForm({ hourlyRate: e.target.value })}
@@ -37,9 +40,10 @@ function Step1BasicInfo({ formData, updateForm, onNext, saving, error, fieldErro
                 />
             </Field>
 
-            <Field label="Location" error={fieldErrors.location}>
+            <Field label="Location" htmlFor="tutor-location" error={fieldErrors.location}>
                 <div className="border border-tl-border rounded-xl px-4 py-3">
                     <PlacesAutoComplete
+                        inputId="tutor-location"
                         onPlaceSelect={place => updateForm({
                             location: place.locationName,
                             latitude: place.latitude,

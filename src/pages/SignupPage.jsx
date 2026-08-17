@@ -97,6 +97,7 @@ function SignupPage() {
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <AuthInput
                             name="email"
+                            label="Email address"
                             type="email"
                             placeholder="email"
                             value={formData.email}
@@ -107,6 +108,7 @@ function SignupPage() {
                         />
                         <AuthInput
                             name="password"
+                            label="Password"
                             type="password"
                             placeholder="password"
                             value={formData.password}
@@ -117,6 +119,7 @@ function SignupPage() {
                         />
                         <AuthInput
                             name="confirmPassword"
+                            label="Confirm password"
                             type="password"
                             placeholder="Please confirm your password"
                             value={formData.confirmPassword}

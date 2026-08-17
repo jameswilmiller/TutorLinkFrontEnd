@@ -56,9 +56,10 @@ function Step2Courses({ formData, updateForm, onNext, onBack, saving, error, nex
 
     return (
         <div className="space-y-8">
-            <Field label="Courses you teach *">
+            <Field label="Courses you teach *" htmlFor="tutor-course-search">
                 <div className="relative">
                     <TextInput
+                        id="tutor-course-search"
                         value={query}
                         onChange={e => setQuery(e.target.value)}
                         placeholder="Search by course code or name..."

@@ -64,8 +64,9 @@ function SearchCard() {
             <div className="hidden md:flex w-px bg-tl-border my-2" />
 
             <div className="hidden md:flex flex-1 flex-col justify-center px-5 text-left">
-                <label className="text-tl-muted text-xs uppercase tracking-wider">Mode</label>
+                <label htmlFor="search-mode" className="text-tl-muted text-xs uppercase tracking-wider">Mode</label>
                 <select
+                    id="search-mode"
                     value={remote ?? "any"}
                     onChange={handleModeChange}
                     className="text-sm outline-none cursor-pointer mt-1 bg-transparent"

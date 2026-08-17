@@ -1,8 +1,12 @@
-export default function Field({ label, hint, error, children }) {
+export default function Field({ label, hint, error, htmlFor, children }) {
+    const labelClass = "block text-sm font-medium text-tl-ink mb-1"
+
     return (
         <div>
             {label && (
-                <label className="block text-sm font-medium text-tl-ink mb-1">{label}</label>
+                htmlFor
+                    ? <label htmlFor={htmlFor} className={labelClass}>{label}</label>
+                    : <p className={labelClass}>{label}</p>
             )}
             {hint && <p className="text-sm text-tl-muted mb-2">{hint}</p>}
             {children}
