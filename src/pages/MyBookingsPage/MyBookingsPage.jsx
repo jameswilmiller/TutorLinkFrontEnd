@@ -5,7 +5,7 @@ import BookingCard from "../../components/booking/BookingCard"
 import MyBookingsPageHeader from "./MyBookingsPageHeader"
 import StudentBookings from "./StudentBookings"
 import { isTutor } from "../../utils/booking"
-import TutorBookings from "./TutorBookings"
+import TutorBookings from "../../components/booking/TutorBookings"
 
 const TABS = [
     { id: "upcoming", label: "Upcoming", filter: null },

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "../../hooks/useAuth"
 import { getStudentBookings, cancelBooking } from "../../services/bookingService"
 import BookingCard from "../../components/booking/BookingCard"
-import BookingTabs from "./BookingTabs"
+import BookingTabs from "../../components/booking/BookingTabs"
 import { useBookings } from "../../hooks/useBookings"
 import { filterByTab } from "../../utils/booking"
 

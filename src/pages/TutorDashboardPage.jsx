@@ -5,7 +5,7 @@ import { getMyTutorProfile } from "../services/tutorService"
 import DashboardOverview from "../components/tutor-edit/DashboardOverview"
 import DashboardEdit from "../components/tutor-edit/DashboardEdit"
 import DashboardComingSoon from "../components/tutor-edit/DashboardComingSoon"
-import DashboardBookings from "../components/tutor-edit/DashboardBookings"
+import TutorBookings from "../components/booking/TutorBookings"
 import LoadingState from "../components/ui/LoadingState"
 import ErrorState from "../components/ui/ErrorState"
 
@@ -107,7 +107,11 @@ function TutorDashboardPage() {
             <div className="max-w-350 mx-auto px-6 py-10">
                 {activeTab === "overview" && <DashboardOverview tutor={tutor} />}
                 {activeTab === "edit" && <DashboardEdit tutor={tutor} setTutor={setTutor} />}
-                {activeTab === "bookings" && <DashboardBookings />}
+                {activeTab === "bookings" && (
+                    <div className="max-w-4xl mx-auto">
+                        <TutorBookings />
+                    </div>
+                )}
                 {activeTab === "availability" && <DashboardComingSoon feature="Availability" />}
             </div>
         </div>
