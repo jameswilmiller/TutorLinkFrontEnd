@@ -34,6 +34,7 @@ function BecomeTutorPage() {
                     onBack={wizard.step > 1 ? wizard.goBack : undefined}
                     saving={wizard.saving}
                     error={wizard.error}
+                    fieldErrors={wizard.fieldErrors}
                     nextLabel={isLast ? "Finish & View Profile" : "Save & Continue"}
                 />
             </div>

@@ -2,8 +2,9 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import {getMyTutorProfile, createTutorProfile, updateTutorProfile} from "../../services/tutorService"
-import {EMPTY_FORM, profileToFormData, formDataToPayload, STEP_VALIDATORS} from "./formData"
+import {EMPTY_FORM, profileToFormData, formDataToPayload, STEP_VALIDATORS, STEP_FIELDS} from "./formData"
 import { getCurrentUser } from "../../services/authService"
+import { toFieldErrorMap } from "../../utils/formErrors"
 const TOTAL_STEPS = 4
 
 export function useTutorOnboarding() {
@@ -15,6 +16,7 @@ export function useTutorOnboarding() {
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
     const [error, setError] = useState("")
+    const [fieldErrors, setFieldErrors] = useState({})
 
    
     useEffect(() => {
@@ -38,6 +40,14 @@ export function useTutorOnboarding() {
     function updateForm(fields) {
         setFormData(prev => ({ ...prev, ...fields }))
         if (error) setError("")
+
+        const touched = Object.keys(fields)
+        setFieldErrors(prev => {
+            if (!touched.some(key => prev[key])) return prev
+            const next = { ...prev }
+            touched.forEach(key => delete next[key])
+            return next
+        })
     }
 
     async function saveAndAdvance() {
@@ -49,6 +59,7 @@ export function useTutorOnboarding() {
 
         setSaving(true)
         setError("")
+        setFieldErrors({})
         try {
             const payload = formDataToPayload(formData)
 
@@ -68,7 +79,20 @@ export function useTutorOnboarding() {
                 setStep(step + 1)
             }
         } catch (err) {
-            setError(err.message || "Failed to save. Please try again.")
+            if (err.fieldErrors?.length > 0) {
+                setFieldErrors(toFieldErrorMap(err.fieldErrors))
+
+                const visible = STEP_FIELDS[step - 1] || []
+                const offScreen = err.fieldErrors.filter(fe => !visible.includes(fe.field))
+
+                setError(
+                    offScreen.length > 0
+                        ? offScreen.map(fe => fe.message).join(" ")
+                        : "Please fix the highlighted fields."
+                )
+            } else {
+                setError(err.message || "Failed to save. Please try again.")
+            }
         } finally {
             setSaving(false)
         }
@@ -78,6 +102,7 @@ export function useTutorOnboarding() {
         if (step > 1) {
             setStep(step - 1)
             setError("")
+            setFieldErrors({})
         }
     }
 
@@ -89,6 +114,7 @@ export function useTutorOnboarding() {
         loading,
         saving,
         error,
+        fieldErrors,
         updateForm,
         saveAndAdvance,
         goBack,

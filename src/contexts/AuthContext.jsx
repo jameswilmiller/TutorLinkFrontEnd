@@ -65,9 +65,6 @@ export function AuthProvider ({ children }) {
         setUser(currentUser);
     }
 
-    /**
-     * Exchanges the refresh cookie for a new access token. 
-     */
     const renewAccessToken = useCallback(async () => {
         if (!refreshInFlight.current) {
             refreshInFlight.current = refreshAccessToken()
@@ -82,9 +79,6 @@ export function AuthProvider ({ children }) {
         return refreshInFlight.current;
     }, []);
 
-    /**
-     * Runs an authenticated request, retrying once against a fresh access token
-     */
     const authedRequest = useCallback(async (call) => {
         try {
             return await call(tokenRef.current);
