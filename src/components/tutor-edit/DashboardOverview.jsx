@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "../../hooks/useAuth"
 import { getTutorBookings } from "../../services/bookingService"
+import { getMyAvailability } from "../../services/availabilityService"
 
-function calculateCompleteness(tutor) {
+function calculateCompleteness(tutor, hasAvailability) {
     const checks = [
         { label: "Profile photo", done: !!tutor.profileImageKey },
         { label: "About section", done: !!tutor.bio?.trim() },
         { label: "Teaching style", done: tutor.styles?.length > 0 },
         { label: "Credentials", done: tutor.credentials?.length > 0 },
         { label: "Rate set", done: !!tutor.hourlyRate },
-        { label: "Availability set", done: false },
+        { label: "Availability set", done: hasAvailability },
     ]
     const completed = checks.filter(c => c.done).length
     const percentage = Math.round((completed / checks.length) * 100)
@@ -17,9 +18,10 @@ function calculateCompleteness(tutor) {
 }
 
 function DashboardOverview({ tutor }) {
-    const { checks, percentage } = calculateCompleteness(tutor)
     const { accessToken, authedRequest } = useAuth()
     const [pendingCount, setPendingCount] = useState(null)
+    const [hasAvailability, setHasAvailability] = useState(false)
+    const { checks, percentage } = calculateCompleteness(tutor, hasAvailability)
 
     useEffect(() => {
         if (!accessToken) return
@@ -30,6 +32,9 @@ function DashboardOverview({ tutor }) {
                 setPendingCount(bookings.filter(b => b.status === "PENDING").length)
             })
             .catch(() => { if (!cancelled) setPendingCount(null) })
+        authedRequest(token => getMyAvailability(token))
+            .then(rules => { if (!cancelled) setHasAvailability(rules.length > 0) })
+            .catch(() => {})
         return () => { cancelled = true }
     }, [accessToken, authedRequest])
 

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
+@import "react-day-picker/style.css";
 
 @theme {
   --color-tl-accent: #1E3A5F;
@@ -20,6 +21,13 @@
 
   --shadow-card: 0 8px 24px rgba(15, 27, 45, 0.08);
   --shadow-card-hover: 0 12px 28px rgba(15, 27, 45, 0.12);
+}
+
+/* Days the tutor has open times on, so they read as available at a glance
+   rather than only being distinguishable by not being disabled. */
+.tl-day-open:not([data-selected="true"]) button:not(:disabled) {
+  background-color: var(--color-tl-subtle);
+  font-weight: 600;
 }
 
 @utility no-scrollbar {
